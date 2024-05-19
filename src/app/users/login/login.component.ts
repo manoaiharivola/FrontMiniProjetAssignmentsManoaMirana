@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from '../../shared/auth.service';
 import { HttpStatusConst } from '../../shared/constant/http-status.const';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarComponent } from '../../shared/components/snack-bar/snack-bar.component';
 import { LocalStorageService } from '../../shared/services/local-storage/local-storage.service';
 import { LocalStorageConst } from '../../shared/constant/local-storage.const';
 import { Router } from '@angular/router';
 import { DataErrorConst } from '../../data/constant/data-error.const';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SnackBarService } from '../../shared/services/snack-bar/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private _snackBar: MatSnackBar,
+    private snackBarService: SnackBarService,
     private authService: AuthService,
     private localStorageService: LocalStorageService,
     private formBuilder: FormBuilder
@@ -44,18 +43,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openErrorSnackBar(errorMessage: String) {
-    this._snackBar.openFromComponent(SnackBarComponent, {
-      data: {
-        message: errorMessage,
-      },
-      duration: 3000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'center',
-      panelClass: 'error',
-    });
-  }
-
   login() {
     try {
       const userInformations = {
@@ -64,27 +51,21 @@ export class LoginComponent implements OnInit {
       };
       this.authService.login(userInformations).subscribe({
         next: (res) => {
-          if (res.status > HttpStatusConst.SUCCESS) {
-            this.openErrorSnackBar(
-              'Echec de la connexion. Vérifiez votre adresse e-mail et votre mot de passe.'
-            );
-          } else {
-            this.localStorageService.setItem(
-              LocalStorageConst.ACCESS_TOKEN,
-              res.data[0].access_token
-            );
-            /*
+          this.localStorageService.setItem(
+            LocalStorageConst.ACCESS_TOKEN,
+            res.access_token
+          );
+          /*
             this.router.navigate([DataRoutingConst....);*/
-            this.router.navigate(['/home']);
-          }
+          this.router.navigate(['/home']);
         },
-        error: () => {
-          this.openErrorSnackBar(DataErrorConst.UNKNOWN_ERROR);
+        error: (res) => {
+          this.snackBarService.openErrorSnackBar(res.error.message);
         },
         complete: () => {},
       });
     } catch (error) {
-      this.openErrorSnackBar(DataErrorConst.UNKNOWN_ERROR);
+      this.snackBarService.openErrorSnackBar(DataErrorConst.UNKNOWN_ERROR);
     }
   }
 }
