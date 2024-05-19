@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpRequestService } from '../shared/services/http/http-request.service';
+import { EnvironmentConst } from '../data/constant/data-env.const';
+import { DataWsConst } from '../data/constant/data-ws.const';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   // propriété pour savoir si l'utilisateur est connecté
   loggedIn = false;
 
-  constructor() { }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   // méthode pour connecter l'utilisateur
   // Typiquement, il faudrait qu'elle accepte en paramètres
@@ -39,5 +43,14 @@ export class AuthService {
     });
 
     return promesse;
+  }
+
+  /*add login*/
+  public login(user: any): Observable<any> {
+    return this.httpRequestService.post(
+      null,
+      EnvironmentConst.API_URL + DataWsConst.WS_LOGIN,
+      user
+    );
   }
 }

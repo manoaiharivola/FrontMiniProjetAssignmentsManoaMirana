@@ -4,7 +4,7 @@ import { Observable, forkJoin, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
-
+import { EnvironmentConst } from '../data/constant/data-env.const';
 // importation des données de test
 import { bdInitialAssignments } from './data';
 
@@ -16,9 +16,7 @@ export class AssignmentsService {
 
   constructor(private logService: LoggingService, private http: HttpClient) {}
 
-  //uri = 'http://localhost:8010/api/assignments';
-  uri =
-    'https://backminiprojetassignmentsmanoamirana.onrender.com/api/assignments';
+  uri = EnvironmentConst.API_URL + '/api/assignments';
 
   // retourne tous les assignments
   getAssignments(): Observable<Assignment[]> {

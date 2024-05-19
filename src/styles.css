@@ -1,4 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 70; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, Nunito, "Helvetica Neue", sans-serif; }
+
+.error.mat-snack-bar-container {
+    background-color: #ff2121;
+    color: white;
+    text-align: center;
+}
+
+.success.mat-snack-bar-container {
+  background-color: #57b657;
+  color: white;
+  text-align: center;
+}
+
+.custom-container .mat-dialog-container {
+  border-radius: 10px !important;
+  max-height: 600px;
+  padding: 50px;
+}
+
+.mat-dialog-container {
+  z-index: 9999;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
