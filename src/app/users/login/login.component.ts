@@ -81,7 +81,10 @@ export class LoginComponent implements OnInit {
           LocalStorageConst.TEACHER_ACCESS_TOKEN,
           res.teacher_access_token
         );
-        this.router.navigate(['/professeur/matieres']);
+        this.router.navigate([DataRoutingConst.ROUTE_PROFESSEUR_MATIERES]);
+        this.snackBarService.openSuccesSnackBar(
+          'Vous êtes maintenant connecté.'
+        );
       },
       error: (res) => {
         this.snackBarService.openErrorSnackBar(res.error.message);

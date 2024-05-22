@@ -21,6 +21,12 @@ export class HttpRequestService {
       this.authorizationToken =
         'Bearer ' +
         this.localStorageService.getItem(LocalStorageConst.ACCESS_TOKEN);
+    } else if (authorization == 'TEACHER') {
+      this.authorizationToken =
+        'Bearer ' +
+        this.localStorageService.getItem(
+          LocalStorageConst.TEACHER_ACCESS_TOKEN
+        );
     }
   }
 

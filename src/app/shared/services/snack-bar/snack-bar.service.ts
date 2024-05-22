@@ -19,4 +19,16 @@ export class SnackBarService {
       panelClass: 'error',
     });
   }
+
+  openSuccesSnackBar(successMessage: String) {
+    this._snackBar.openFromComponent(SnackBarComponent, {
+      data: {
+        message: 'Succes : ' + successMessage,
+      },
+      duration: 3000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
+      panelClass: 'success',
+    });
+  }
 }
