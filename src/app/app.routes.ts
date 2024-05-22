@@ -7,6 +7,8 @@ import { authGuard } from './shared/auth.guard';
 import { LoginComponent } from './users/login/login.component';
 import { DataRoutingConst } from './data/constant/data-routing.const';
 import { AuthComponent } from './layout/components/auth/auth.component';
+import { ProfesseurTemplateComponent } from './layout/components/professeur/professeur-template/professeur-template.component';
+import { ProfesseurMatieresComponent } from './professeur/professeur-matieres/professeur-matieres.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: DataRoutingConst.ROUTE_LOGIN, pathMatch: 'full' },
@@ -27,5 +29,10 @@ export const routes: Routes = [
         component: LoginComponent,
       },
     ],
+  },
+  {
+    path: 'professeur',
+    component: ProfesseurTemplateComponent,
+    children: [{ path: 'matieres', component: ProfesseurMatieresComponent }],
   },
 ];

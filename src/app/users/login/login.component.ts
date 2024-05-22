@@ -9,6 +9,7 @@ import { DataErrorConst } from '../../data/constant/data-error.const';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SnackBarService } from '../../shared/services/snack-bar/snack-bar.service';
+import { DataRoutingConst } from '../../data/constant/data-routing.const';
 
 @Component({
   selector: 'app-login',
@@ -80,7 +81,7 @@ export class LoginComponent implements OnInit {
           LocalStorageConst.TEACHER_ACCESS_TOKEN,
           res.teacher_access_token
         );
-        this.router.navigate(['/home']);
+        this.router.navigate(['/professeur/matieres']);
       },
       error: (res) => {
         this.snackBarService.openErrorSnackBar(res.error.message);
