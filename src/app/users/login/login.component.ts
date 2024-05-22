@@ -36,36 +36,56 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.loginForm = this.formBuilder.group({
-      email: new FormControl('utilisateur@gmail.com'),
-      password: new FormControl('utilisateur'),
+      email: new FormControl(),
+      password: new FormControl(),
+      role: new FormControl('etudiant'),
     });
   }
 
   ngOnInit(): void {}
 
   login() {
-    try {
-      const userInformations = {
-        mail: this.loginForm.value.email,
-        mdp: this.loginForm.value.password,
-      };
-      this.authService.login(userInformations).subscribe({
-        next: (res) => {
-          this.localStorageService.setItem(
-            LocalStorageConst.ACCESS_TOKEN,
-            res.access_token
-          );
-          /*
-            this.router.navigate([DataRoutingConst....);*/
-          this.router.navigate(['/home']);
-        },
-        error: (res) => {
-          this.snackBarService.openErrorSnackBar(res.error.message);
-        },
-        complete: () => {},
-      });
-    } catch (error) {
-      this.snackBarService.openErrorSnackBar(DataErrorConst.UNKNOWN_ERROR);
+    const userInformations = {
+      mail: this.loginForm.value.email,
+      mdp: this.loginForm.value.password,
+    };
+
+    if (this.loginForm.value.role === 'etudiant') {
+      this.loginEtudiant(userInformations);
+    } else if (this.loginForm.value.role === 'professeur') {
+      this.loginProfesseur(userInformations);
     }
+  }
+
+  loginEtudiant(userInformations: { mail: string; mdp: string }) {
+    this.authService.login(userInformations).subscribe({
+      next: (res) => {
+        this.localStorageService.setItem(
+          LocalStorageConst.ACCESS_TOKEN,
+          res.access_token
+        );
+        this.router.navigate(['/home']);
+      },
+      error: (res) => {
+        this.snackBarService.openErrorSnackBar(res.error.message);
+      },
+      complete: () => {},
+    });
+  }
+
+  loginProfesseur(userInformations: { mail: string; mdp: string }) {
+    this.authService.loginProfesseur(userInformations).subscribe({
+      next: (res) => {
+        this.localStorageService.setItem(
+          LocalStorageConst.TEACHER_ACCESS_TOKEN,
+          res.teacher_access_token
+        );
+        this.router.navigate(['/home']);
+      },
+      error: (res) => {
+        this.snackBarService.openErrorSnackBar(res.error.message);
+      },
+      complete: () => {},
+    });
   }
 }

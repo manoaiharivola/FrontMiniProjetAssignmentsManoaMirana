@@ -53,4 +53,12 @@ export class AuthService {
       user
     );
   }
+
+  public loginProfesseur(user: any): Observable<any> {
+    return this.httpRequestService.post(
+      null,
+      EnvironmentConst.API_URL + DataWsConst.WS_TEACHER_LOGIN,
+      user
+    );
+  }
 }
