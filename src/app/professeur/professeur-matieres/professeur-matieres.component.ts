@@ -56,7 +56,7 @@ export class ProfesseurMatieresComponent implements OnInit {
   hasPrevPage!: boolean;
 
   // tableau des matieres POUR AFFICHAGE
-  displayedColumns: string[] = ['nom'];
+  displayedColumns: string[] = ['nom', 'nombreEtudiants'];
 
   matieres: Matiere[] = [];
 

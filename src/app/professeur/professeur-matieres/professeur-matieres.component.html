@@ -12,7 +12,17 @@
             <!-- Nom Column -->
             <ng-container matColumnDef="nom">
               <th mat-header-cell *matHeaderCellDef>Nom</th>
-              <td mat-cell *matCellDef="let a">{{ a.name }}</td>
+              <td mat-cell *matCellDef="let matiere">{{ matiere.name }}</td>
+            </ng-container>
+
+            <!-- Nombre d'étudiants inscrits Column -->
+            <ng-container matColumnDef="nombreEtudiants">
+              <th mat-header-cell *matHeaderCellDef>
+                Nombre d'étudiants inscrits
+              </th>
+              <td mat-cell *matCellDef="let matiere">
+                {{ matiere.etudiant_inscrits.length }}
+              </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
