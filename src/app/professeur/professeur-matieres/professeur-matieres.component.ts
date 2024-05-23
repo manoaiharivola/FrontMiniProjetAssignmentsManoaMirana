@@ -46,14 +46,26 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 export class ProfesseurMatieresComponent implements OnInit {
   titre = 'Liste des matieres';
   // Pour la pagination
-  page = 0;
-  limit = 10;
-  totalDocs!: number;
-  totalPages!: number;
-  nextPage!: number;
-  prevPage!: number;
-  hasNextPage!: boolean;
-  hasPrevPage!: boolean;
+
+  length = 0;
+  pageSize = 10;
+  pageIndex = 0;
+  pageSizeOptions = [5, 10, 25];
+
+  hidePageSize = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
+
+  pageEvent: PageEvent | undefined;
+
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    if (setPageSizeOptionsInput) {
+      this.pageSizeOptions = setPageSizeOptionsInput
+        .split(',')
+        .map((str) => +str);
+    }
+  }
 
   // tableau des matieres POUR AFFICHAGE
   displayedColumns: string[] = ['nom', 'nombreEtudiants'];
@@ -77,45 +89,21 @@ export class ProfesseurMatieresComponent implements OnInit {
   getMatieresFromService() {
     // on récupère les matieres depuis le service
     this.matieresService
-      .getMatieresPagines(this.page, this.limit)
+      .getMatieresPagines(this.pageIndex + 1, this.pageSize)
       .subscribe((data) => {
         // les données arrivent ici au bout d'un certain temps
         console.log('Données arrivées');
         this.matieres = data.docs;
-        this.totalDocs = data.totalDocs;
-        this.totalPages = data.totalPages;
-        this.nextPage = data.nextPage;
-        this.prevPage = data.prevPage;
-        this.hasNextPage = data.hasNextPage;
-        this.hasPrevPage = data.hasPrevPage;
+        this.length = data.totalDocs;
       });
     console.log('Requête envoyée');
   }
 
-  // Pour la pagination
-  pagePrecedente() {
-    this.page = this.prevPage;
-    this.getMatieresFromService();
-  }
-  pageSuivante() {
-    this.page = this.nextPage;
-    this.getMatieresFromService();
-  }
-
-  premierePage() {
-    this.page = 1;
-    this.getMatieresFromService();
-  }
-
-  dernierePage() {
-    this.page = this.totalPages;
-    this.getMatieresFromService();
-  }
-
-  // Pour le composant angular material paginator
-  handlePageEvent(event: PageEvent) {
-    this.page = event.pageIndex + 1;
-    this.limit = event.pageSize;
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    this.length = e.length;
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
     this.getMatieresFromService();
   }
 }

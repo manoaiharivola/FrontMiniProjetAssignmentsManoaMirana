@@ -32,11 +32,13 @@
             #paginator
             class="demo-paginator"
             (page)="handlePageEvent($event)"
-            [length]="totalPages"
-            [pageSize]="limit"
-            [showFirstLastButtons]="true"
-            [pageSizeOptions]="[5, 10, 25]"
-            [pageIndex]="page"
+            [length]="length"
+            [pageSize]="pageSize"
+            [disabled]="disabled"
+            [showFirstLastButtons]="showFirstLastButtons"
+            [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+            [hidePageSize]="hidePageSize"
+            [pageIndex]="pageIndex"
             aria-label="Select page"
           >
           </mat-paginator>
