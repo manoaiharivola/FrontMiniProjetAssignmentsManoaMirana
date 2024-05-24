@@ -5,7 +5,7 @@ import { AssignmentDetailComponent } from './assignments/assignment-detail/assig
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { authGuard } from './shared/auth.guard';
 import { ProfesseurAuthGuard } from './shared/professeur-auth.guard';
-import { LoginComponent } from './users/login/login.component';
+import { LoginComponent } from './utilisateurs/login/login.component';
 import { DataRoutingConst } from './data/constant/data-routing.const';
 import { AuthComponent } from './layout/components/auth/auth.component';
 import { ProfesseurTemplateComponent } from './layout/components/professeur/professeur-template/professeur-template.component';
@@ -27,7 +27,7 @@ export const routes: Routes = [
     component: AuthComponent,
     children: [
       {
-        path: 'login',
+        path: 'connexion',
         component: LoginComponent,
       },
     ],

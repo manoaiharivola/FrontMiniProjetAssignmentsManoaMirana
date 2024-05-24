@@ -12,10 +12,10 @@ export class ProfesseurAuthGuardService {
     const helper = new JwtHelperService();
     const token =
       this.localStorageService.getItem(
-        LocalStorageConst.TEACHER_ACCESS_TOKEN
+        LocalStorageConst.PROFESSEUR_ACCESS_TOKEN
       ) != null
         ? this.localStorageService.getItem(
-            LocalStorageConst.TEACHER_ACCESS_TOKEN
+            LocalStorageConst.PROFESSEUR_ACCESS_TOKEN
           )
         : '';
     return !helper.isTokenExpired(token);

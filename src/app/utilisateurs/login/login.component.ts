@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl(),
-      password: new FormControl(),
+      mdp: new FormControl(),
       role: new FormControl('etudiant'),
     });
   }
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   login() {
     const userInformations = {
       mail: this.loginForm.value.email,
-      mdp: this.loginForm.value.password,
+      mdp: this.loginForm.value.mdp,
     };
 
     if (this.loginForm.value.role === 'etudiant') {
@@ -78,8 +78,8 @@ export class LoginComponent implements OnInit {
     this.authService.loginProfesseur(userInformations).subscribe({
       next: (res) => {
         this.localStorageService.setItem(
-          LocalStorageConst.TEACHER_ACCESS_TOKEN,
-          res.teacher_access_token
+          LocalStorageConst.PROFESSEUR_ACCESS_TOKEN,
+          res.professeur_access_token
         );
         this.router.navigate([DataRoutingConst.ROUTE_PROFESSEUR_MATIERES]);
         this.snackBarService.openSuccesSnackBar(

@@ -22,7 +22,7 @@ export class MatieresService {
 
   getMatieresPagines(page: number, limit: number): Observable<any> {
     return this.httpRequestService.get<Matiere[]>(
-      'TEACHER',
+      'PROFESSEUR',
       this.uri + '?page=' + page + '&limit=' + limit
     );
   }

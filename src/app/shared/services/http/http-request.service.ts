@@ -17,15 +17,15 @@ export class HttpRequestService {
   }
 
   protected setAuthorizationTokenValue(authorization: any): void {
-    if (authorization == 'USER') {
+    if (authorization == 'ETUDIANT') {
       this.authorizationToken =
         'Bearer ' +
         this.localStorageService.getItem(LocalStorageConst.ACCESS_TOKEN);
-    } else if (authorization == 'TEACHER') {
+    } else if (authorization == 'PROFESSEUR') {
       this.authorizationToken =
         'Bearer ' +
         this.localStorageService.getItem(
-          LocalStorageConst.TEACHER_ACCESS_TOKEN
+          LocalStorageConst.PROFESSEUR_ACCESS_TOKEN
         );
     }
   }
