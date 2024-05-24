@@ -10,6 +10,20 @@
           {{ matiere.etudiant_inscrits.length }}
         </p>
         <br />
+        <button
+          class="btn btn-primary mr-2"
+          *ngIf="!isEditMode"
+          (click)="toggleEditMode()"
+        >
+          Modifier
+        </button>
+        <button
+          *ngIf="isEditMode"
+          class="btn btn-info mr-2"
+          (click)="applyChanges()"
+        >
+          Appliquer les modifications
+        </button>
         <div class="table-responsive">
           <table
             mat-table
@@ -20,8 +34,8 @@
               <th mat-header-cell *matHeaderCellDef>Inscrit</th>
               <td mat-cell *matCellDef="let etudiant">
                 <mat-checkbox
-                  [checked]="etudiant.inscrit"
-                  disabled
+                  [(ngModel)]="etudiant.inscrit"
+                  [disabled]="!isEditMode"
                 ></mat-checkbox>
               </td>
             </ng-container>

@@ -6,11 +6,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { Matiere } from '../matiere.model';
 import { MatieresService } from '../../../shared/matieres.service';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
-import { Etudiant } from '../../../etudiant/etudiant.model';
 import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
@@ -39,8 +37,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
 export class ProfesseurMatieresEtudiantsComponent implements OnInit {
   id_matiere: any;
 
-  titre = 'Liste des étudiants';
-
   constructor(
     private route: ActivatedRoute,
     private matieresService: MatieresService,
@@ -50,8 +46,10 @@ export class ProfesseurMatieresEtudiantsComponent implements OnInit {
   // tableau des matieres POUR AFFICHAGE
   displayedColumns: string[] = ['inscrit', 'mail', 'nom', 'prenom'];
 
-  etudiants: Etudiant[] = [];
+  etudiants: any[] = [];
   matiere: any;
+
+  isEditMode = false;
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -76,5 +74,30 @@ export class ProfesseurMatieresEtudiantsComponent implements OnInit {
         this.etudiants = data;
       });
     console.log('Requête envoyée');
+  }
+
+  toggleEditMode() {
+    this.isEditMode = !this.isEditMode;
+  }
+
+  applyChanges() {
+    const etudiantsInscrits = this.etudiants
+      .filter((etudiant) => etudiant.inscrit)
+      .map((etudiant) => etudiant._id);
+    const payload = { etudiants: etudiantsInscrits };
+    this.matieresService.ajouterEtudiants(this.id_matiere, payload).subscribe(
+      (response) => {
+        console.log('Modifications appliquées avec succès:', response);
+        // Met à jour la liste des étudiants inscrits
+        this.matiere.etudiant_inscrits = etudiantsInscrits;
+        this.isEditMode = false;
+      },
+      (error) => {
+        console.error(
+          "Erreur lors de l'application des modifications :",
+          error
+        );
+      }
+    );
   }
 }

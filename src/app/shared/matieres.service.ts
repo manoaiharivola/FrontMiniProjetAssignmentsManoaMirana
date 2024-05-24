@@ -40,12 +40,21 @@ export class MatieresService {
     return this.httpRequestService.get(this.uri);
   }*/
 
-  getMatiere(id: string): Observable<any> {
+  getMatiere(id_matiere: string): Observable<any> {
     return this.httpRequestService.get<Matiere>(
       'PROFESSEUR',
-      this.uri + '/' + id
+      this.uri + '/' + id_matiere
     );
   }
+
+  ajouterEtudiants(id_matiere: string, payload: any): Observable<any> {
+    return this.httpRequestService.post<any>(
+      'PROFESSEUR',
+      `${this.uri}/${id_matiere}/ajouter-etudiants`,
+      payload
+    );
+  }
+
   /*
   private handleError<T>(operation: any, result?: T) {
     return (error: any): Observable<T> => {
