@@ -6,6 +6,7 @@ import { LoggingService } from './logging.service';
 import { HttpRequestService } from '../shared/services/http/http-request.service';
 import { EnvironmentConst } from '../data/constant/data-env.const';
 import { DataWsConst } from '../data/constant/data-ws.const';
+import { Etudiant } from '../etudiant/etudiant.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,23 +28,25 @@ export class MatieresService {
     );
   }
 
+  getEtudiantsMatiere(idMatiere: string): Observable<any> {
+    return this.httpRequestService.get<Etudiant[]>(
+      'PROFESSEUR',
+      this.uri + '/' + idMatiere + '/etudiants'
+    );
+  }
+
   // retourne tous les matieres
   /*getMatieres(): Observable<Matiere[]> {
     return this.httpRequestService.get(this.uri);
-  }
+  }*/
 
-  getMatiere(id: number): Observable<Matiere | undefined> {
-    return this.http
-      .get<Matiere>(this.uri + '/' + id)
-      .pipe(
-        catchError(
-          this.handleError<any>(
-            '### catchError: getMatieres by id avec id=' + id
-          )
-        )
-      );
+  getMatiere(id: string): Observable<any> {
+    return this.httpRequestService.get<Matiere>(
+      'PROFESSEUR',
+      this.uri + '/' + id
+    );
   }
-
+  /*
   private handleError<T>(operation: any, result?: T) {
     return (error: any): Observable<T> => {
       console.log(error); // pour afficher dans la console

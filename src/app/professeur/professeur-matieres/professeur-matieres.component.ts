@@ -1,17 +1,11 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  CdkVirtualScrollViewport,
-  ScrollingModule,
-} from '@angular/cdk/scrolling';
-
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
-
 import { RenduDirective } from '../../shared/rendu.directive';
 import { Matiere } from './matiere.model';
 import { MatieresService } from '../../shared/matieres.service';
@@ -36,7 +30,6 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    ScrollingModule,
     RouterLink,
     MatButtonModule,
     MatTable,
@@ -82,10 +75,6 @@ export class ProfesseurMatieresComponent implements OnInit {
   displayedColumns: string[] = ['nom', 'nombreEtudiants', 'listeEtudiants'];
 
   matieres: Matiere[] = [];
-
-  getColor(a: any) {
-    return a.rendu ? 'green' : 'red';
-  }
 
   ngOnInit() {
     console.log('ngOnInit matieres, appelée AVANT affichage du composant');
