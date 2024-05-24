@@ -24,6 +24,24 @@
                 {{ matiere.etudiant_inscrits.length }}
               </td>
             </ng-container>
+            <!-- Liste des étudiants inscrits Column -->
+            <ng-container matColumnDef="listeEtudiants">
+              <th mat-header-cell *matHeaderCellDef>
+                Liste des étudiants inscrits
+              </th>
+              <td mat-cell *matCellDef="let matiere">
+                <button
+                  mat-icon-button
+                  matTooltip="Voir la liste des étudiants inscrits en {{
+                    matiere.name
+                  }}"
+                  color="primary"
+                  (click)="showEtudiantsInscrits(matiere._id)"
+                >
+                  <mat-icon>group</mat-icon>
+                </button>
+              </td>
+            </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

@@ -10,6 +10,7 @@ import { DataRoutingConst } from './data/constant/data-routing.const';
 import { AuthComponent } from './layout/components/auth/auth.component';
 import { ProfesseurTemplateComponent } from './layout/components/professeur/professeur-template/professeur-template.component';
 import { ProfesseurMatieresComponent } from './professeur/professeur-matieres/professeur-matieres.component';
+import { ProfesseurMatieresEtudiantsComponent } from './professeur/professeur-matieres/professeur-matieres-etudiants/professeur-matieres-etudiants.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: DataRoutingConst.ROUTE_LOGIN, pathMatch: 'full' },
@@ -35,6 +36,12 @@ export const routes: Routes = [
     path: 'professeur',
     component: ProfesseurTemplateComponent,
     canActivate: [ProfesseurAuthGuard],
-    children: [{ path: 'matieres', component: ProfesseurMatieresComponent }],
+    children: [
+      { path: 'matieres', component: ProfesseurMatieresComponent },
+      {
+        path: 'matieres/:id/etudiants',
+        component: ProfesseurMatieresEtudiantsComponent,
+      },
+    ],
   },
 ];

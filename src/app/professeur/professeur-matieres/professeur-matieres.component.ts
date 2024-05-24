@@ -16,7 +16,11 @@ import { RenduDirective } from '../../shared/rendu.directive';
 import { Matiere } from './matiere.model';
 import { MatieresService } from '../../shared/matieres.service';
 import { RouterLink } from '@angular/router';
-import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DataRoutingConst } from '../../data/constant/data-routing.const';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-professeur-matieres',
   standalone: true,
@@ -41,6 +45,8 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
     MatListModule,
     MatSliderModule,
     RenduDirective,
+    MatIconModule,
+    MatTooltipModule,
   ],
 })
 export class ProfesseurMatieresComponent implements OnInit {
@@ -67,15 +73,15 @@ export class ProfesseurMatieresComponent implements OnInit {
     }
   }
 
-  // tableau des matieres POUR AFFICHAGE
-  displayedColumns: string[] = ['nom', 'nombreEtudiants'];
-
-  matieres: Matiere[] = [];
-
   constructor(
     private matieresService: MatieresService,
-    private ngZone: NgZone
+    private router: Router
   ) {}
+
+  // tableau des matieres POUR AFFICHAGE
+  displayedColumns: string[] = ['nom', 'nombreEtudiants', 'listeEtudiants'];
+
+  matieres: Matiere[] = [];
 
   getColor(a: any) {
     return a.rendu ? 'green' : 'red';
@@ -105,5 +111,13 @@ export class ProfesseurMatieresComponent implements OnInit {
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
     this.getMatieresFromService();
+  }
+
+  showEtudiantsInscrits(idMatiere: string) {
+    this.router.navigate([
+      DataRoutingConst.ROUTE_PROFESSEUR_MATIERES,
+      idMatiere,
+      'etudiants',
+    ]);
   }
 }
