@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeurs-devoirs-ajout-devoir.component';
+import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './PopUpProfesseursDevoirsAjoutDevoirComponent';
 
 describe('PopUpProfesseursDevoirsAjoutDevoirComponent', () => {
   let component: PopUpProfesseursDevoirsAjoutDevoirComponent;
@@ -8,11 +8,12 @@ describe('PopUpProfesseursDevoirsAjoutDevoirComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PopUpProfesseursDevoirsAjoutDevoirComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(PopUpProfesseursDevoirsAjoutDevoirComponent);
+      imports: [PopUpProfesseursDevoirsAjoutDevoirComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(
+      PopUpProfesseursDevoirsAjoutDevoirComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

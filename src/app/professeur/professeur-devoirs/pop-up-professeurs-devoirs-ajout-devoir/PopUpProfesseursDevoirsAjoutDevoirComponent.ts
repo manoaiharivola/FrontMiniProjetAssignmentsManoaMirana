@@ -1,30 +1,30 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
   MatDialogActions,
   MatDialogClose,
   MatDialogTitle,
   MatDialogContent,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatieresService } from '../../../shared/services/matieres.service';
-import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { Matiere } from '../../../shared/models/matiere.model';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatieresService } from '../../../shared/services/matieres.service';
+
 @Component({
   selector: 'app-pop-up-professeurs-devoirs-ajout-devoir',
   providers: [
@@ -60,7 +60,7 @@ import { Matiere } from '../../../shared/models/matiere.model';
   ],
 })
 export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
-  matieres: Matiere[] = [];
+  matieres: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<PopUpProfesseursDevoirsAjoutDevoirComponent>,

@@ -8,12 +8,14 @@
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Choisir une matière</ng-template>
         <mat-form-field>
-          <input
-            matInput
-            placeholder="Last name, First name"
-            formControlName="firstCtrl"
-            required
-          />
+          <mat-label>Matière</mat-label>
+          <mat-select formControlName="firstCtrl" required>
+            @for(matiere of matieres; track matiere.nom) {
+            <mat-option [value]="matiere._id">
+              {{ matiere.nom }}
+            </mat-option>
+            }
+          </mat-select>
         </mat-form-field>
         <div>
           <button mat-button matStepperNext>Suivant</button>

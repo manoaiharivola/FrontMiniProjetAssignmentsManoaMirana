@@ -35,10 +35,9 @@ export class MatieresService {
     );
   }
 
-  // retourne tous les matieres
-  /*getMatieres(): Observable<Matiere[]> {
-    return this.httpRequestService.get(this.uri);
-  }*/
+  getMatieres(): Observable<any> {
+    return this.httpRequestService.get<any>('PROFESSEUR', this.uri);
+  }
 
   getMatiere(id_matiere: string): Observable<any> {
     return this.httpRequestService.get<Matiere>(
