@@ -53,6 +53,7 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent {
 
   firstFormGroup: FormGroup = this._formBuilder.group({ firstCtrl: [''] });
   secondFormGroup: FormGroup = this._formBuilder.group({ secondCtrl: [''] });
+  thirdFormGroup: FormGroup = this._formBuilder.group({ secondCtrl: [''] });
 
   close(): void {
     this.dialogRef.close();
