@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Matiere } from '../professeur/professeur-matieres/matiere.model';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { LoggingService } from './logging.service';
+import { LoggingService } from './services/logging.service';
 import { HttpRequestService } from '../shared/services/http/http-request.service';
 import { EnvironmentConst } from '../data/constant/data-env.const';
 import { DataWsConst } from '../data/constant/data-ws.const';

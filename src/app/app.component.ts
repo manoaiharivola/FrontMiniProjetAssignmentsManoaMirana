@@ -6,7 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { AuthService } from './shared/auth.service';
-import { AssignmentsService } from './shared/assignments.service';
+import { AssignmentsService } from './shared/services/assignments.service';
 import { LoginComponent } from './utilisateurs/login/login.component';
 import { AuthComponent } from './layout/components/auth/auth.component';
 import { SnackBarComponent } from './shared/components/snack-bar/snack-bar.component';

@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { Assignment } from '../assignment.model';
-import { AssignmentsService } from '../../shared/assignments.service';
+import { AssignmentsService } from '../../shared/services/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -38,8 +38,7 @@ export class EditAssignmentComponent implements OnInit {
   ngOnInit() {
     // on récupère l'id dans l'url
     const id = +this.route.snapshot.params['id'];
-    this.assignmentsService.getAssignment(id)
-    .subscribe((assignment) => {
+    this.assignmentsService.getAssignment(id).subscribe((assignment) => {
       this.assignment = assignment;
       // on met à jour les champs du formulaire
       if (assignment !== undefined) {
