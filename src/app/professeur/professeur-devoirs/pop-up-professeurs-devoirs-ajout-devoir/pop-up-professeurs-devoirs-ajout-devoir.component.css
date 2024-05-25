@@ -1,0 +1,14 @@
+.pop-up-ajout-devoir {
+    padding: 50px;
+    min-width: 1000px;
+    max-width: 1000px;
+    min-height: 500px;
+}
+
+.example-input-wrapper {
+    margin-bottom: 16px;
+  }
+  
+  label {
+    margin-right: 4px;
+  }

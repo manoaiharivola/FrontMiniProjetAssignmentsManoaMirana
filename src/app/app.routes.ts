@@ -11,6 +11,7 @@ import { AuthComponent } from './layout/components/auth/auth.component';
 import { ProfesseurTemplateComponent } from './layout/components/professeur/professeur-template/professeur-template.component';
 import { ProfesseurMatieresComponent } from './professeur/professeur-matieres/professeur-matieres.component';
 import { ProfesseurMatieresEtudiantsComponent } from './professeur/professeur-matieres/professeur-matieres-etudiants/professeur-matieres-etudiants.component';
+import { ProfesseurDevoirsComponent } from './professeur/professeur-devoirs/professeur-devoirs.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: DataRoutingConst.ROUTE_LOGIN, pathMatch: 'full' },
@@ -41,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'matieres/:id/etudiants',
         component: ProfesseurMatieresEtudiantsComponent,
+      },
+      {
+        path: 'devoirs',
+        component: ProfesseurDevoirsComponent,
       },
     ],
   },

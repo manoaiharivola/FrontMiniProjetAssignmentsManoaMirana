@@ -7,13 +7,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { RenduDirective } from '../../shared/rendu.directive';
-import { Matiere } from '../../shared/models/matiere.model';
-import { MatieresService } from '../../shared/services/matieres.service';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { DataRoutingConst } from '../../data/constant/data-routing.const';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeurs-devoirs-ajout-devoir/pop-up-professeurs-devoirs-ajout-devoir.component';
 
 @Component({
   selector: 'app-professeur-devoirs',
@@ -30,7 +27,6 @@ import { Router } from '@angular/router';
     MatSliderModule,
     RenduDirective,
     MatIconModule,
-    MatTooltipModule,
   ],
   templateUrl: './professeur-devoirs.component.html',
   styleUrls: [
@@ -41,4 +37,16 @@ import { Router } from '@angular/router';
     '../../template/css/vertical-layout-light/style.css',
   ],
 })
-export class ProfesseurDevoirsComponent {}
+export class ProfesseurDevoirsComponent {
+  constructor(private matDialog: MatDialog) {}
+
+  showPopUpAjoutNouveauDevoir() {
+    const dialogRef = this.matDialog.open(
+      PopUpProfesseursDevoirsAjoutDevoirComponent,
+      {
+        panelClass: 'custom-container',
+        autoFocus: false,
+      }
+    );
+  }
+}
