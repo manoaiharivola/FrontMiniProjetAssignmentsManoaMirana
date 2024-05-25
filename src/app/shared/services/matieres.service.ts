@@ -21,7 +21,7 @@ export class MatieresService {
 
   uri = EnvironmentConst.API_URL + DataWsConst.WS_MATIERE;
 
-  getMatieresPagines(page: number, limit: number): Observable<any> {
+  getProfesseurMatieresPagines(page: number, limit: number): Observable<any> {
     return this.httpRequestService.get<Matiere[]>(
       'PROFESSEUR',
       this.uri + '/professeur?page=' + page + '&limit=' + limit
@@ -35,7 +35,7 @@ export class MatieresService {
     );
   }
 
-  getMatieres(): Observable<any> {
+  getProfesseurMatieres(): Observable<any> {
     return this.httpRequestService.get<any>(
       'PROFESSEUR',
       this.uri + '/professeur'

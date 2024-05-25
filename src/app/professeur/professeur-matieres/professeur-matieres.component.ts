@@ -84,7 +84,7 @@ export class ProfesseurMatieresComponent implements OnInit {
   getMatieresFromService() {
     // on récupère les matieres depuis le service
     this.matieresService
-      .getMatieresPagines(this.pageIndex + 1, this.pageSize)
+      .getProfesseurMatieresPagines(this.pageIndex + 1, this.pageSize)
       .subscribe((data) => {
         // les données arrivent ici au bout d'un certain temps
         console.log('Données arrivées');

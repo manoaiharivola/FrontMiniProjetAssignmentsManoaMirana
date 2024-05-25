@@ -80,7 +80,7 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.matieresService.getMatieres().subscribe((data) => {
+    this.matieresService.getProfesseurMatieres().subscribe((data) => {
       this.matieres = data.docs;
     });
   }
