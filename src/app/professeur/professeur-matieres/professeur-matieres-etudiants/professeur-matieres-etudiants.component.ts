@@ -6,7 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { MatieresService } from '../../../shared/matieres.service';
+import { MatieresService } from '../../../shared/services/matieres.service';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatCheckbox } from '@angular/material/checkbox';

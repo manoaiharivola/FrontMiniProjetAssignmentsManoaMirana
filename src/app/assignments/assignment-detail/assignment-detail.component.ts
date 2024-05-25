@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/services/assignments.service';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../shared/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,

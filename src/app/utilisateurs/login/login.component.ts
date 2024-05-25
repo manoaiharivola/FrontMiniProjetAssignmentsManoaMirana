@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AuthService } from '../../shared/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { HttpStatusConst } from '../../shared/constant/http-status.const';
 import { LocalStorageService } from '../../shared/services/local-storage/local-storage.service';
 import { LocalStorageConst } from '../../shared/constant/local-storage.const';

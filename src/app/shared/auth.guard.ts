@@ -1,9 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
-
   // injection du service d'authentification
   const authService = inject(AuthService);
   // injection du router
@@ -17,17 +16,14 @@ export const authGuard: CanActivateFn = (route, state) => {
   // autorisé à accéder à la page. C'est ASYNCHRONE !
   // Donc la bonne pratique est d'implémenter isAdmin ou isLogged
   // comme une promesse qui renvoie un booléen.
-  return authService.isAdmin()
-    .then(admin => {
-        if (admin) {
-          console.log("GUARD: Navigation autorisée");
-          return true;
-        } else {
-          console.log("GUARD: Navigation NON autorisée");
-          router.navigate(['/home']);
-          return false;
-        }
-      }
-    );
-    
+  return authService.isAdmin().then((admin) => {
+    if (admin) {
+      console.log('GUARD: Navigation autorisée');
+      return true;
+    } else {
+      console.log('GUARD: Navigation NON autorisée');
+      router.navigate(['/home']);
+      return false;
+    }
+  });
 };

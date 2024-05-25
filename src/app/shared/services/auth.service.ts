@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpRequestService } from '../shared/services/http/http-request.service';
-import { EnvironmentConst } from '../data/constant/data-env.const';
-import { DataWsConst } from '../data/constant/data-ws.const';
+import { HttpRequestService } from './http/http-request.service';
+import { EnvironmentConst } from '../../data/constant/data-env.const';
+import { DataWsConst } from '../../data/constant/data-ws.const';
 
 @Injectable({
   providedIn: 'root',
