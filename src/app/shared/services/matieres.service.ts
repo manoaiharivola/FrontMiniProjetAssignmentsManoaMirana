@@ -24,7 +24,7 @@ export class MatieresService {
   getMatieresPagines(page: number, limit: number): Observable<any> {
     return this.httpRequestService.get<Matiere[]>(
       'PROFESSEUR',
-      this.uri + '?page=' + page + '&limit=' + limit
+      this.uri + '/professeur?page=' + page + '&limit=' + limit
     );
   }
 
@@ -36,7 +36,10 @@ export class MatieresService {
   }
 
   getMatieres(): Observable<any> {
-    return this.httpRequestService.get<any>('PROFESSEUR', this.uri);
+    return this.httpRequestService.get<any>(
+      'PROFESSEUR',
+      this.uri + '/professeur'
+    );
   }
 
   getMatiere(id_matiere: string): Observable<any> {
