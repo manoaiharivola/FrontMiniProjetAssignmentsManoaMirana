@@ -73,7 +73,8 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
     matiereCtrl: ['', Validators.required],
   });
   secondFormGroup: FormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
+    titreCtrl: ['', Validators.required],
+    descriptionCtrl: [''],
   });
   thirdFormGroup: FormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],

@@ -24,17 +24,19 @@
     </mat-step>
     <mat-step
       [stepControl]="secondFormGroup"
-      errorMessage="Le titre est requise."
+      errorMessage="Le titre est requis."
     >
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Information sur le devoir</ng-template>
+        <br />
         <mat-form-field>
-          <input
-            matInput
-            placeholder="Address"
-            formControlName="secondCtrl"
-            required
-          />
+          <mat-label>Titre</mat-label>
+          <input matInput formControlName="titreCtrl" required />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="descriptionCtrl"></textarea>
         </mat-form-field>
         <div>
           <button mat-button matStepperPrevious>Retour</button>
