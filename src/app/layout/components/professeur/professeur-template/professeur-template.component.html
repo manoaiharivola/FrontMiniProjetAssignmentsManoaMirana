@@ -79,7 +79,10 @@
             <li
               *ngFor="let sidebar of sidebarData"
               class="nav-item"
-              [ngClass]="{ active: sidebar.routerLink == currentPath }"
+              [ngClass]="{
+                active:
+                  isLinkActive(sidebar.url) || isParentLinkActive(sidebar.url)
+              }"
               [routerLink]="sidebar.routerLink"
             >
               <a class="nav-link">

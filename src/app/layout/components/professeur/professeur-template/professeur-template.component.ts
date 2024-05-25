@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { sidebarProfesseurData } from './sidebar-professeur-data';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 
 @Component({
@@ -22,11 +22,14 @@ import { CommonModule, Location } from '@angular/common';
 })
 export class ProfesseurTemplateComponent {
   sidebarData = sidebarProfesseurData;
-  currentPath: string;
 
-  constructor(private location: Location) {
-    this.currentPath = this.location.path();
+  constructor(private router: Router) {}
+
+  isLinkActive(url: string): boolean {
+    return this.router.url === url;
   }
 
-  ngOnInit(): void {}
+  isParentLinkActive(url: string): boolean {
+    return this.router.url.startsWith(url);
+  }
 }
