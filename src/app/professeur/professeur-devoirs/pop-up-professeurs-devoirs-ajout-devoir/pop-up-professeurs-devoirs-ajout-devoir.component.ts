@@ -5,6 +5,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -18,9 +19,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-pop-up-professeurs-devoirs-ajout-devoir',
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+  ],
   standalone: true,
   imports: [
     MatIconModule,
@@ -51,9 +59,15 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent {
     private _formBuilder: FormBuilder
   ) {}
 
-  firstFormGroup: FormGroup = this._formBuilder.group({ firstCtrl: [''] });
-  secondFormGroup: FormGroup = this._formBuilder.group({ secondCtrl: [''] });
-  thirdFormGroup: FormGroup = this._formBuilder.group({ secondCtrl: [''] });
+  firstFormGroup: FormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup: FormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+  thirdFormGroup: FormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
 
   close(): void {
     this.dialogRef.close();

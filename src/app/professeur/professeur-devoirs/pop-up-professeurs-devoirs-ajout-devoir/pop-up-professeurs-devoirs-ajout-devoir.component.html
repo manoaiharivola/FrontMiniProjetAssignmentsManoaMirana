@@ -1,9 +1,12 @@
 <div class="pop-up-ajout-devoir">
   <h3>Ajout d'un devoir</h3>
   <mat-vertical-stepper [linear]="false" #stepper [animationDuration]="'500ms'">
-    <mat-step [stepControl]="firstFormGroup">
+    <mat-step
+      [stepControl]="firstFormGroup"
+      errorMessage="La matière est requise."
+    >
       <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Fill out your name</ng-template>
+        <ng-template matStepLabel>Choisir une matière</ng-template>
         <mat-form-field>
           <input
             matInput
@@ -17,9 +20,12 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup">
+    <mat-step
+      [stepControl]="secondFormGroup"
+      errorMessage="Informations manquantes."
+    >
       <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Fill out your address</ng-template>
+        <ng-template matStepLabel>Information sur le devoir</ng-template>
         <mat-form-field>
           <input
             matInput
@@ -34,9 +40,12 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="thirdFormGroup">
+    <mat-step
+      [stepControl]="thirdFormGroup"
+      errorMessage="La date de rendu est requise."
+    >
       <form [formGroup]="thirdFormGroup">
-        <ng-template matStepLabel>Fill out your address</ng-template>
+        <ng-template matStepLabel>Rendu</ng-template>
         <mat-form-field>
           <input
             matInput
@@ -52,11 +61,11 @@
       </form>
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      You are now done.
+      <ng-template matStepLabel>Validation</ng-template>
       <div>
         <button mat-button matStepperPrevious>Retour</button>
         <button mat-button (click)="stepper.reset()">Réinitialiser</button>
+        <button mat-button>Ajouter</button>
       </div>
     </mat-step>
   </mat-vertical-stepper>
