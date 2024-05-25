@@ -9,7 +9,7 @@
         <ng-template matStepLabel>Choisir une matière</ng-template>
         <mat-form-field>
           <mat-label>Matière</mat-label>
-          <mat-select formControlName="firstCtrl" required>
+          <mat-select formControlName="matiereCtrl" required>
             @for(matiere of matieres; track matiere.nom) {
             <mat-option [value]="matiere._id">
               {{ matiere.nom }}
@@ -24,7 +24,7 @@
     </mat-step>
     <mat-step
       [stepControl]="secondFormGroup"
-      errorMessage="Informations manquantes."
+      errorMessage="Le titre est requise."
     >
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Information sur le devoir</ng-template>

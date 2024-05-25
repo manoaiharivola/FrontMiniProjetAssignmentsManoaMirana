@@ -10,8 +10,7 @@ import { RenduDirective } from '../../shared/rendu.directive';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeurs-devoirs-ajout-devoir/PopUpProfesseursDevoirsAjoutDevoirComponent';
-
+import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeurs-devoirs-ajout-devoir/pop-up-professeurs-devoirs-ajout-devoir.component';
 @Component({
   selector: 'app-professeur-devoirs',
   standalone: true,
