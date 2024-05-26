@@ -46,18 +46,32 @@
     </mat-step>
     <mat-step
       [stepControl]="thirdFormGroup"
-      errorMessage="La date de rendu est requise."
+      errorMessage="Erreur de la date de rendu."
     >
       <form [formGroup]="thirdFormGroup">
         <ng-template matStepLabel>Rendu</ng-template>
+        <br />
         <mat-form-field>
+          <mat-label>Date de rendu</mat-label>
           <input
             matInput
-            placeholder="Address"
-            formControlName="secondCtrl"
+            [matDatepicker]="picker"
+            formControlName="dateCtrl"
             required
           />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
+        <div>
+          @if(thirdFormGroup.get('dateCtrl')?.hasError('required')) {
+          <mat-error> La date de rendu est requise. </mat-error>
+          } @if(thirdFormGroup.get('dateCtrl')?.hasError('invalidDate'))
+          {<mat-error> La date ne peut pas être dans le passé. </mat-error>}
+        </div>
+        <br />
         <div>
           <button mat-button matStepperPrevious>Retour</button>
           <button mat-button matStepperNext>Suivant</button>

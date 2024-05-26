@@ -7,6 +7,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
   Validators,
+  AbstractControl,
 } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -25,6 +26,10 @@ import { MatieresService } from '../../../shared/services/matieres.service';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Matiere } from '../../../shared/models/matiere.model';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
+
 @Component({
   selector: 'app-pop-up-professeurs-devoirs-ajout-devoir',
   providers: [
@@ -32,6 +37,7 @@ import { Matiere } from '../../../shared/models/matiere.model';
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true },
     },
+    provideNativeDateAdapter(),
   ],
   standalone: true,
   imports: [
@@ -49,6 +55,8 @@ import { Matiere } from '../../../shared/models/matiere.model';
     MatInputModule,
     MatOptionModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './pop-up-professeurs-devoirs-ajout-devoir.component.html',
   styleUrls: [
@@ -77,13 +85,20 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
     descriptionCtrl: [''],
   });
   thirdFormGroup: FormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
+    dateCtrl: ['', [Validators.required, this.dateValidator]],
   });
 
   ngOnInit(): void {
     this.matieresService.getProfesseurMatieres().subscribe((data) => {
       this.matieres = data.docs;
     });
+  }
+
+  dateValidator(control: AbstractControl) {
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return selectedDate >= today ? null : { invalidDate: true };
   }
 
   close(): void {
