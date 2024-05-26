@@ -29,6 +29,7 @@ import { Matiere } from '../../../shared/models/matiere.model';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { DevoirsService } from '../../../shared/services/devoir.service';
 
 @Component({
   selector: 'app-pop-up-professeurs-devoirs-ajout-devoir',
@@ -74,7 +75,8 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
     public dialogRef: MatDialogRef<PopUpProfesseursDevoirsAjoutDevoirComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
-    private matieresService: MatieresService
+    private matieresService: MatieresService,
+    private devoirsService: DevoirsService
   ) {}
 
   firstFormGroup: FormGroup = this._formBuilder.group({
@@ -99,6 +101,36 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return selectedDate >= today ? null : { invalidDate: true };
+  }
+
+  ajouterDevoir() {
+    if (
+      this.firstFormGroup.valid &&
+      this.secondFormGroup.valid &&
+      this.thirdFormGroup.valid
+    ) {
+      const newDevoir = {
+        matiere_id: this.firstFormGroup.get('matiereCtrl')?.value,
+        nom: this.secondFormGroup.get('titreCtrl')?.value,
+        description: this.secondFormGroup.get('descriptionCtrl')?.value,
+        dateDeRendu: this.thirdFormGroup.get('dateCtrl')?.value,
+        rendu: false,
+      };
+
+      console.log(newDevoir);
+
+      this.devoirsService.ajouterDevoir(newDevoir).subscribe(
+        (response) => {
+          console.log('Devoir ajouté avec succès:', response);
+          this.close();
+        },
+        (error) => {
+          console.error("Erreur lors de l'ajout du devoir:", error);
+        }
+      );
+    } else {
+      console.error('Formulaire invalide');
+    }
   }
 
   close(): void {
