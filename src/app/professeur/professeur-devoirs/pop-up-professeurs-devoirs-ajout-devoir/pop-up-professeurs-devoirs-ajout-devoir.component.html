@@ -18,7 +18,20 @@
           </mat-select>
         </mat-form-field>
         <div>
-          <button mat-button matStepperNext>Suivant</button>
+          @if(firstFormGroup.get('matiereCtrl')?.hasError('required')) {
+          <mat-error> La matière est requise. </mat-error>
+          }
+        </div>
+        <br />
+        <div>
+          <button
+            mat-button
+            matStepperNext
+            class="btn"
+            style="padding-bottom: 27px; margin-right: 20px"
+          >
+            Suivant
+          </button>
         </div>
       </form>
     </mat-step>
@@ -34,13 +47,33 @@
           <input matInput formControlName="titreCtrl" required />
         </mat-form-field>
         <br />
+        <div>
+          @if(secondFormGroup.get('titreCtrl')?.hasError('required')) {
+          <mat-error> Le titre est requis. </mat-error>
+          }
+        </div>
+        <br />
         <mat-form-field>
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="descriptionCtrl"></textarea>
         </mat-form-field>
         <div>
-          <button mat-button matStepperPrevious>Retour</button>
-          <button mat-button matStepperNext>Suivant</button>
+          <button
+            mat-button
+            matStepperPrevious
+            class="btn"
+            style="padding-bottom: 27px; margin-right: 20px"
+          >
+            Retour
+          </button>
+          <button
+            mat-button
+            matStepperNext
+            class="btn"
+            style="padding-bottom: 27px; margin-right: 20px"
+          >
+            Suivant
+          </button>
         </div>
       </form>
     </mat-step>
@@ -73,17 +106,62 @@
         </div>
         <br />
         <div>
-          <button mat-button matStepperPrevious>Retour</button>
-          <button mat-button matStepperNext>Suivant</button>
+          <button
+            mat-button
+            matStepperPrevious
+            class="btn"
+            style="padding-bottom: 27px; margin-right: 20px"
+          >
+            Retour
+          </button>
+          <button
+            mat-button
+            matStepperNext
+            class="btn"
+            style="padding-bottom: 27px; margin-right: 20px"
+          >
+            Suivant
+          </button>
         </div>
       </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Validation</ng-template>
+      <br />
       <div>
-        <button mat-button matStepperPrevious>Retour</button>
-        <button mat-button (click)="stepper.reset()">Réinitialiser</button>
-        <button mat-button>Ajouter</button>
+        <button
+          mat-button
+          matStepperPrevious
+          class="btn"
+          style="padding-bottom: 27px; margin-right: 20px"
+        >
+          Retour
+        </button>
+        <button
+          mat-button
+          (click)="stepper.reset()"
+          style="padding-bottom: 27px; margin-right: 200px"
+          class="btn"
+        >
+          Réinitialiser
+        </button>
+        <button
+          mat-button
+          matStepperPrevious
+          (click)="close()"
+          style="padding-bottom: 27px; margin-right: 20px"
+          class="btn"
+        >
+          Annuler
+        </button>
+        <button
+          mat-button
+          style="padding-bottom: 27px; color: white"
+          class="btn btn-primary"
+          tex
+        >
+          Ajouter
+        </button>
       </div>
     </mat-step>
   </mat-vertical-stepper>
