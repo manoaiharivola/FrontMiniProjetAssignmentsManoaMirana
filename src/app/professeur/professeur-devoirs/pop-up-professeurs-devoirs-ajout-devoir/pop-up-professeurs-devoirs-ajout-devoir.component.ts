@@ -30,6 +30,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { DevoirsService } from '../../../shared/services/devoir.service';
+import { SnackBarService } from '../../../shared/services/snack-bar/snack-bar.service';
 
 @Component({
   selector: 'app-pop-up-professeurs-devoirs-ajout-devoir',
@@ -76,7 +77,8 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
     private matieresService: MatieresService,
-    private devoirsService: DevoirsService
+    private devoirsService: DevoirsService,
+    private snackBarService: SnackBarService
   ) {}
 
   firstFormGroup: FormGroup = this._formBuilder.group({
@@ -100,7 +102,7 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
     const selectedDate = new Date(control.value);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return selectedDate >= today ? null : { invalidDate: true };
+    return selectedDate > today ? null : { invalidDate: true };
   }
 
   ajouterDevoir() {
@@ -117,8 +119,6 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
         rendu: false,
       };
 
-      console.log(newDevoir);
-
       this.devoirsService.ajouterDevoir(newDevoir).subscribe(
         (response) => {
           console.log('Devoir ajouté avec succès:', response);
@@ -126,10 +126,18 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
         },
         (error) => {
           console.error("Erreur lors de l'ajout du devoir:", error);
+
+          if (error.error.error) {
+            this.snackBarService.openErrorSnackBar(error.error.error);
+          } else {
+            this.snackBarService.openErrorSnackBar(
+              'Erreur serveur:' + error.message
+            );
+          }
         }
       );
     } else {
-      console.error('Formulaire invalide');
+      this.snackBarService.openErrorSnackBar('Formulaire invalide');
     }
   }
 

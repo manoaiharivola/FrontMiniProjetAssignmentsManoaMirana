@@ -102,7 +102,7 @@
           @if(thirdFormGroup.get('dateCtrl')?.hasError('required')) {
           <mat-error> La date de rendu est requise. </mat-error>
           } @if(thirdFormGroup.get('dateCtrl')?.hasError('invalidDate'))
-          {<mat-error> La date ne peut pas être dans le passé. </mat-error>}
+          {<mat-error> La date doit être dans le futur. </mat-error>}
         </div>
         <br />
         <div>
