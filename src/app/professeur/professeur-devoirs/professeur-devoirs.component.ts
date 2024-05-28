@@ -18,6 +18,7 @@ import { MatieresService } from '../../shared/services/matieres.service';
 import { Devoir } from '../../shared/models/devoir.model';
 import { Matiere } from '../../shared/models/matiere.model';
 import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeurs-devoirs-ajout-devoir/pop-up-professeurs-devoirs-ajout-devoir.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-professeur-devoirs',
@@ -37,6 +38,7 @@ import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeur
     MatIconModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatTooltipModule,
   ],
   templateUrl: './professeur-devoirs.component.html',
   styleUrls: [
@@ -48,7 +50,7 @@ import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeur
   ],
 })
 export class ProfesseurDevoirsComponent implements OnInit {
-  displayedColumns: string[] = ['nom', 'description', 'matiere', 'dateDeRendu', 'actions'];
+  displayedColumns: string[] = ['nom', 'matiere', 'dateDeCreation', 'dateDeRendu', 'actions'];
   devoirs: Devoir[] = [];
   matieres: Matiere[] = [];
   length = 0;
@@ -120,5 +122,9 @@ export class ProfesseurDevoirsComponent implements OnInit {
 
   deleteDevoir(devoir: Devoir) {
     // Logic to delete the assignment
+  }
+
+  detailsDevoir(devoir: Devoir) {
+    // Logic to view the details of the assignment
   }
 }
