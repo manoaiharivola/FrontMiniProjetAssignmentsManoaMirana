@@ -24,4 +24,12 @@ export class DevoirsService {
     }
     return this.httpRequestService.get<any>('PROFESSEUR', url);
   }
+
+  getDevoir(devoirId: string): Observable<any> {
+    return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}`);
+  }
+
+  getDevoirsEtudiants(devoirId: string): Observable<any> {
+    return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}/etudiants`);
+  }
 }

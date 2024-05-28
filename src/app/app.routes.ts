@@ -12,6 +12,7 @@ import { ProfesseurTemplateComponent } from './layout/components/professeur/prof
 import { ProfesseurMatieresComponent } from './professeur/professeur-matieres/professeur-matieres.component';
 import { ProfesseurMatieresEtudiantsComponent } from './professeur/professeur-matieres/professeur-matieres-etudiants/professeur-matieres-etudiants.component';
 import { ProfesseurDevoirsComponent } from './professeur/professeur-devoirs/professeur-devoirs.component';
+import { ProfesseurDevoirsDetailsComponent } from './professeur/professeur-devoirs/professeur-devoirs-details/professeur-devoirs-details.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: DataRoutingConst.ROUTE_LOGIN, pathMatch: 'full' },
@@ -46,6 +47,10 @@ export const routes: Routes = [
       {
         path: 'devoirs',
         component: ProfesseurDevoirsComponent,
+      },
+      {
+        path: 'devoirs/:id',
+        component: ProfesseurDevoirsDetailsComponent,
       },
     ],
   },

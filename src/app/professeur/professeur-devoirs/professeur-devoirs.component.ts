@@ -19,6 +19,8 @@ import { Devoir } from '../../shared/models/devoir.model';
 import { Matiere } from '../../shared/models/matiere.model';
 import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeurs-devoirs-ajout-devoir/pop-up-professeurs-devoirs-ajout-devoir.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DataRoutingConst } from '../../data/constant/data-routing.const';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-professeur-devoirs',
@@ -67,7 +69,8 @@ export class ProfesseurDevoirsComponent implements OnInit {
   constructor(
     private matDialog: MatDialog,
     private devoirsService: DevoirsService,
-    private matieresService: MatieresService
+    private matieresService: MatieresService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -125,6 +128,9 @@ export class ProfesseurDevoirsComponent implements OnInit {
   }
 
   detailsDevoir(devoir: Devoir) {
-    // Logic to view the details of the assignment
+    this.router.navigate([
+      DataRoutingConst.ROUTE_PROFESSEUR_DEVOIRS,
+      devoir._id
+    ]);
   }
 }
