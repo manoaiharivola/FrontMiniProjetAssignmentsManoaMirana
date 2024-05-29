@@ -17,7 +17,11 @@ import { EtudiantTemplateComponent } from './layout/components/etudiant/etudiant
 import { EtudiantAuthGuard } from './shared/etudiant-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: DataRoutingConst.ROUTE_LOGIN, pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: DataRoutingConst.ROUTE_ETUDIANT_DEVOIRS,
+    pathMatch: 'full',
+  },
   { path: 'home', component: AssignmentsComponent },
   { path: 'add', component: AddAssignmentComponent },
   { path: 'assignments/:id', component: AssignmentDetailComponent },
