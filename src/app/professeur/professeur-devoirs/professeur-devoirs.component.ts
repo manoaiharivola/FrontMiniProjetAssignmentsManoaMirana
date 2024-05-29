@@ -22,7 +22,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DataRoutingConst } from '../../data/constant/data-routing.const';
 import { Router } from '@angular/router';
 import { PopUpProfesseursDevoirsModifierDevoirComponent } from './pop-up-professeurs-devoirs-modifier-devoir/pop-up-professeurs-devoirs-modifier-devoir.component';
-
+import { PopUpProfesseursDevoirsSupprimerDevoirComponent } from './pop-up-professeurs-devoirs-supprimer-devoir/pop-up-professeurs-devoirs-supprimer-devoir.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-professeur-devoirs',
@@ -72,7 +73,8 @@ export class ProfesseurDevoirsComponent implements OnInit {
     private matDialog: MatDialog,
     private devoirsService: DevoirsService,
     private matieresService: MatieresService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -148,6 +150,31 @@ export class ProfesseurDevoirsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadDevoirs();
+      }
+    });
+  }
+
+  openSupprimerDialog(devoir: any): void {
+    const dialogRef = this.matDialog.open(PopUpProfesseursDevoirsSupprimerDevoirComponent, {
+      width: '620px',
+      height: '220px',
+      data: { devoir }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.devoirsService.deleteDevoir(devoir._id).subscribe(
+          response => {
+            console.log(response.message);
+            this.loadDevoirs(); // Recharger la liste des devoirs après la suppression
+            this.snackBar.open('Le devoir a bien été supprimé.', 'Fermer', {
+              duration: 3000
+            });
+          },
+          error => {
+            console.error("Erreur lors de la suppression du devoir:", error);
+          }
+        );
       }
     });
   }
