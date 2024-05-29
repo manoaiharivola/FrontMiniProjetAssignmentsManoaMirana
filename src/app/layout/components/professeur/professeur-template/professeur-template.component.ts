@@ -60,7 +60,6 @@ export class ProfesseurTemplateComponent {
   }
 
   getProfesseurConnected() {
-    // on récupère les matieres depuis le service
     this.professeursService.getProfesseurConnected().subscribe((data) => {
       this.professeur = data;
     });
