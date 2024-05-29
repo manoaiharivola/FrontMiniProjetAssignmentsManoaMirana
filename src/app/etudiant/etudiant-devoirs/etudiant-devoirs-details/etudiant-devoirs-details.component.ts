@@ -25,7 +25,8 @@ import {
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { forkJoin } from 'rxjs';
-
+import { EtudiantDevoirsDetailsPopUpRendreDevoirComponent } from './etudiant-devoirs-details-pop-up-rendre-devoir/etudiant-devoirs-details-pop-up-rendre-devoir.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-etudiant-devoirs-details',
   standalone: true,
@@ -92,7 +93,8 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     private devoirsService: DevoirsService,
     private router: Router,
     private matDialog: MatDialog,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -142,4 +144,33 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any[]>) {}
+
+  openRendreDevoirDialog(devoir: any) {
+    const dialogRef = this.matDialog.open(
+      EtudiantDevoirsDetailsPopUpRendreDevoirComponent,
+      {
+        width: '620px',
+        height: '220px',
+        data: { devoir },
+      }
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.devoirsService.rendreDevoir(devoir._id, {}).subscribe(
+          (response) => {
+            console.log(response.message);
+            this.snackBar.open('Le devoir a été livrer.', 'Fermer', {
+              duration: 3000,
+            });
+            this.getDevoirsARendre(this.aRendrePage, this.limit);
+            this.getDevoirsRendus(this.rendusPage, this.limit);
+          },
+          (error) => {
+            console.error('Erreur lors de la suppression du devoir:', error);
+          }
+        );
+      }
+    });
+  }
 }

@@ -90,4 +90,12 @@ export class DevoirsService {
       `${this.uri}/etudiant/rendus?page=${page}&limit=${limit}`
     );
   }
+
+  rendreDevoir(id: string, payload: any): Observable<any> {
+    return this.httpRequestService.put<any>(
+      'ETUDIANT',
+      `${this.uri}/devoir-etudiant/${id}/rendre`,
+      payload
+    );
+  }
 }
