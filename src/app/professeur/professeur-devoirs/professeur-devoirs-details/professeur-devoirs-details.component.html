@@ -2,7 +2,7 @@
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h3>Détails du devoir: {{ devoir.nom }}</h3>
+        <h3>Détails du devoir : {{ devoir.nom }}</h3>
         <br />
         <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
         <p><strong>Description:</strong> {{ devoir.description }}</p>
@@ -16,50 +16,57 @@
           style="width: 45%; float: left; margin-right: 5%"
         >
           <h4>Étudiants non notés</h4>
+
           <div
             cdkDropList
             id="liste_non_notes"
             [cdkDropListData]="nonNotes"
             cdkDropListConnectedTo="liste_notes"
-            class="example-list"
             (cdkDropListDropped)="drop($event)"
           >
-            <div
-              class="example-box"
-              *ngFor="let etudiantDevoir of nonNotes"
-              cdkDrag
+            <cdk-virtual-scroll-viewport
+              itemSize="50"
+              class="example-viewport"
+              #nonNotesScroller
             >
-              <div class="item-container">
-                <h5>
-                  <strong
-                    >{{ etudiantDevoir.etudiant_id.nom }}
-                    {{ etudiantDevoir.etudiant_id.prenom }}</strong
+              <div
+                class="example-box"
+                *cdkVirtualFor="let etudiantDevoir of nonNotes"
+                cdkDrag
+              >
+                <div class="item-container">
+                  <h5>
+                    <strong
+                      >{{ etudiantDevoir.etudiant_id.nom }}
+                      {{ etudiantDevoir.etudiant_id.prenom }}</strong
+                    >
+                  </h5>
+                  <p>
+                    <strong>Email : </strong
+                    >{{ etudiantDevoir.etudiant_id.mail }}
+                  </p>
+                  <p>
+                    <strong>Date de livraison : </strong
+                    >{{ etudiantDevoir.dateLivraison | date }}
+                  </p>
+                  <p
+                    *ngIf="isLate(etudiantDevoir.dateLivraison)"
+                    class="badge badge-danger"
                   >
-                </h5>
-                <p>
-                  <strong>Email : </strong>{{ etudiantDevoir.etudiant_id.mail }}
-                </p>
-                <p>
-                  <strong>Date de livraison : </strong
-                  >{{ etudiantDevoir.dateLivraison | date }}
-                </p>
-                <p
-                  *ngIf="isLate(etudiantDevoir.dateLivraison)"
-                  class="badge badge-danger"
-                >
-                  En retard
-                </p>
-                <br />
-                <button
-                  mat-button
-                  (click)="openNoterDialog(etudiantDevoir)"
-                  style="padding: 10px; color: white"
-                  class="btn btn-info"
-                >
-                  Noter
-                </button>
+                    En retard
+                  </p>
+                  <br />
+                  <button
+                    mat-button
+                    (click)="openNoterDialog(etudiantDevoir)"
+                    style="padding: 10px; color: white"
+                    class="btn btn-info"
+                  >
+                    Noter
+                  </button>
+                </div>
               </div>
-            </div>
+            </cdk-virtual-scroll-viewport>
           </div>
         </div>
 
