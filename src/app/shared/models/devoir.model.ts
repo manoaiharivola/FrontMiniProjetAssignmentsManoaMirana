@@ -2,6 +2,6 @@ export class Devoir {
   _id?: string;
   nom!: string;
   dateDeRendu!: Date;
-  rendu!: boolean;
+  dateDeLivraison!: Date;
   matiere_id!: string;
 }

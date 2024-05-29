@@ -122,7 +122,7 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
       this.devoirsService.ajouterDevoir(newDevoir).subscribe(
         (response) => {
           console.log('Devoir ajouté avec succès:', response);
-          this.close();
+          this.close('refresh');
         },
         (error) => {
           console.error("Erreur lors de l'ajout du devoir:", error);
@@ -141,7 +141,7 @@ export class PopUpProfesseursDevoirsAjoutDevoirComponent implements OnInit {
     }
   }
 
-  close(): void {
-    this.dialogRef.close();
+  close(refresh: string | null = null): void {
+    this.dialogRef.close(refresh);
   }
 }

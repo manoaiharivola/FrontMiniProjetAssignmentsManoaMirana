@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Confirmer la suppression</h2>
+<mat-dialog-content>
+  <p>Êtes-vous sûr de vouloir supprimer ce devoir ?</p>
+  <p>Cela supprimera également tous les devoirs associés des étudiants.</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button type="button" (click)="onCancel()">Annuler</button>
+  <button mat-button color="warn" (click)="onConfirm()">Confirmer</button>
+</mat-dialog-actions>

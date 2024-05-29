@@ -12,9 +12,17 @@ import { ProfesseurTemplateComponent } from './layout/components/professeur/prof
 import { ProfesseurMatieresComponent } from './professeur/professeur-matieres/professeur-matieres.component';
 import { ProfesseurMatieresEtudiantsComponent } from './professeur/professeur-matieres/professeur-matieres-etudiants/professeur-matieres-etudiants.component';
 import { ProfesseurDevoirsComponent } from './professeur/professeur-devoirs/professeur-devoirs.component';
+import { ProfesseurDevoirsDetailsComponent } from './professeur/professeur-devoirs/professeur-devoirs-details/professeur-devoirs-details.component';
+import { EtudiantDevoirsComponent } from './etudiant/etudiant-devoirs/etudiant-devoirs.component';
+import { EtudiantTemplateComponent } from './layout/components/etudiant/etudiant-template/etudiant-template.component';
+import { EtudiantAuthGuard } from './shared/etudiant-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: DataRoutingConst.ROUTE_LOGIN, pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: DataRoutingConst.ROUTE_ETUDIANT_DEVOIRS,
+    pathMatch: 'full',
+  },
   { path: 'home', component: AssignmentsComponent },
   { path: 'add', component: AddAssignmentComponent },
   { path: 'assignments/:id', component: AssignmentDetailComponent },
@@ -34,6 +42,17 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'etudiant',
+    component: EtudiantTemplateComponent,
+    canActivate: [EtudiantAuthGuard],
+    children: [
+      {
+        path: 'devoirs',
+        component: EtudiantDevoirsComponent,
+      },
+    ],
+  },
+  {
     path: 'professeur',
     component: ProfesseurTemplateComponent,
     canActivate: [ProfesseurAuthGuard],
@@ -47,6 +66,15 @@ export const routes: Routes = [
         path: 'devoirs',
         component: ProfesseurDevoirsComponent,
       },
+      {
+        path: 'devoirs/:id',
+        component: ProfesseurDevoirsDetailsComponent,
+      },
     ],
+  },
+  {
+    path: '**',
+    redirectTo: DataRoutingConst.ROUTE_LOGIN,
+    pathMatch: 'full',
   },
 ];
