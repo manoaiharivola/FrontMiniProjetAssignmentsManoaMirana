@@ -40,4 +40,8 @@ export class DevoirsService {
   noterDevoir(devoirEtudiantId: string, payload: any): Observable<any> {
     return this.httpRequestService.put<any>('PROFESSEUR', `${this.uri}/${devoirEtudiantId}/noter`, payload);
   }
+
+  updateDevoir(payload: any): Observable<any> {
+    return this.httpRequestService.put<any>('PROFESSEUR', this.uri, payload);
+  }
 }

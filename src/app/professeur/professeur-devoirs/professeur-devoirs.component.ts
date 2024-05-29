@@ -21,6 +21,8 @@ import { PopUpProfesseursDevoirsAjoutDevoirComponent } from './pop-up-professeur
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DataRoutingConst } from '../../data/constant/data-routing.const';
 import { Router } from '@angular/router';
+import { PopUpProfesseursDevoirsModifierDevoirComponent } from './pop-up-professeurs-devoirs-modifier-devoir/pop-up-professeurs-devoirs-modifier-devoir.component';
+
 
 @Component({
   selector: 'app-professeur-devoirs',
@@ -76,6 +78,7 @@ export class ProfesseurDevoirsComponent implements OnInit {
   ngOnInit() {
     this.getMatieresFromService();
     this.getDevoirsFromService();
+    this.loadDevoirs();
   }
 
   getMatieresFromService() {
@@ -118,11 +121,6 @@ export class ProfesseurDevoirsComponent implements OnInit {
     });
   }
 
-  
-  editDevoir(devoir: Devoir) {
-    // Logic to edit the assignment
-  }
-
   deleteDevoir(devoir: Devoir) {
     // Logic to delete the assignment
   }
@@ -132,5 +130,25 @@ export class ProfesseurDevoirsComponent implements OnInit {
       DataRoutingConst.ROUTE_PROFESSEUR_DEVOIRS,
       devoir._id
     ]);
+  }
+
+  loadDevoirs() {
+    this.devoirsService.getProfesseurDevoirs(1, 10).subscribe((data) => {
+      this.devoirs = data.docs;
+    });
+  }
+
+  openModifierDialog(devoir: any): void {
+    console.log(devoir)
+    const dialogRef = this.matDialog.open(PopUpProfesseursDevoirsModifierDevoirComponent, {
+      width: '400px',
+      data: { devoir }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadDevoirs();
+      }
+    });
   }
 }
