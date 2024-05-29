@@ -67,4 +67,9 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: '**',
+    redirectTo: DataRoutingConst.ROUTE_LOGIN,
+    pathMatch: 'full',
+  },
 ];
