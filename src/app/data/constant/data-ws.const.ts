@@ -11,4 +11,7 @@ export const DataWsConst = {
 
   //professeursService
   WS_PROFESSEUR: '/api/professeurs',
+
+  //etudiantsService
+  WS_ETUDIANT: '/api/etudiants',
 };

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { sidebarData } from './sidebar-data';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,8 @@ import { LocalStorageService } from '../../../../shared/services/local-storage/l
 import { LocalStorageConst } from '../../../../shared/constant/local-storage.const';
 import { SnackBarService } from '../../../../shared/services/snack-bar/snack-bar.service';
 import { DataRoutingConst } from '../../../../data/constant/data-routing.const';
+import { EtudiantsService } from '../../../../shared/services/etudiants.service';
+
 @Component({
   selector: 'app-etudiant-template',
   standalone: true,
@@ -24,14 +26,20 @@ import { DataRoutingConst } from '../../../../data/constant/data-routing.const';
     '../../../../template/vendors/mdi/css/materialdesignicons.min.css',
   ],
 })
-export class EtudiantTemplateComponent {
+export class EtudiantTemplateComponent implements OnInit {
   sidebarData = sidebarData;
+  etudiant: any = null;
 
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private etudiantsService: EtudiantsService
   ) {}
+
+  ngOnInit() {
+    this.getEtudiantConnected();
+  }
 
   isLinkActive(url: string): boolean {
     return this.router.url === url;
@@ -47,5 +55,11 @@ export class EtudiantTemplateComponent {
     this.snackBarService.openSuccesSnackBar(
       "Vous êtes déconnecté en tant qu'étudiant."
     );
+  }
+
+  getEtudiantConnected() {
+    this.etudiantsService.getEtudiantConnected().subscribe((data) => {
+      this.etudiant = data;
+    });
   }
 }
