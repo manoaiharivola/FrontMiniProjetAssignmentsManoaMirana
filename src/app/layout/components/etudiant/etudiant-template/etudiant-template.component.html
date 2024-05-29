@@ -54,7 +54,7 @@
       <!-- partial:partials/_navbar.html -->
       <nav
         class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"
-        style="background-color: #0b0433"
+        style="background-color: #0b0433; color: white"
       >
         <div
           class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
@@ -66,10 +66,15 @@
           <a class="navbar-brand brand-logo-mini" href="index.html"
             ><img src="assets/images/logo-light.png" alt="logo"
           /></a>
-          <h5 style="color: white">Etudiant</h5>
+          <h4>Etudiant</h4>
         </div>
-        <div style="float: right">
-          <button class="btn btn-danger mr-2" (click)="logout()">
+        <div
+          class="d-flex align-items-center ml-auto"
+          style="margin-right: 20px"
+        >
+          <h5>{{ etudiant.prenom }} {{ etudiant.nom }}</h5>
+          <div style="width: 20px"></div>
+          <button class="btn btn-danger ml-2" (click)="logout()">
             Déconnexion
           </button>
         </div>
