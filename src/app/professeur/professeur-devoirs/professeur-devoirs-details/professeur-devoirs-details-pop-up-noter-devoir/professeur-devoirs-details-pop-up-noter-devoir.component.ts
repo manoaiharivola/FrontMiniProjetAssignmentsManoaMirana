@@ -1,6 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,8 +26,15 @@ import { DevoirsService } from '../../../../shared/services/devoir.service';
     MatInputModule,
     MatDialogModule,
   ],
-  templateUrl: './professeur-devoirs-details-pop-up-noter-devoir.component.html',
-  styleUrls: ['./professeur-devoirs-details-pop-up-noter-devoir.component.css']
+  templateUrl:
+    './professeur-devoirs-details-pop-up-noter-devoir.component.html',
+  styleUrls: [
+    './professeur-devoirs-details-pop-up-noter-devoir.component.css',
+    '../../../../template/vendors/feather/feather.css',
+    '../../../../template/vendors/ti-icons/css/themify-icons.css',
+    '../../../../template/vendors/css/vendor.bundle.base.css',
+    '../../../../template/css/vertical-layout-light/style.css',
+  ],
 })
 export class ProfesseurDevoirsDetailsPopUpNoterDevoirComponent {
   form: FormGroup;
@@ -33,8 +46,11 @@ export class ProfesseurDevoirsDetailsPopUpNoterDevoirComponent {
     private devoirsService: DevoirsService
   ) {
     this.form = this.fb.group({
-      note: [null, [Validators.required, Validators.min(0), Validators.max(20)]],
-      remarques_note: ['']
+      note: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(20)],
+      ],
+      remarques_note: [''],
     });
   }
 
@@ -42,11 +58,13 @@ export class ProfesseurDevoirsDetailsPopUpNoterDevoirComponent {
     if (this.form.valid) {
       const payload = {
         note: this.form.value.note,
-        remarques_note: this.form.value.remarques_note
+        remarques_note: this.form.value.remarques_note,
       };
-      this.devoirsService.noterDevoir(this.data.devoirEtudiant._id, payload).subscribe(() => {
-        this.dialogRef.close(true);
-      });
+      this.devoirsService
+        .noterDevoir(this.data.devoirEtudiant._id, payload)
+        .subscribe(() => {
+          this.dialogRef.close(true);
+        });
     }
   }
 
