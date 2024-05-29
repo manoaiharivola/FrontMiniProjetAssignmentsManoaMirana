@@ -128,5 +128,10 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     });
   }
 
+  isLate(devoir: any): boolean {
+    const now = new Date();
+    return now > new Date(devoir.devoir_id.dateDeRendu || '');
+  }
+
   drop(event: CdkDragDrop<any[]>) {}
 }
