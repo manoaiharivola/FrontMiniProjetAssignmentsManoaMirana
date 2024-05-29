@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DevoirsService } from '../../../shared/services/devoir.service';
 import { RouterLink, Router } from '@angular/router';
@@ -24,6 +25,7 @@ import { RouterLink, Router } from '@angular/router';
     MatListModule,
     MatCardModule,
     MatIconModule,
+    MatPaginatorModule,
     DragDropModule,
   ],
   templateUrl: './professeur-devoirs-details.component.html',
@@ -40,6 +42,13 @@ export class ProfesseurDevoirsDetailsComponent implements OnInit {
   devoir: any = null;
   nonNotes: any[] = [];
   notes: any[] = [];
+  
+  // Pagination
+  nonNotesPage = 1;
+  notesPage = 1;
+  limit = 10;
+  nonNotesTotal = 0;
+  notesTotal = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,7 +61,8 @@ export class ProfesseurDevoirsDetailsComponent implements OnInit {
       this.devoirId = params.get('id');
       if (this.devoirId) {
         this.getDevoirDetails(this.devoirId);
-        this.getEtudiantsDevoirs(this.devoirId);
+        this.getDevoirsNonNotes(this.devoirId, this.nonNotesPage, this.limit);
+        this.getDevoirsNotes(this.devoirId, this.notesPage, this.limit);
       }
     });
   }
@@ -63,10 +73,17 @@ export class ProfesseurDevoirsDetailsComponent implements OnInit {
     });
   }
 
-  getEtudiantsDevoirs(devoirId: string): void {
-    this.devoirsService.getDevoirsEtudiants(devoirId).subscribe((response) => {
-      this.nonNotes = response.nonNotes;
-      this.notes = response.notes;
+  getDevoirsNonNotes(devoirId: string, page: number, limit: number): void {
+    this.devoirsService.getDevoirsNonNotes(devoirId, page, limit).subscribe((response) => {
+      this.nonNotes = response.docs;
+      this.nonNotesTotal = response.totalDocs;
+    });
+  }
+
+  getDevoirsNotes(devoirId: string, page: number, limit: number): void {
+    this.devoirsService.getDevoirsNotes(devoirId, page, limit).subscribe((response) => {
+      this.notes = response.docs;
+      this.notesTotal = response.totalDocs;
     });
   }
 
