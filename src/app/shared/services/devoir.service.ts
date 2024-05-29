@@ -17,7 +17,11 @@ export class DevoirsService {
     return this.httpRequestService.post<any>('PROFESSEUR', this.uri, payload);
   }
 
-  getProfesseurDevoirs(page: number, limit: number, matiereId?: string): Observable<any> {
+  getProfesseurDevoirs(
+    page: number,
+    limit: number,
+    matiereId?: string
+  ): Observable<any> {
     let url = `${this.uri}/professeur?page=${page}&limit=${limit}`;
     if (matiereId) {
       url += `&matiere_id=${matiereId}`;
@@ -26,19 +30,40 @@ export class DevoirsService {
   }
 
   getDevoir(devoirId: string): Observable<any> {
-    return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}`);
+    return this.httpRequestService.get<any>(
+      'PROFESSEUR',
+      `${this.uri}/${devoirId}`
+    );
   }
 
-  getDevoirsNonNotes(devoirId: string, page: number, limit: number): Observable<any> {
-    return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}/nonnotes?page=${page}&limit=${limit}`);
+  getDevoirsNonNotes(
+    devoirId: string,
+    page: number,
+    limit: number
+  ): Observable<any> {
+    return this.httpRequestService.get<any>(
+      'PROFESSEUR',
+      `${this.uri}/${devoirId}/nonnotes?page=${page}&limit=${limit}`
+    );
   }
 
-  getDevoirsNotes(devoirId: string, page: number, limit: number): Observable<any> {
-    return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}/notes?page=${page}&limit=${limit}`);
+  getDevoirsNotes(
+    devoirId: string,
+    page: number,
+    limit: number
+  ): Observable<any> {
+    return this.httpRequestService.get<any>(
+      'PROFESSEUR',
+      `${this.uri}/${devoirId}/notes?page=${page}&limit=${limit}`
+    );
   }
 
   noterDevoir(devoirEtudiantId: string, payload: any): Observable<any> {
-    return this.httpRequestService.put<any>('PROFESSEUR', `${this.uri}/${devoirEtudiantId}/noter`, payload);
+    return this.httpRequestService.put<any>(
+      'PROFESSEUR',
+      `${this.uri}/${devoirEtudiantId}/noter`,
+      payload
+    );
   }
 
   updateDevoir(payload: any): Observable<any> {
@@ -46,6 +71,23 @@ export class DevoirsService {
   }
 
   deleteDevoir(id: string): Observable<any> {
-    return this.httpRequestService.delete<any>('PROFESSEUR', `${this.uri}/${id}`);
+    return this.httpRequestService.delete<any>(
+      'PROFESSEUR',
+      `${this.uri}/${id}`
+    );
+  }
+
+  getDevoirsARendre(page: number, limit: number): Observable<any> {
+    return this.httpRequestService.get<any>(
+      'ETUDIANT',
+      `${this.uri}/etudiant/a-rendre?page=${page}&limit=${limit}`
+    );
+  }
+
+  getDevoirsRendus(page: number, limit: number): Observable<any> {
+    return this.httpRequestService.get<any>(
+      'ETUDIANT',
+      `${this.uri}/etudiant/rendus?page=${page}&limit=${limit}`
+    );
   }
 }
