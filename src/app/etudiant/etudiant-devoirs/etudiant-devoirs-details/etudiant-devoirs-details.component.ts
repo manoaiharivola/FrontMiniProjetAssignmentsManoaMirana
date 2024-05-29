@@ -143,7 +143,26 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     return devoir.dateLivraison && devoir.dateNotation && devoir.note;
   }
 
-  drop(event: CdkDragDrop<any[]>) {}
+  drop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      return;
+    }
+
+    const draggedItem = event.item.data;
+
+    if (
+      event.previousContainer.id === 'liste_a_rendre' &&
+      event.container.id === 'liste_rendus'
+    ) {
+      this.openRendreDevoirDialog(draggedItem);
+    } else if (
+      event.previousContainer.id === 'liste_rendus' &&
+      event.container.id === 'liste_a_rendre'
+    ) {
+      // Il est impossible de drag and drop un devoir déjà noté dans la liste des non notés
+      return;
+    }
+  }
 
   openRendreDevoirDialog(devoir: any) {
     const dialogRef = this.matDialog.open(
@@ -160,7 +179,7 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
         this.devoirsService.rendreDevoir(devoir._id, {}).subscribe(
           (response) => {
             console.log(response.message);
-            this.snackBar.open('Le devoir a été livrer.', 'Fermer', {
+            this.snackBar.open('Le devoir a été livré.', 'Fermer', {
               duration: 3000,
             });
             this.getDevoirsARendre(this.aRendrePage, this.limit);
