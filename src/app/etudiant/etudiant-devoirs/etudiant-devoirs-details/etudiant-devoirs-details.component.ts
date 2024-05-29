@@ -137,5 +137,9 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     return devoir.dateLivraison && !devoir.dateNotation;
   }
 
+  estNote(devoir: any): boolean {
+    return devoir.dateLivraison && devoir.dateNotation && devoir.note;
+  }
+
   drop(event: CdkDragDrop<any[]>) {}
 }

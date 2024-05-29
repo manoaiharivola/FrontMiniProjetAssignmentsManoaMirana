@@ -112,14 +112,17 @@
                   <p *ngIf="estLivre(devoir)" class="badge badge-warning">
                     En attente de notation
                   </p>
-                  <p>
-                    <strong>Date de notation : </strong
-                    >{{ devoir.dateNotation | date }}
-                  </p>
-                  <p><strong>Note : </strong>{{ devoir.note }}/20</p>
-                  <p>
-                    <strong>Remarques : </strong>{{ devoir.remarques_note }}
-                  </p>
+                  <div *ngIf="estNote(devoir)">
+                    <p>
+                      <strong>Date de notation : </strong
+                      >{{ devoir.dateNotation | date }}
+                    </p>
+                    <p><strong>Note : </strong>{{ devoir.note }}/20</p>
+                    <p>
+                      <strong>Remarques : </strong>{{ devoir.remarques_note }}
+                    </p>
+                    <p class="badge badge-success">Noté</p>
+                  </div>
                 </div>
               </div>
             </div>
