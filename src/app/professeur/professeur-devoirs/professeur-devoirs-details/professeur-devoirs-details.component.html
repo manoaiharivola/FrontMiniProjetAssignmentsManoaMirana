@@ -17,22 +17,23 @@
         >
           <h4>Étudiants non notés</h4>
 
-          <div
-            cdkDropList
-            id="liste_non_notes"
-            [cdkDropListData]="nonNotes"
-            cdkDropListConnectedTo="liste_notes"
-            (cdkDropListDropped)="drop($event)"
+          <cdk-virtual-scroll-viewport
+            itemSize="50"
+            class="example-viewport"
+            #nonNotesScroller
           >
-            <cdk-virtual-scroll-viewport
-              itemSize="50"
-              class="example-viewport"
-              #nonNotesScroller
+            <div
+              cdkDropList
+              id="liste_non_notes"
+              [cdkDropListData]="nonNotes"
+              cdkDropListConnectedTo="liste_notes"
+              (cdkDropListDropped)="drop($event)"
             >
               <div
                 class="example-box"
                 *cdkVirtualFor="let etudiantDevoir of nonNotes"
                 cdkDrag
+                [cdkDragData]="etudiantDevoir"
               >
                 <div class="item-container">
                   <h5>
@@ -66,8 +67,8 @@
                   </button>
                 </div>
               </div>
-            </cdk-virtual-scroll-viewport>
-          </div>
+            </div>
+          </cdk-virtual-scroll-viewport>
         </div>
 
         <div class="example-container" style="width: 45%; float: left">
@@ -84,6 +85,7 @@
               class="example-box"
               *ngFor="let etudiantDevoir of notes"
               cdkDrag
+              [cdkDragData]="etudiantDevoir"
               [cdkDragDisabled]="true"
             >
               <div class="item-container">

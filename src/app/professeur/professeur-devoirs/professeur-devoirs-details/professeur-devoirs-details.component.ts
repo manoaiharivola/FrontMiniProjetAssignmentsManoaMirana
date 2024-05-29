@@ -24,6 +24,7 @@ import {
   ScrollingModule,
 } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-professeur-devoirs-details',
@@ -64,7 +65,7 @@ export class ProfesseurDevoirsDetailsComponent
 
   // Pagination
   notesPage = 1;
-  limit = 10;
+  limit = 5;
   nonNotesTotal = 0;
   notesTotal = 0;
 
@@ -200,22 +201,25 @@ export class ProfesseurDevoirsDetailsComponent
     return livraisonDate > new Date(this.devoir?.dateDeRendu || '');
   }
 
-  drop(event: any) {
+  drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       return;
     }
 
-    const item = event.previousContainer.data[event.previousIndex];
+    const draggedItem = event.item.data;
+
     if (
       event.previousContainer.id === 'liste_non_notes' &&
       event.container.id === 'liste_notes'
     ) {
       // Remove the item from nonNotes and add it to notes temporarily
-      this.nonNotes = this.nonNotes.filter((devoir) => devoir._id !== item._id);
-      if (!this.notes.some((devoir) => devoir._id === item._id)) {
-        this.notes.unshift(item);
+      this.nonNotes = this.nonNotes.filter(
+        (devoir) => devoir._id !== draggedItem._id
+      );
+      if (!this.notes.some((devoir) => devoir._id === draggedItem._id)) {
+        this.notes.unshift(draggedItem);
       }
-      this.openNoterDialog(item);
+      this.openNoterDialog(draggedItem);
     } else if (
       event.previousContainer.id === 'liste_notes' &&
       event.container.id === 'liste_non_notes'
@@ -243,17 +247,9 @@ export class ProfesseurDevoirsDetailsComponent
     );
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // Refresh the lists after successful note
-        this.getDevoirsNonNotes(this.devoirId!, this.nonNotesPage, this.limit);
-        this.getDevoirsNotes(this.devoirId!, this.notesPage, this.limit);
-      } else {
-        // If the dialog was closed or canceled, remove the item from notes and add it back to nonNotes
-        this.notes = this.notes.filter(
-          (devoir) => devoir._id !== devoirEtudiant._id
-        );
-        this.nonNotes.push(devoirEtudiant);
-      }
+      this.nonNotesPage = 1;
+      this.getDevoirsNonNotes(this.devoirId!, this.nonNotesPage, this.limit);
+      this.getDevoirsNotes(this.devoirId!, this.notesPage, this.limit);
     });
   }
 }
