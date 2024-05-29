@@ -26,7 +26,7 @@ import { ProfesseursService } from '../../../../shared/services/professeurs.serv
     '../../../../template/vendors/mdi/css/materialdesignicons.min.css',
   ],
 })
-export class ProfesseurTemplateComponent {
+export class ProfesseurTemplateComponent implements OnInit {
   sidebarData = sidebarProfesseurData;
   professeur: any = null;
 
