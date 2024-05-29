@@ -107,7 +107,7 @@ export class ProfesseurDevoirsDetailsComponent implements OnInit {
       // Remove the item from nonNotes and add it to notes temporarily
       this.nonNotes = this.nonNotes.filter(devoir => devoir._id !== item._id);
       if (!this.notes.some(devoir => devoir._id === item._id)) {
-        this.notes.push(item);
+        this.notes.unshift(item);
       }
       this.openNoterDialog(item);
     } else if (event.previousContainer.id === 'liste_notes' && event.container.id === 'liste_non_notes') {
@@ -120,7 +120,7 @@ export class ProfesseurDevoirsDetailsComponent implements OnInit {
     // Remove the item from nonNotes and add it to notes temporarily
     this.nonNotes = this.nonNotes.filter(devoir => devoir._id !== devoirEtudiant._id);
     if (!this.notes.some(devoir => devoir._id === devoirEtudiant._id)) {
-      this.notes.push(devoirEtudiant);
+      this.notes.unshift(devoirEtudiant);
     }
 
     const dialogRef = this.matDialog.open(ProfesseurDevoirsDetailsPopUpNoterDevoirComponent, {
