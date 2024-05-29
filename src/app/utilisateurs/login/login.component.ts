@@ -65,7 +65,10 @@ export class LoginComponent implements OnInit {
           LocalStorageConst.ACCESS_TOKEN,
           res.access_token
         );
-        this.router.navigate(['/home']);
+        this.router.navigate([DataRoutingConst.ROUTE_ETUDIANT_DEVOIRS]);
+        this.snackBarService.openSuccesSnackBar(
+          "Vous êtes maintenant connecté en tant qu'étudiant."
+        );
       },
       error: (res) => {
         this.snackBarService.openErrorSnackBar(res.error.message);
@@ -83,7 +86,7 @@ export class LoginComponent implements OnInit {
         );
         this.router.navigate([DataRoutingConst.ROUTE_PROFESSEUR_MATIERES]);
         this.snackBarService.openSuccesSnackBar(
-          'Vous êtes maintenant connecté.'
+          'Vous êtes maintenant connecté en tant que professeur.'
         );
       },
       error: (res) => {
