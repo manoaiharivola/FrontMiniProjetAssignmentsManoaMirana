@@ -109,6 +109,9 @@
                     <strong>Date de livraison : </strong
                     >{{ devoir.dateLivraison | date }}
                   </p>
+                  <p *ngIf="estLivre(devoir)" class="badge badge-warning">
+                    En attente de notation
+                  </p>
                   <p>
                     <strong>Date de notation : </strong
                     >{{ devoir.dateNotation | date }}

@@ -133,5 +133,9 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     return now > new Date(devoir.devoir_id.dateDeRendu || '');
   }
 
+  estLivre(devoir: any): boolean {
+    return devoir.dateLivraison && !devoir.dateNotation;
+  }
+
   drop(event: CdkDragDrop<any[]>) {}
 }
