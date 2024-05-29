@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Modifier le devoir</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Matière</mat-label>
+      <input matInput formControlName="matiere_nom" readonly>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Titre</mat-label>
+      <input matInput formControlName="nom">
+      <mat-error *ngIf="form.controls['nom'].hasError('required')">Le titre est requis</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Date limite</mat-label>
+      <input matInput formControlName="dateDeRendu" [matDatepicker]="picker" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="form.controls['dateDeRendu'].hasError('required')">La date limite est requise</mat-error>
+      <mat-error *ngIf="form.controls['dateDeRendu'].hasError('matDatepickerMin')">La date ne peut pas être dans le passé</mat-error>
+    </mat-form-field>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button type="button" (click)="onCancel()">Annuler</button>
+    <button mat-button type="submit" [disabled]="form.invalid || loading">Sauvegarder</button>
+  </mat-dialog-actions>
+</form>
