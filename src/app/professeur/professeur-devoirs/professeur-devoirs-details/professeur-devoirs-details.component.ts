@@ -25,7 +25,7 @@ import {
 } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-professeur-devoirs-details',
   standalone: true,
@@ -65,7 +65,7 @@ export class ProfesseurDevoirsDetailsComponent
 
   // Pagination
   notesPage = 1;
-  limit = 5;
+  limit = 10;
   nonNotesTotal = 0;
   notesTotal = 0;
 
@@ -238,6 +238,8 @@ export class ProfesseurDevoirsDetailsComponent
       this.notes.unshift(devoirEtudiant);
     }
 
+    const currentNonNotesPage = this.nonNotesPage; // Stocker la page actuelle des non notés
+
     const dialogRef = this.matDialog.open(
       ProfesseurDevoirsDetailsPopUpNoterDevoirComponent,
       {
@@ -246,10 +248,47 @@ export class ProfesseurDevoirsDetailsComponent
       }
     );
 
-    dialogRef.afterClosed().subscribe((result) => {
-      this.nonNotesPage = 1;
-      this.getDevoirsNonNotes(this.devoirId!, this.nonNotesPage, this.limit);
+    dialogRef.afterClosed().subscribe(() => {
+      if (currentNonNotesPage > 1) {
+        // Récupérer toutes les pages de 1 à currentNonNotesPage
+        this.getAllDevoirsNonNotes(
+          this.devoirId!,
+          currentNonNotesPage,
+          this.limit
+        );
+      } else {
+        // Restaurer la page actuelle des non notés
+        this.getDevoirsNonNotes(
+          this.devoirId!,
+          currentNonNotesPage,
+          this.limit
+        );
+      }
       this.getDevoirsNotes(this.devoirId!, this.notesPage, this.limit);
+    });
+  }
+
+  getAllDevoirsNonNotes(devoirId: string, pages: number, limit: number): void {
+    const observables = [];
+    for (let i = 1; i <= pages; i++) {
+      observables.push(
+        this.devoirsService.getDevoirsNonNotes(devoirId, i, limit)
+      );
+    }
+
+    forkJoin(observables).subscribe((responses) => {
+      this.nonNotes = [];
+      responses.forEach((response) => {
+        this.nonNotes = [...this.nonNotes, ...response.docs];
+      });
+
+      const lastResponse = responses[responses.length - 1];
+      this.nonNotesTotal = lastResponse.totalDocs;
+      this.nonNotesTotalPages = lastResponse.totalPages;
+      this.nonNotesNextPage = lastResponse.nextPage;
+      this.nonNotesPrevPage = lastResponse.prevPage;
+      this.nonNotesHasNextPage = lastResponse.hasNextPage;
+      this.nonNotesHasPrevPage = lastResponse.hasPrevPage;
     });
   }
 }
