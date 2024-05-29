@@ -44,4 +44,8 @@ export class DevoirsService {
   updateDevoir(payload: any): Observable<any> {
     return this.httpRequestService.put<any>('PROFESSEUR', this.uri, payload);
   }
+
+  deleteDevoir(id: string): Observable<any> {
+    return this.httpRequestService.delete<any>('PROFESSEUR', `${this.uri}/${id}`);
+  }
 }
