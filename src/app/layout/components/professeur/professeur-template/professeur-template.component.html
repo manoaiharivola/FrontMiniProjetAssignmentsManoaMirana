@@ -66,10 +66,14 @@
           <a class="navbar-brand brand-logo-mini" href="index.html"
             ><img src="assets/images/logo.png" alt="logo"
           /></a>
-          <h5>Professeur</h5>
         </div>
-        <div style="float: right">
-          <button class="btn btn-danger mr-2" (click)="logout()">
+        <div
+          class="d-flex align-items-center ml-auto"
+          style="margin-right: 20px"
+        >
+          <h5>{{ professeur.prenom }} {{ professeur.nom }}</h5>
+          <div style="width: 20px"></div>
+          <button class="btn btn-danger ml-2" (click)="logout()">
             Déconnexion
           </button>
         </div>

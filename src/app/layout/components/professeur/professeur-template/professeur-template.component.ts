@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { sidebarProfesseurData } from './sidebar-professeur-data';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
@@ -7,6 +7,7 @@ import { LocalStorageService } from '../../../../shared/services/local-storage/l
 import { LocalStorageConst } from '../../../../shared/constant/local-storage.const';
 import { SnackBarService } from '../../../../shared/services/snack-bar/snack-bar.service';
 import { DataRoutingConst } from '../../../../data/constant/data-routing.const';
+import { ProfesseursService } from '../../../../shared/services/professeurs.service';
 
 @Component({
   selector: 'app-professeur-template',
@@ -27,12 +28,18 @@ import { DataRoutingConst } from '../../../../data/constant/data-routing.const';
 })
 export class ProfesseurTemplateComponent {
   sidebarData = sidebarProfesseurData;
+  professeur: any = null;
 
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private professeursService: ProfesseursService
   ) {}
+
+  ngOnInit() {
+    this.getProfesseurConnected();
+  }
 
   isLinkActive(url: string): boolean {
     return this.router.url === url;
@@ -50,5 +57,12 @@ export class ProfesseurTemplateComponent {
     this.snackBarService.openSuccesSnackBar(
       'Vous êtes déconnecté en tant que professeur.'
     );
+  }
+
+  getProfesseurConnected() {
+    // on récupère les matieres depuis le service
+    this.professeursService.getProfesseurConnected().subscribe((data) => {
+      this.professeur = data;
+    });
   }
 }

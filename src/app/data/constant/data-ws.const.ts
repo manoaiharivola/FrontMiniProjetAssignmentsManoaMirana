@@ -8,4 +8,7 @@ export const DataWsConst = {
 
   //devoirsService
   WS_DEVOIR: '/api/devoirs',
+
+  //professeursService
+  WS_PROFESSEUR: '/api/professeurs',
 };
