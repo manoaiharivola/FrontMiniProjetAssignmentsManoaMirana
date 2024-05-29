@@ -26,6 +26,7 @@ import {
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { forkJoin } from 'rxjs';
+
 @Component({
   selector: 'app-professeur-devoirs-details',
   standalone: true,
@@ -62,15 +63,14 @@ export class ProfesseurDevoirsDetailsComponent
   nonNotes: any[] = [];
   notes: any[] = [];
   nonNotesIsLoading = false;
+  notesIsLoading = false;
 
   // Pagination
-  notesPage = 1;
-  limit = 10;
-  nonNotesTotal = 0;
-  notesTotal = 0;
+  limit = 5;
 
   // Pour la pagination non notés
   nonNotesPage = 1;
+  nonNotesTotal = 0;
   nonNotesTotalDocs!: number;
   nonNotesTotalPages!: number;
   nonNotesNextPage!: number;
@@ -78,8 +78,19 @@ export class ProfesseurDevoirsDetailsComponent
   nonNotesHasNextPage!: boolean;
   nonNotesHasPrevPage!: boolean;
 
+  // Pour la pagination notés
+  notesPage = 1;
+  notesTotal = 0;
+  notesTotalDocs!: number;
+  notesTotalPages!: number;
+  notesNextPage!: number;
+  notesPrevPage!: number;
+  notesHasNextPage!: boolean;
+  notesHasPrevPage!: boolean;
+
   // pour virtual scroll infini
   @ViewChild('nonNotesScroller') nonNotesScroller!: CdkVirtualScrollViewport;
+  @ViewChild('notesScroller') notesScroller!: CdkVirtualScrollViewport;
 
   constructor(
     private route: ActivatedRoute,
@@ -103,40 +114,81 @@ export class ProfesseurDevoirsDetailsComponent
   ngAfterViewInit() {
     console.log(' ----- after view init ----');
 
-    if (!this.nonNotesScroller) return;
-    this.nonNotesScroller
-      .elementScrolled()
-      .pipe(
-        tap(() => {
-          // const dist = this.nonNotesScroller.measureScrollOffset('bottom');
-          // console.log('dans le tap, distance par rapport au bas de la fenêtre = ' + dist);
-        }),
-        map(() => this.nonNotesScroller.measureScrollOffset('bottom')),
-        pairwise(),
-        filter(([y1, y2]) => y2 < y1 && y2 < 20),
-        throttleTime(150)
-      )
-      .subscribe(() => {
-        console.log('On demande de nouveaux assignments');
-        console.log(
-          'je CHARGE DE NOUVELLES DONNEES page = ' + this.nonNotesPage
-        );
-        this.ngZone.run(() => {
-          if (this.nonNotesIsLoading || !this.nonNotesHasNextPage) return;
-          this.nonNotesIsLoading = true;
-          const prevScrollHeight =
-            this.nonNotesScroller.measureScrollOffset('bottom');
-          this.nonNotesPage = this.nonNotesNextPage;
-          if (this.devoirId) {
-            this.getDevoirsNonNotesFromServicePourScrollInfini(
-              this.devoirId,
-              this.nonNotesPage,
-              this.limit,
-              prevScrollHeight
-            );
-          }
+    if (!this.nonNotesScroller || !this.notesScroller) return;
+
+    if (this.nonNotesScroller) {
+      // Infinite scroll for non-notes list
+      this.nonNotesScroller
+        .elementScrolled()
+        .pipe(
+          tap(() => {
+            // const dist = this.nonNotesScroller.measureScrollOffset('bottom');
+            // console.log('dans le tap, distance par rapport au bas de la fenêtre = ' + dist);
+          }),
+          map(() => this.nonNotesScroller.measureScrollOffset('bottom')),
+          pairwise(),
+          filter(([y1, y2]) => y2 < y1 && y2 < 20),
+          throttleTime(150)
+        )
+        .subscribe(() => {
+          console.log('On demande de nouveaux assignments');
+          console.log(
+            'je CHARGE DE NOUVELLES DONNEES page = ' + this.nonNotesPage
+          );
+          this.ngZone.run(() => {
+            if (this.nonNotesIsLoading || !this.nonNotesHasNextPage) return;
+            this.nonNotesIsLoading = true;
+            const prevScrollHeight =
+              this.nonNotesScroller.measureScrollOffset('bottom');
+            this.nonNotesPage = this.nonNotesNextPage;
+            if (this.devoirId) {
+              this.getDevoirsNonNotesFromServicePourScrollInfini(
+                this.devoirId,
+                this.nonNotesPage,
+                this.limit,
+                prevScrollHeight
+              );
+            }
+          });
         });
-      });
+    }
+
+    if (this.notesScroller) {
+      // Infinite scroll for notes list
+      this.notesScroller
+        .elementScrolled()
+        .pipe(
+          tap(() => {
+            // const dist = this.notesScroller.measureScrollOffset('bottom');
+            // console.log('dans le tap, distance par rapport au bas de la fenêtre = ' + dist);
+          }),
+          map(() => this.notesScroller.measureScrollOffset('bottom')),
+          pairwise(),
+          filter(([y1, y2]) => y2 < y1 && y2 < 20),
+          throttleTime(150)
+        )
+        .subscribe(() => {
+          console.log('On demande de nouveaux assignments notés');
+          console.log(
+            'je CHARGE DE NOUVELLES DONNEES page = ' + this.notesPage
+          );
+          this.ngZone.run(() => {
+            if (this.notesIsLoading || !this.notesHasNextPage) return;
+            this.notesIsLoading = true;
+            const prevScrollHeight =
+              this.notesScroller.measureScrollOffset('bottom');
+            this.notesPage = this.notesNextPage;
+            if (this.devoirId) {
+              this.getDevoirsNotesFromServicePourScrollInfini(
+                this.devoirId,
+                this.notesPage,
+                this.limit,
+                prevScrollHeight
+              );
+            }
+          });
+        });
+    }
   }
 
   getDevoirDetails(devoirId: string): void {
@@ -193,6 +245,57 @@ export class ProfesseurDevoirsDetailsComponent
       .subscribe((response) => {
         this.notes = response.docs;
         this.notesTotal = response.totalDocs;
+        this.notesTotalPages = response.totalPages;
+        this.notesNextPage = response.nextPage;
+        this.notesPrevPage = response.prevPage;
+        this.notesHasNextPage = response.hasNextPage;
+        this.notesHasPrevPage = response.hasPrevPage;
+      });
+  }
+
+  getDevoirsNotesAndTemporaryItem(
+    devoirId: string,
+    page: number,
+    limit: number,
+    item: any
+  ): void {
+    this.devoirsService
+      .getDevoirsNotes(devoirId, page, limit)
+      .subscribe((response) => {
+        this.notes.unshift(item);
+        this.notes = [...this.notes];
+        this.notesTotal = response.totalDocs;
+        this.notesTotalPages = response.totalPages;
+        this.notesNextPage = response.nextPage;
+        this.notesPrevPage = response.prevPage;
+        this.notesHasNextPage = response.hasNextPage;
+        this.notesHasPrevPage = response.hasPrevPage;
+      });
+  }
+
+  getDevoirsNotesFromServicePourScrollInfini(
+    devoirId: string,
+    page: number,
+    limit: number,
+    prevScrollHeight: number
+  ): void {
+    this.devoirsService
+      .getDevoirsNotes(devoirId, page, limit)
+      .subscribe((response) => {
+        this.notes = [...this.notes, ...response.docs];
+        this.notesTotal = response.totalDocs;
+        this.notesTotalPages = response.totalPages;
+        this.notesNextPage = response.nextPage;
+        this.notesPrevPage = response.prevPage;
+        this.notesHasNextPage = response.hasNextPage;
+        this.notesHasPrevPage = response.hasPrevPage;
+        this.notesIsLoading = false;
+
+        setTimeout(() => {
+          const newScrollHeight =
+            this.notesScroller.measureScrollOffset('bottom');
+          this.notesScroller.scrollToOffset(newScrollHeight - prevScrollHeight);
+        }, 150);
       });
   }
 
@@ -212,13 +315,6 @@ export class ProfesseurDevoirsDetailsComponent
       event.previousContainer.id === 'liste_non_notes' &&
       event.container.id === 'liste_notes'
     ) {
-      // Remove the item from nonNotes and add it to notes temporarily
-      this.nonNotes = this.nonNotes.filter(
-        (devoir) => devoir._id !== draggedItem._id
-      );
-      if (!this.notes.some((devoir) => devoir._id === draggedItem._id)) {
-        this.notes.unshift(draggedItem);
-      }
       this.openNoterDialog(draggedItem);
     } else if (
       event.previousContainer.id === 'liste_notes' &&
@@ -235,10 +331,16 @@ export class ProfesseurDevoirsDetailsComponent
       (devoir) => devoir._id !== devoirEtudiant._id
     );
     if (!this.notes.some((devoir) => devoir._id === devoirEtudiant._id)) {
-      this.notes.unshift(devoirEtudiant);
+      this.getDevoirsNotesAndTemporaryItem(
+        devoirEtudiant._id,
+        this.notesPage,
+        this.limit,
+        devoirEtudiant
+      );
     }
 
-    const currentNonNotesPage = this.nonNotesPage; // Stocker la page actuelle des non notés
+    const currentNonNotesPage = this.nonNotesPage;
+    const currentNotesPage = this.notesPage;
 
     const dialogRef = this.matDialog.open(
       ProfesseurDevoirsDetailsPopUpNoterDevoirComponent,
@@ -264,7 +366,14 @@ export class ProfesseurDevoirsDetailsComponent
           this.limit
         );
       }
-      this.getDevoirsNotes(this.devoirId!, this.notesPage, this.limit);
+
+      if (currentNotesPage > 1) {
+        // Récupérer toutes les pages de 1 à currentNotesPage
+        this.getAllDevoirsNotes(this.devoirId!, currentNotesPage, this.limit);
+      } else {
+        // Restaurer la page actuelle des notés
+        this.getAllDevoirsNotes(this.devoirId!, currentNotesPage, this.limit);
+      }
     });
   }
 
@@ -289,6 +398,28 @@ export class ProfesseurDevoirsDetailsComponent
       this.nonNotesPrevPage = lastResponse.prevPage;
       this.nonNotesHasNextPage = lastResponse.hasNextPage;
       this.nonNotesHasPrevPage = lastResponse.hasPrevPage;
+    });
+  }
+
+  getAllDevoirsNotes(devoirId: string, pages: number, limit: number): void {
+    const observables = [];
+    for (let i = 1; i <= pages; i++) {
+      observables.push(this.devoirsService.getDevoirsNotes(devoirId, i, limit));
+    }
+
+    forkJoin(observables).subscribe((responses) => {
+      this.notes = [];
+      responses.forEach((response) => {
+        this.notes = [...this.notes, ...response.docs];
+      });
+
+      const lastResponse = responses[responses.length - 1];
+      this.notesTotal = lastResponse.totalDocs;
+      this.notesTotalPages = lastResponse.totalPages;
+      this.notesNextPage = lastResponse.nextPage;
+      this.notesPrevPage = lastResponse.prevPage;
+      this.notesHasNextPage = lastResponse.hasNextPage;
+      this.notesHasPrevPage = lastResponse.hasPrevPage;
     });
   }
 }
