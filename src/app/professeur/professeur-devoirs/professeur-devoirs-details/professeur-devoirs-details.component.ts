@@ -66,7 +66,7 @@ export class ProfesseurDevoirsDetailsComponent
   notesIsLoading = false;
 
   // Pagination
-  limit = 5;
+  limit = 10;
 
   // Pour la pagination non notés
   nonNotesPage = 1;
