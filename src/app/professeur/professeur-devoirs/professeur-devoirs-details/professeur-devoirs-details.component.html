@@ -2,57 +2,56 @@
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-            <h3>Détails du devoir: {{ devoir.nom }}</h3>
-            <br />
-            <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
-            <p><strong>Description:</strong> {{ devoir.description }}</p>
-            <p><strong>Date de création:</strong> {{ devoir.dateDeCreation | date }}</p>
-            <p><strong>Date limite:</strong> {{ devoir.dateDeRendu | date }}</p>
-            <br/>    
-            <div class="example-container" style="width: 45%; float: left; margin-right: 5%;">
-                <h4>Étudiants non notés</h4>
-              
-                <div
-                  cdkDropList
-                  id="liste_non_notes"
-                  [cdkDropListData]="nonNotes"
-                  cdkDropListConnectedTo="liste_notes"
-                  class="example-list"
-                  (cdkDropListDropped)="drop($event)">
-                  <div class="example-box" *ngFor="let etudiantDevoir of nonNotes" cdkDrag>
-                    <div class="item-container">
-                      <h5><strong>{{etudiantDevoir.etudiant_id.nom}} {{etudiantDevoir.etudiant_id.prenom}}</strong></h5>
-                      <p><strong>Email : </strong>{{etudiantDevoir.etudiant_id.mail}}</p>
-                      <p><strong>Date de livraison : </strong>{{etudiantDevoir.dateLivraison | date}}</p>
-                      <p *ngIf="isLate(etudiantDevoir.dateLivraison)" class="badge badge-danger">En retard</p>
-                    </div>
-                  </div>
+          <h3>Détails du devoir: {{ devoir.nom }}</h3>
+          <br />
+          <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
+          <p><strong>Description:</strong> {{ devoir.description }}</p>
+          <p><strong>Date de création:</strong> {{ devoir.dateDeCreation | date }}</p>
+          <p><strong>Date limite:</strong> {{ devoir.dateDeRendu | date }}</p>
+          <br />
+          <div class="example-container" style="width: 45%; float: left; margin-right: 5%;">
+            <h4>Étudiants non notés</h4>
+            <div
+              cdkDropList
+              id="liste_non_notes"
+              [cdkDropListData]="nonNotes"
+              cdkDropListConnectedTo="liste_notes"
+              class="example-list"
+              (cdkDropListDropped)="drop($event)">
+              <div class="example-box" *ngFor="let etudiantDevoir of nonNotes" cdkDrag>
+                <div class="item-container">
+                  <h5><strong>{{etudiantDevoir.etudiant_id.nom}} {{etudiantDevoir.etudiant_id.prenom}}</strong></h5>
+                  <p><strong>Email : </strong>{{etudiantDevoir.etudiant_id.mail}}</p>
+                  <p><strong>Date de livraison : </strong>{{etudiantDevoir.dateLivraison | date}}</p>
+                  <p *ngIf="isLate(etudiantDevoir.dateLivraison)" class="badge badge-danger">En retard</p>
+                  <button mat-button (click)="openNoterDialog(etudiantDevoir)">Noter</button>
                 </div>
               </div>
-              
-              <div class="example-container" style="width: 45%; float: left;">
-                <h4>Étudiants notés</h4>
-              
-                <div
-                  cdkDropList
-                  id="liste_notes"
-                  [cdkDropListData]="notes"
-                  cdkDropListConnectedTo="liste_non_notes"
-                  class="example-list"
-                  (cdkDropListDropped)="drop($event)">
-                  <div class="example-box" *ngFor="let etudiantDevoir of notes" cdkDrag>
-                    <div class="item-container">
-                      <h5><strong>{{etudiantDevoir.etudiant_id.nom}} {{etudiantDevoir.etudiant_id.prenom}}</strong></h5>
-                      <p><strong>Email : </strong>{{etudiantDevoir.etudiant_id.mail}}</p>
-                      <p><strong>Date de notation : </strong>{{etudiantDevoir.dateNotation | date}}</p>
-                      <p><strong>Note : </strong>{{etudiantDevoir.note}}/20</p>
-                      <p><strong>Remarques : </strong>{{etudiantDevoir.remarques_note}}</p>
-                      <p *ngIf="isLate(etudiantDevoir.dateLivraison)" class="badge badge-danger">En retard</p>
-                    </div>
-                  </div>
+            </div>
+          </div>
+  
+          <div class="example-container" style="width: 45%; float: left;">
+            <h4>Étudiants notés</h4>
+            <div
+              cdkDropList
+              id="liste_notes"
+              [cdkDropListData]="notes"
+              cdkDropListConnectedTo="liste_non_notes"
+              class="example-list"
+              (cdkDropListDropped)="drop($event)">
+              <div class="example-box" *ngFor="let etudiantDevoir of notes" cdkDrag [cdkDragDisabled]="true">
+                <div class="item-container">
+                  <h5><strong>{{etudiantDevoir.etudiant_id.nom}} {{etudiantDevoir.etudiant_id.prenom}}</strong></h5>
+                  <p><strong>Email : </strong>{{etudiantDevoir.etudiant_id.mail}}</p>
+                  <p><strong>Date de notation : </strong>{{etudiantDevoir.dateNotation | date}}</p>
+                  <p><strong>Note : </strong>{{etudiantDevoir.note}}/20</p>
+                  <p><strong>Remarques : </strong>{{etudiantDevoir.remarques_note}}</p>
+                  <p *ngIf="isLate(etudiantDevoir.dateLivraison)" class="badge badge-danger">En retard</p>
                 </div>
-              </div>              
-          
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -29,7 +29,15 @@ export class DevoirsService {
     return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}`);
   }
 
-  getDevoirsEtudiants(devoirId: string): Observable<any> {
-    return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}/etudiants`);
+  getDevoirsNonNotes(devoirId: string, page: number, limit: number): Observable<any> {
+    return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}/nonnotes?page=${page}&limit=${limit}`);
+  }
+
+  getDevoirsNotes(devoirId: string, page: number, limit: number): Observable<any> {
+    return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}/notes?page=${page}&limit=${limit}`);
+  }
+
+  noterDevoir(devoirEtudiantId: string, payload: any): Observable<any> {
+    return this.httpRequestService.put<any>('PROFESSEUR', `${this.uri}/${devoirEtudiantId}/noter`, payload);
   }
 }
