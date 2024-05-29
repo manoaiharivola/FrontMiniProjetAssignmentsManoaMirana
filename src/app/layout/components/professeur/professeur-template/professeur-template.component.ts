@@ -2,11 +2,16 @@ import { Component } from '@angular/core';
 import { sidebarProfesseurData } from './sidebar-professeur-data';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { LocalStorageService } from '../../../../shared/services/local-storage/local-storage.service';
+import { LocalStorageConst } from '../../../../shared/constant/local-storage.const';
+import { SnackBarService } from '../../../../shared/services/snack-bar/snack-bar.service';
+import { DataRoutingConst } from '../../../../data/constant/data-routing.const';
 
 @Component({
   selector: 'app-professeur-template',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, CommonModule],
+  imports: [RouterOutlet, RouterLink, CommonModule, MatButtonModule],
   templateUrl: './professeur-template.component.html',
   styleUrls: [
     './professeur-template.component.css',
@@ -23,7 +28,11 @@ import { CommonModule, Location } from '@angular/common';
 export class ProfesseurTemplateComponent {
   sidebarData = sidebarProfesseurData;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private snackBarService: SnackBarService
+  ) {}
 
   isLinkActive(url: string): boolean {
     return this.router.url === url;
@@ -31,5 +40,15 @@ export class ProfesseurTemplateComponent {
 
   isParentLinkActive(url: string): boolean {
     return this.router.url.startsWith(url);
+  }
+
+  logout() {
+    this.localStorageService.removeItem(
+      LocalStorageConst.PROFESSEUR_ACCESS_TOKEN
+    );
+    this.router.navigate([DataRoutingConst.ROUTE_LOGIN]);
+    this.snackBarService.openSuccesSnackBar(
+      'Vous êtes déconnecté en tant que professeur.'
+    );
   }
 }
