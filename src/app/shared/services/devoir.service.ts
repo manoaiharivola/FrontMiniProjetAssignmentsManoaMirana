@@ -36,4 +36,8 @@ export class DevoirsService {
   getDevoirsNotes(devoirId: string, page: number, limit: number): Observable<any> {
     return this.httpRequestService.get<any>('PROFESSEUR', `${this.uri}/${devoirId}/notes?page=${page}&limit=${limit}`);
   }
+
+  noterDevoir(devoirEtudiantId: string, payload: any): Observable<any> {
+    return this.httpRequestService.put<any>('PROFESSEUR', `${this.uri}/${devoirEtudiantId}/noter`, payload);
+  }
 }

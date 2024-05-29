@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Noter le devoir</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Note</mat-label>
+      <input matInput formControlName="note" type="number" min="0" max="20">
+      <mat-error *ngIf="form.controls['note'].hasError('required')">La note est requise</mat-error>
+      <mat-error *ngIf="form.controls['note'].hasError('min') || form.controls['note'].hasError('max')">La note doit être entre 0 et 20</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Remarques</mat-label>
+      <textarea matInput formControlName="remarques_note"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Annuler</button>
+    <button mat-button type="submit" [disabled]="form.invalid">Valider</button>
+  </mat-dialog-actions>
+</form>
