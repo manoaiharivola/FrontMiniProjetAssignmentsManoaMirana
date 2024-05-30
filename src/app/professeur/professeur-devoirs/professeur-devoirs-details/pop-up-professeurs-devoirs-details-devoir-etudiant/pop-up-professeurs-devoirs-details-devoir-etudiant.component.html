@@ -10,6 +10,5 @@
   <p *ngIf="etudiantDevoir.remarques_note"><strong>Remarques :</strong> {{ etudiantDevoir.remarques_note }}</p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="onClose()">Fermer</button>
-  <button mat-button *ngIf="!etudiantDevoir.note" (click)="openNoterDialog(etudiantDevoir)">Noter</button>
+  <button mat-button (click)="onCancel()">Fermer</button>
 </mat-dialog-actions>

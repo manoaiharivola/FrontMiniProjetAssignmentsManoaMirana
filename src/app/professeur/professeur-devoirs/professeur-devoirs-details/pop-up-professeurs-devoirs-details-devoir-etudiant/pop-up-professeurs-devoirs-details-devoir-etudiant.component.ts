@@ -1,10 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-pop-up-professeurs-devoirs-details-devoir-etudiant',
@@ -18,7 +19,9 @@ import { MatInputModule } from '@angular/material/input';
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule,
+    MatDialogTitle
   ]
 })
 export class PopUpProfesseursDevoirsDetailsDevoirEtudiantComponent {
@@ -37,11 +40,7 @@ export class PopUpProfesseursDevoirsDetailsDevoirEtudiantComponent {
     return new Date(dateLivraison) > new Date();
   }
 
-  onClose(): void {
+  onCancel(): void {
     this.dialogRef.close();
-  }
-
-  openNoterDialog(etudiantDevoir: any): void {
-    // Implémenter la logique pour ouvrir le dialogue de notation
   }
 }
