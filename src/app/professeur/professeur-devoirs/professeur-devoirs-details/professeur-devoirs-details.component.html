@@ -34,6 +34,7 @@
                 *cdkVirtualFor="let etudiantDevoir of nonNotes"
                 cdkDrag
                 [cdkDragData]="etudiantDevoir"
+                (click)="openDetailsDialog(etudiantDevoir)"
               >
                 <div class="item-container">
                   <h5>
@@ -59,7 +60,7 @@
                   <br />
                   <button
                     mat-button
-                    (click)="openNoterDialog(etudiantDevoir)"
+                    (click)="openNoterDialog($event, etudiantDevoir)"
                     style="padding: 10px; color: white"
                     class="btn btn-info"
                   >
@@ -92,6 +93,7 @@
                 cdkDrag
                 [cdkDragData]="etudiantDevoir"
                 [cdkDragDisabled]="true"
+                (click)="openDetailsDialog(etudiantDevoir)"
               >
                 <div class="item-container">
                   <h5>
