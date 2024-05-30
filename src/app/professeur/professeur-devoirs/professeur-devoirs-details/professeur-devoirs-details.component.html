@@ -4,6 +4,11 @@
       <div class="card-body">
         <h3>Détails du devoir : {{ devoir.nom }}</h3>
         <br />
+        <img
+          src="assets/images/matiere-default.jpg"
+          class="matiere-image"
+          alt="Matière Image"
+        />
         <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
         <p><strong>Description:</strong> {{ devoir.description }}</p>
         <p>
@@ -36,12 +41,20 @@
                 [cdkDragData]="etudiantDevoir"
               >
                 <div class="item-container">
-                  <h5>
-                    <strong
-                      >{{ etudiantDevoir.etudiant_id.nom }}
-                      {{ etudiantDevoir.etudiant_id.prenom }}</strong
-                    >
-                  </h5>
+                  <div class="flex-container">
+                    <img
+                      src="assets/images/etudiant-default.png"
+                      class="user-image"
+                      alt="Etudiant Image"
+                    />
+                    <div style="width: 10px"></div>
+                    <h5>
+                      <strong
+                        >{{ etudiantDevoir.etudiant_id.nom }}
+                        {{ etudiantDevoir.etudiant_id.prenom }}</strong
+                      >
+                    </h5>
+                  </div>
                   <p>
                     <strong>Email : </strong
                     >{{ etudiantDevoir.etudiant_id.mail }}
@@ -94,12 +107,20 @@
                 [cdkDragDisabled]="true"
               >
                 <div class="item-container">
-                  <h5>
-                    <strong
-                      >{{ etudiantDevoir.etudiant_id.nom }}
-                      {{ etudiantDevoir.etudiant_id.prenom }}</strong
-                    >
-                  </h5>
+                  <div class="flex-container">
+                    <img
+                      src="assets/images/etudiant-default.png"
+                      class="user-image"
+                      alt="Etudiant Image"
+                    />
+                    <div style="width: 10px"></div>
+                    <h5>
+                      <strong
+                        >{{ etudiantDevoir.etudiant_id.nom }}
+                        {{ etudiantDevoir.etudiant_id.prenom }}</strong
+                      >
+                    </h5>
+                  </div>
                   <p>
                     <strong>Email : </strong
                     >{{ etudiantDevoir.etudiant_id.mail }}
