@@ -58,8 +58,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class EtudiantDevoirsDetailsComponent implements OnInit {
   aRendre: any[] = [];
   rendus: any[] = [];
-  aRendreIsLoading = false;
-  rendusIsLoading = false;
 
   // Pagination
   limit = 10;
@@ -130,6 +128,23 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     });
   }
 
+  getDevoirsRendusAndTemporaryItem(
+    page: number,
+    limit: number,
+    item: any
+  ): void {
+    this.devoirsService.getDevoirsRendus(page, limit).subscribe((response) => {
+      this.rendus.unshift(item);
+      this.rendus = [...this.rendus];
+      this.rendusTotal = response.totalDocs;
+      this.rendusTotalPages = response.totalPages;
+      this.rendusNextPage = response.nextPage;
+      this.rendusPrevPage = response.prevPage;
+      this.rendusHasNextPage = response.hasNextPage;
+      this.rendusHasPrevPage = response.hasPrevPage;
+    });
+  }
+
   isLate(devoir: any): boolean {
     const now = new Date();
     return now > new Date(devoir.devoir_id.dateDeRendu || '');
@@ -164,19 +179,30 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     }
   }
 
-  openRendreDevoirDialog(devoir: any) {
+  openRendreDevoirDialog(devoirARendre: any) {
+    this.aRendre = this.aRendre.filter(
+      (devoir) => devoir._id !== devoirARendre._id
+    );
+    if (!this.rendus.some((devoir) => devoir._id === devoirARendre._id)) {
+      this.getDevoirsRendusAndTemporaryItem(
+        this.rendusPage,
+        this.limit,
+        devoirARendre
+      );
+    }
+
     const dialogRef = this.matDialog.open(
       EtudiantDevoirsDetailsPopUpRendreDevoirComponent,
       {
         width: '620px',
         height: '220px',
-        data: { devoir },
+        data: { devoirARendre },
       }
     );
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.devoirsService.rendreDevoir(devoir._id, {}).subscribe(
+        this.devoirsService.rendreDevoir(devoirARendre._id, {}).subscribe(
           (response) => {
             console.log(response.message);
             this.snackBar.open('Le devoir a été livré.', 'Fermer', {
@@ -189,6 +215,9 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
             console.error('Erreur lors de la suppression du devoir:', error);
           }
         );
+      } else {
+        this.getDevoirsARendre(this.aRendrePage, this.limit);
+        this.getDevoirsRendus(this.rendusPage, this.limit);
       }
     });
   }
