@@ -1,0 +1,129 @@
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h3>Listes de vos devoirs</h3>
+        <br />
+        <div
+          class="example-container"
+          style="width: 45%; float: left; margin-right: 5%"
+        >
+          <h4>Devoirs à rendre</h4>
+
+          <cdk-virtual-scroll-viewport
+            itemSize="50"
+            class="example-viewport"
+            #aRendreScroller
+          >
+            <div
+              cdkDropList
+              id="liste_a_rendre"
+              [cdkDropListData]="aRendre"
+              cdkDropListConnectedTo="liste_rendus"
+              (cdkDropListDropped)="drop($event)"
+            >
+              <div
+                class="example-box"
+                *cdkVirtualFor="let devoir of aRendre"
+                cdkDrag
+                [cdkDragData]="devoir"
+              >
+                <div class="item-container">
+                  <h5>
+                    <strong>{{ devoir.devoir_id.nom }}</strong>
+                  </h5>
+                  <p>
+                    <strong>Matière : </strong
+                    >{{ devoir.devoir_id.matiere_id.nom }}
+                  </p>
+                  <p>
+                    <strong>Professeur : </strong
+                    >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
+                  </p>
+                  <p>
+                    <strong>Date limite de rendu : </strong
+                    >{{ devoir.devoir_id.dateDeRendu | date }}
+                  </p>
+                  <p *ngIf="isLate(devoir)" class="badge badge-danger">
+                    En retard
+                  </p>
+                  <br />
+                  <button
+                    mat-button
+                    (click)="openRendreDevoirDialog(devoir)"
+                    style="padding: 10px; color: white"
+                    class="btn btn-info"
+                  >
+                    Livrer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+
+        <div class="example-container" style="width: 45%; float: left">
+          <h4>Devoirs rendus</h4>
+
+          <cdk-virtual-scroll-viewport
+            itemSize="50"
+            class="example-viewport"
+            #rendusScroller
+          >
+            <div
+              cdkDropList
+              id="liste_rendus"
+              [cdkDropListData]="rendus"
+              cdkDropListConnectedTo="liste_a_rendre"
+              (cdkDropListDropped)="drop($event)"
+            >
+              <div
+                class="example-box"
+                *cdkVirtualFor="let devoir of rendus"
+                cdkDrag
+                [cdkDragData]="devoir"
+                [cdkDragDisabled]="true"
+              >
+                <div class="item-container">
+                  <h5>
+                    <strong>{{ devoir.devoir_id.nom }}</strong>
+                  </h5>
+                  <p>
+                    <strong>Matière : </strong
+                    >{{ devoir.devoir_id.matiere_id.nom }}
+                  </p>
+                  <p>
+                    <strong>Professeur : </strong
+                    >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
+                  </p>
+                  <p>
+                    <strong>Date limite de rendu : </strong
+                    >{{ devoir.devoir_id.dateDeRendu | date }}
+                  </p>
+                  <p>
+                    <strong>Date de livraison : </strong
+                    >{{ devoir.dateLivraison | date }}
+                  </p>
+                  <p *ngIf="estLivre(devoir)" class="badge badge-warning">
+                    En attente de notation
+                  </p>
+                  <div *ngIf="estNote(devoir)">
+                    <p>
+                      <strong>Date de notation : </strong
+                      >{{ devoir.dateNotation | date }}
+                    </p>
+                    <p><strong>Note : </strong>{{ devoir.note }}/20</p>
+                    <p>
+                      <strong>Remarques : </strong>{{ devoir.remarques_note }}
+                    </p>
+                    <p class="badge badge-success">Rendu</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

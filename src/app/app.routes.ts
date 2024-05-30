@@ -13,7 +13,7 @@ import { ProfesseurMatieresComponent } from './professeur/professeur-matieres/pr
 import { ProfesseurMatieresEtudiantsComponent } from './professeur/professeur-matieres/professeur-matieres-etudiants/professeur-matieres-etudiants.component';
 import { ProfesseurDevoirsComponent } from './professeur/professeur-devoirs/professeur-devoirs.component';
 import { ProfesseurDevoirsDetailsComponent } from './professeur/professeur-devoirs/professeur-devoirs-details/professeur-devoirs-details.component';
-import { EtudiantDevoirsComponent } from './etudiant/etudiant-devoirs/etudiant-devoirs.component';
+import { EtudiantDevoirsDetailsComponent } from './etudiant/etudiant-devoirs/etudiant-devoirs-details/etudiant-devoirs-details.component';
 import { EtudiantTemplateComponent } from './layout/components/etudiant/etudiant-template/etudiant-template.component';
 import { EtudiantAuthGuard } from './shared/etudiant-auth.guard';
 
@@ -48,7 +48,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'devoirs',
-        component: EtudiantDevoirsComponent,
+        component: EtudiantDevoirsDetailsComponent,
       },
     ],
   },
