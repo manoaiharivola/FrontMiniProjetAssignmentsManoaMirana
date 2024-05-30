@@ -81,19 +81,15 @@
     margin-bottom: 5px;
   }
 
+  .flex-container p {
+    margin: 0;
+  }
+
   .flex-container h5 {
     margin: 0;
   }
-.matiere-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 20%;
-    object-fit: cover;
-    margin-right: 5px;
-    margin-bottom: 20px;
-  }
 
-  .user-image {
+  .item-image {
     width: 30px;
     height: 30px;
     border-radius: 50%;

@@ -4,12 +4,15 @@
       <div class="card-body">
         <h3>Détails du devoir : {{ devoir.nom }}</h3>
         <br />
-        <img
-          src="assets/images/matiere-default.jpg"
-          class="matiere-image"
-          alt="Matière Image"
-        />
-        <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
+        <div class="flex-container">
+          <img
+            src="assets/images/matiere-default.jpg"
+            class="item-image"
+            alt="Matière Image"
+          />
+          <div style="width: 10px"></div>
+          <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
+        </div>
         <p><strong>Description:</strong> {{ devoir.description }}</p>
         <p>
           <strong>Date de création:</strong> {{ devoir.dateDeCreation | date }}
@@ -44,7 +47,7 @@
                   <div class="flex-container">
                     <img
                       src="assets/images/etudiant-default.png"
-                      class="user-image"
+                      class="item-image"
                       alt="Etudiant Image"
                     />
                     <div style="width: 10px"></div>
@@ -110,7 +113,7 @@
                   <div class="flex-container">
                     <img
                       src="assets/images/etudiant-default.png"
-                      class="user-image"
+                      class="item-image"
                       alt="Etudiant Image"
                     />
                     <div style="width: 10px"></div>
