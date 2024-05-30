@@ -32,14 +32,30 @@
                   <h5>
                     <strong>{{ devoir.devoir_id.nom }}</strong>
                   </h5>
-                  <p>
-                    <strong>Matière : </strong
-                    >{{ devoir.devoir_id.matiere_id.nom }}
-                  </p>
-                  <p>
-                    <strong>Professeur : </strong
-                    >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
-                  </p>
+                  <div class="flex-container">
+                    <img
+                      src="assets/images/matiere-default.jpg"
+                      class="item-image"
+                      alt="Matière Image"
+                    />
+                    <div style="width: 10px"></div>
+                    <p>
+                      <strong>Matière : </strong
+                      >{{ devoir.devoir_id.matiere_id.nom }}
+                    </p>
+                  </div>
+                  <div class="flex-container">
+                    <img
+                      src="assets/images/professeur-default.png"
+                      class="item-image"
+                      alt="Professeur Image"
+                    />
+                    <div style="width: 10px"></div>
+                    <p>
+                      <strong>Professeur : </strong
+                      >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
+                    </p>
+                  </div>
                   <p>
                     <strong>Date limite de rendu : </strong
                     >{{ devoir.devoir_id.dateDeRendu | date }}
@@ -88,14 +104,30 @@
                   <h5>
                     <strong>{{ devoir.devoir_id.nom }}</strong>
                   </h5>
-                  <p>
-                    <strong>Matière : </strong
-                    >{{ devoir.devoir_id.matiere_id.nom }}
-                  </p>
-                  <p>
-                    <strong>Professeur : </strong
-                    >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
-                  </p>
+                  <div class="flex-container">
+                    <img
+                      src="assets/images/matiere-default.jpg"
+                      class="item-image"
+                      alt="Matière Image"
+                    />
+                    <div style="width: 10px"></div>
+                    <p>
+                      <strong>Matière : </strong
+                      >{{ devoir.devoir_id.matiere_id.nom }}
+                    </p>
+                  </div>
+                  <div class="flex-container">
+                    <img
+                      src="assets/images/professeur-default.png"
+                      class="item-image"
+                      alt="Professeur Image"
+                    />
+                    <div style="width: 10px"></div>
+                    <p>
+                      <strong>Professeur : </strong
+                      >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
+                    </p>
+                  </div>
                   <p>
                     <strong>Date limite de rendu : </strong
                     >{{ devoir.devoir_id.dateDeRendu | date }}
