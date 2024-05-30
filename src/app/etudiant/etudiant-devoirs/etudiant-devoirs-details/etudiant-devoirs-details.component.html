@@ -27,6 +27,7 @@
                 *cdkVirtualFor="let devoir of aRendre"
                 cdkDrag
                 [cdkDragData]="devoir"
+                (click)="openDetailsDialog(devoir)"
               >
                 <div class="item-container">
                   <h5>
@@ -50,7 +51,7 @@
                   <br />
                   <button
                     mat-button
-                    (click)="openRendreDevoirDialog(devoir)"
+                    (click)="openRendreDevoirDialog($event,devoir)"
                     style="padding: 10px; color: white"
                     class="btn btn-info"
                   >
@@ -83,6 +84,7 @@
                 cdkDrag
                 [cdkDragData]="devoir"
                 [cdkDragDisabled]="true"
+                (click)="openDetailsDialog(devoir)"
               >
                 <div class="item-container">
                   <h5>
@@ -104,9 +106,6 @@
                     <strong>Date de livraison : </strong
                     >{{ devoir.dateLivraison | date }}
                   </p>
-                  <p *ngIf="estLivre(devoir)" class="badge badge-warning">
-                    En attente de notation
-                  </p>
                   <div *ngIf="estNote(devoir)">
                     <p>
                       <strong>Date de notation : </strong
@@ -118,6 +117,13 @@
                     </p>
                     <p class="badge badge-success">Rendu</p>
                   </div>
+                  <p *ngIf="estLivre(devoir)" class="badge badge-warning">
+                    En attente de notation
+                  </p>
+                  <br />
+                  <p *ngIf="isLate(devoir)" class="badge badge-danger">
+                    En retard
+                  </p>
                 </div>
               </div>
             </div>

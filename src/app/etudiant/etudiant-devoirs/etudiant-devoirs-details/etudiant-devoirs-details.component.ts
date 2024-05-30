@@ -26,7 +26,8 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EtudiantDevoirsDetailsPopUpRendreDevoirComponent } from './etudiant-devoirs-details-pop-up-rendre-devoir/etudiant-devoirs-details-pop-up-rendre-devoir.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { EtudiantDevoirsDetailsPopUpDetailsDevoirComponent } from './etudiant-devoirs-details-pop-up-details-devoir/etudiant-devoirs-details-pop-up-details-devoir.component';
+
 @Component({
   selector: 'app-etudiant-devoirs-details',
   standalone: true,
@@ -169,7 +170,7 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
       event.previousContainer.id === 'liste_a_rendre' &&
       event.container.id === 'liste_rendus'
     ) {
-      this.openRendreDevoirDialog(draggedItem);
+      this.openRendreDevoirDialog(event, draggedItem);
     } else if (
       event.previousContainer.id === 'liste_rendus' &&
       event.container.id === 'liste_a_rendre'
@@ -179,28 +180,24 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     }
   }
 
-  openRendreDevoirDialog(devoirARendre: any) {
-    this.aRendre = this.aRendre.filter(
-      (devoir) => devoir._id !== devoirARendre._id
-    );
-    if (!this.rendus.some((devoir) => devoir._id === devoirARendre._id)) {
-      this.getDevoirsRendusAndTemporaryItem(
-        this.rendusPage,
-        this.limit,
-        devoirARendre
-      );
+  openRendreDevoirDialog(event: MouseEvent | CdkDragDrop<any[]>, devoirARendre: any): void {
+    if (event instanceof MouseEvent) {
+      event.stopPropagation(); // Empêcher la propagation de l'événement de clic
     }
 
-    const dialogRef = this.matDialog.open(
-      EtudiantDevoirsDetailsPopUpRendreDevoirComponent,
-      {
-        width: '620px',
-        height: '220px',
-        data: { devoirARendre },
-      }
-    );
+    // Supprimer l'élément de aRendre et l'ajouter à rendus temporairement
+    this.aRendre = this.aRendre.filter(devoir => devoir._id !== devoirARendre._id);
+    if (!this.rendus.some(devoir => devoir._id === devoirARendre._id)) {
+      this.getDevoirsRendusAndTemporaryItem(this.rendusPage, this.limit, devoirARendre);
+    }
 
-    dialogRef.afterClosed().subscribe((result) => {
+    const dialogRef = this.matDialog.open(EtudiantDevoirsDetailsPopUpRendreDevoirComponent, {
+      width: '620px',
+      height: '220px',
+      data: { devoirARendre }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.devoirsService.rendreDevoir(devoirARendre._id, {}).subscribe(
           (response) => {
@@ -212,13 +209,20 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
             this.getDevoirsRendus(this.rendusPage, this.limit);
           },
           (error) => {
-            console.error('Erreur lors de la suppression du devoir:', error);
+            console.error('Erreur lors de la livraison du devoir:', error);
           }
         );
       } else {
         this.getDevoirsARendre(this.aRendrePage, this.limit);
         this.getDevoirsRendus(this.rendusPage, this.limit);
       }
+    });
+  }
+
+  openDetailsDialog(devoir: any): void {
+    this.matDialog.open(EtudiantDevoirsDetailsPopUpDetailsDevoirComponent, {
+      width: '620px',
+      data: { devoir }
     });
   }
 }
