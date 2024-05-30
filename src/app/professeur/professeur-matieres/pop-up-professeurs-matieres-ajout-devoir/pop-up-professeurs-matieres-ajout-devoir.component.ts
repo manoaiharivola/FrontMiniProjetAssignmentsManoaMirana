@@ -83,6 +83,6 @@ export class PopUpProfesseursMatieresAjoutDevoirComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.dialogRef.close(true);
+    this.dialogRef.close(false);
   }
 }

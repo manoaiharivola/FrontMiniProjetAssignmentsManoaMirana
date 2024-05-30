@@ -121,5 +121,11 @@ export class ProfesseurMatieresComponent implements OnInit {
         height: '250px',
       }
     );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getMatieresFromService();
+      }
+    });
   }
 }
