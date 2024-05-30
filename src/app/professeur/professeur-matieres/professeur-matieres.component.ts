@@ -14,6 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DataRoutingConst } from '../../data/constant/data-routing.const';
 import { Router } from '@angular/router';
+import { PopUpProfesseursMatieresAjoutDevoirComponent } from './pop-up-professeurs-matieres-ajout-devoir/pop-up-professeurs-matieres-ajout-devoir.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-professeur-matieres',
@@ -68,7 +70,8 @@ export class ProfesseurMatieresComponent implements OnInit {
 
   constructor(
     private matieresService: MatieresService,
-    private router: Router
+    private router: Router,
+    private matDialog: MatDialog
   ) {}
 
   // tableau des matieres POUR AFFICHAGE
@@ -108,5 +111,15 @@ export class ProfesseurMatieresComponent implements OnInit {
       idMatiere,
       'etudiants',
     ]);
+  }
+
+  showPopUpAjoutNouvelleMatiere() {
+    const dialogRef = this.matDialog.open(
+      PopUpProfesseursMatieresAjoutDevoirComponent,
+      {
+        width: '620px',
+        height: '220px',
+      }
+    );
   }
 }
