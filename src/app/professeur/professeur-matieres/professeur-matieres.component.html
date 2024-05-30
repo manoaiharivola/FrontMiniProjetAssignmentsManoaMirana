@@ -3,6 +3,15 @@
     <div class="card">
       <div class="card-body">
         <h3>Liste de vos matières</h3>
+        <br />
+        <button
+          class="btn btn-primary mr-2"
+          (click)="showPopUpAjoutNouvelleMatiere()"
+        >
+          Ajouter une nouvelle matière
+        </button>
+        <br />
+        <br />
         <div class="table-responsive">
           <table
             mat-table
