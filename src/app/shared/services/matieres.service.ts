@@ -66,12 +66,15 @@ export class MatieresService {
       return of(result as T);
     };
   }
-
-  addMatiere(matiere: Matiere): Observable<any> {
-    this.logService.log(matiere.name, 'ajouté');
-    return this.httpRequestService.post<Matiere>(this.uri, matiere);
+*/
+  addMatiere(payload: any): Observable<any> {
+    return this.httpRequestService.post<Matiere>(
+      'PROFESSEUR',
+      this.uri,
+      payload
+    );
   }
-
+  /*
   updateMatiere(matiere: Matiere): Observable<any> {
     this.logService.log(matiere.name, 'modifié');
     return this.httpRequestService.put<Matiere>(this.uri, matiere);
