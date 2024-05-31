@@ -3,6 +3,9 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http/http-request.service';
 import { EnvironmentConst } from '../../data/constant/data-env.const';
 import { DataWsConst } from '../../data/constant/data-ws.const';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LocalStorageService } from './local-storage/local-storage.service';
+import { LocalStorageConst } from '../constant/local-storage.const';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +14,11 @@ export class AuthService {
   // propriété pour savoir si l'utilisateur est connecté
   loggedIn = false;
 
-  constructor(private httpRequestService: HttpRequestService) {}
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
   // méthode pour connecter l'utilisateur
   // Typiquement, il faudrait qu'elle accepte en paramètres
@@ -62,19 +69,17 @@ export class AuthService {
     );
   }
 
-  public inscription(user: any): Observable<any> {
-    return this.httpRequestService.post(
-      null,
+  public inscription(formData: FormData): Observable<any> {
+    return this.http.post<any>(
       EnvironmentConst.API_URL + DataWsConst.WS_REGISTER,
-      user
+      formData
     );
   }
 
-  public inscriptionProfesseur(user: any): Observable<any> {
-    return this.httpRequestService.post(
-      null,
+  public inscriptionProfesseur(formData: FormData): Observable<any> {
+    return this.http.post<any>(
       EnvironmentConst.API_URL + DataWsConst.WS_PROFESSEUR_REGISTER,
-      user
+      formData
     );
   }
 }
