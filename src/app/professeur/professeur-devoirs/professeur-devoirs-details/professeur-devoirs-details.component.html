@@ -5,12 +5,18 @@
         <h3>Détails du devoir : {{ devoir.nom }}</h3>
         <br />
         <div class="flex-container">
-          <img
-            src="assets/images/matiere-default.jpg"
-            class="item-image"
-            alt="Matière Image"
-          />
-          <div style="width: 10px"></div>
+          <div style="margin-right: 5px">
+            <img
+              *ngIf="devoir.matiere_id.photo"
+              src="{{ urlPhoto + devoir.matiere_id.photo }}"
+              class="item-image"
+            />
+            <img
+              *ngIf="!devoir.matiere_id.photo"
+              src="assets/images/matiere-default.jpg"
+              class="item-image"
+            />
+          </div>
           <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
         </div>
         <p><strong>Description:</strong> {{ devoir.description }}</p>

@@ -26,7 +26,7 @@ import {
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { forkJoin } from 'rxjs';
-
+import { EnvironmentConst } from '../../../data/constant/data-env.const';
 @Component({
   selector: 'app-professeur-devoirs-details',
   standalone: true,
@@ -64,6 +64,7 @@ export class ProfesseurDevoirsDetailsComponent
   notes: any[] = [];
   nonNotesIsLoading = false;
   notesIsLoading = false;
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
 
   // Pagination
   limit = 10;
