@@ -67,7 +67,7 @@ export class ProfesseurDevoirsComponent implements OnInit {
   length = 0;
   pageSize = 10;
   pageIndex = 0;
-  pageSizeOptions = [5, 10, 25];
+  pageSizeOptions = [5, 10, 25, 50, 100];
   hidePageSize = false;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
