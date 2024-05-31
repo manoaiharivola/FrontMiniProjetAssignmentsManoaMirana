@@ -10,4 +10,5 @@ export const DataRoutingConst = {
 
   //etudiant
   ROUTE_ETUDIANT_DEVOIRS: '/etudiant/devoirs',
+  ROUTE_ETUDIANT_PROFESSEURS: '/etudiant/professeurs',
 };
