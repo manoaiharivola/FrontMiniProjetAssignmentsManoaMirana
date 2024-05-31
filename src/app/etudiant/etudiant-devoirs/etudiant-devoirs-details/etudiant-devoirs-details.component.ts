@@ -98,51 +98,27 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.getDevoirsARendre(this.aRendrePage, this.limit);
-      this.getDevoirsRendus(this.rendusPage, this.limit);
-    });
-    console.log('------------');
-    console.log(this.aRendre);
-  }
-
-  getDevoirsARendre(page: number, limit: number): void {
-    this.devoirsService.getDevoirsARendre(page, limit).subscribe((response) => {
-      this.aRendre = response.docs;
-      this.aRendreTotal = response.totalDocs;
-      this.aRendreTotalPages = response.totalPages;
-      this.aRendreNextPage = response.nextPage;
-      this.aRendrePrevPage = response.prevPage;
-      this.aRendreHasNextPage = response.hasNextPage;
-      this.aRendreHasPrevPage = response.hasPrevPage;
+      this.getDevoirsARendre();
+      this.getDevoirsRendus();
     });
   }
 
-  getDevoirsRendus(page: number, limit: number): void {
-    this.devoirsService.getDevoirsRendus(page, limit).subscribe((response) => {
-      this.rendus = response.docs;
-      this.rendusTotal = response.totalDocs;
-      this.rendusTotalPages = response.totalPages;
-      this.rendusNextPage = response.nextPage;
-      this.rendusPrevPage = response.prevPage;
-      this.rendusHasNextPage = response.hasNextPage;
-      this.rendusHasPrevPage = response.hasPrevPage;
+  getDevoirsARendre(): void {
+    this.devoirsService.getDevoirsARendre().subscribe((response) => {
+      this.aRendre = response;
     });
   }
 
-  getDevoirsRendusAndTemporaryItem(
-    page: number,
-    limit: number,
-    item: any
-  ): void {
-    this.devoirsService.getDevoirsRendus(page, limit).subscribe((response) => {
+  getDevoirsRendus(): void {
+    this.devoirsService.getDevoirsRendus().subscribe((response) => {
+      this.rendus = response;
+    });
+  }
+
+  getDevoirsRendusAndTemporaryItem(item: any): void {
+    this.devoirsService.getDevoirsRendus().subscribe((response) => {
       this.rendus.unshift(item);
       this.rendus = [...this.rendus];
-      this.rendusTotal = response.totalDocs;
-      this.rendusTotalPages = response.totalPages;
-      this.rendusNextPage = response.nextPage;
-      this.rendusPrevPage = response.prevPage;
-      this.rendusHasNextPage = response.hasNextPage;
-      this.rendusHasPrevPage = response.hasPrevPage;
     });
   }
 
@@ -180,24 +156,32 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     }
   }
 
-  openRendreDevoirDialog(event: MouseEvent | CdkDragDrop<any[]>, devoirARendre: any): void {
+  openRendreDevoirDialog(
+    event: MouseEvent | CdkDragDrop<any[]>,
+    devoirARendre: any
+  ): void {
     if (event instanceof MouseEvent) {
       event.stopPropagation(); // Empêcher la propagation de l'événement de clic
     }
 
     // Supprimer l'élément de aRendre et l'ajouter à rendus temporairement
-    this.aRendre = this.aRendre.filter(devoir => devoir._id !== devoirARendre._id);
-    if (!this.rendus.some(devoir => devoir._id === devoirARendre._id)) {
-      this.getDevoirsRendusAndTemporaryItem(this.rendusPage, this.limit, devoirARendre);
+    this.aRendre = this.aRendre.filter(
+      (devoir) => devoir._id !== devoirARendre._id
+    );
+    if (!this.rendus.some((devoir) => devoir._id === devoirARendre._id)) {
+      this.getDevoirsRendusAndTemporaryItem(devoirARendre);
     }
 
-    const dialogRef = this.matDialog.open(EtudiantDevoirsDetailsPopUpRendreDevoirComponent, {
-      width: '620px',
-      height: '220px',
-      data: { devoirARendre }
-    });
+    const dialogRef = this.matDialog.open(
+      EtudiantDevoirsDetailsPopUpRendreDevoirComponent,
+      {
+        width: '620px',
+        height: '220px',
+        data: { devoirARendre },
+      }
+    );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.devoirsService.rendreDevoir(devoirARendre._id, {}).subscribe(
           (response) => {
@@ -205,16 +189,16 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
             this.snackBar.open('Le devoir a été livré.', 'Fermer', {
               duration: 3000,
             });
-            this.getDevoirsARendre(this.aRendrePage, this.limit);
-            this.getDevoirsRendus(this.rendusPage, this.limit);
+            this.getDevoirsARendre();
+            this.getDevoirsRendus();
           },
           (error) => {
             console.error('Erreur lors de la livraison du devoir:', error);
           }
         );
       } else {
-        this.getDevoirsARendre(this.aRendrePage, this.limit);
-        this.getDevoirsRendus(this.rendusPage, this.limit);
+        this.getDevoirsARendre();
+        this.getDevoirsRendus();
       }
     });
   }
@@ -222,7 +206,7 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
   openDetailsDialog(devoir: any): void {
     this.matDialog.open(EtudiantDevoirsDetailsPopUpDetailsDevoirComponent, {
       width: '620px',
-      data: { devoir }
+      data: { devoir },
     });
   }
 }

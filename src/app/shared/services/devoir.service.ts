@@ -77,17 +77,17 @@ export class DevoirsService {
     );
   }
 
-  getDevoirsARendre(page: number, limit: number): Observable<any> {
+  getDevoirsARendre(): Observable<any> {
     return this.httpRequestService.get<any>(
       'ETUDIANT',
-      `${this.uri}/etudiant/a-rendre?page=${page}&limit=${limit}`
+      `${this.uri}/etudiant/a-rendre`
     );
   }
 
-  getDevoirsRendus(page: number, limit: number): Observable<any> {
+  getDevoirsRendus(): Observable<any> {
     return this.httpRequestService.get<any>(
       'ETUDIANT',
-      `${this.uri}/etudiant/rendus?page=${page}&limit=${limit}`
+      `${this.uri}/etudiant/rendus`
     );
   }
 
