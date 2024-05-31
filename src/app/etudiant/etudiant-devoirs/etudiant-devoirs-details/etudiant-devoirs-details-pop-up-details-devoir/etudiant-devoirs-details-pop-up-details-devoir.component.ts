@@ -1,10 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { EnvironmentConst } from '../../../../data/constant/data-env.const';
 
 @Component({
   selector: 'app-etudiant-devoirs-details-pop-up-details-devoir',
@@ -16,9 +21,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
   ],
-  templateUrl: './etudiant-devoirs-details-pop-up-details-devoir.component.html',
+  templateUrl:
+    './etudiant-devoirs-details-pop-up-details-devoir.component.html',
   styleUrls: [
     './etudiant-devoirs-details-pop-up-details-devoir.component.css',
     '../../../../template/vendors/feather/feather.css',
@@ -27,7 +33,10 @@ import { MatButtonModule } from '@angular/material/button';
     '../../../../template/css/vertical-layout-light/style.css',
   ],
 })
-export class EtudiantDevoirsDetailsPopUpDetailsDevoirComponent implements OnInit {
+export class EtudiantDevoirsDetailsPopUpDetailsDevoirComponent
+  implements OnInit
+{
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
   devoir: any;
 
   constructor(
@@ -45,7 +54,6 @@ export class EtudiantDevoirsDetailsPopUpDetailsDevoirComponent implements OnInit
   estLivre(devoir: any): boolean {
     return devoir.dateLivraison && !devoir.dateNotation;
   }
-
 
   estNote(devoir: any): boolean {
     return devoir.dateLivraison && devoir.dateNotation && devoir.note;

@@ -1,13 +1,41 @@
 <h2 mat-dialog-title>Détails du devoir de l'étudiant</h2>
 <mat-dialog-content>
-  <p><strong>Nom :</strong> {{ etudiant.nom }} {{ etudiant.prenom }}</p>
-  <p *ngIf="etudiant.photo"><img [src]="etudiant.photo" alt="Photo de l'étudiant"></p>
+  <div class="flex-container">
+    <img
+      *ngIf="etudiantDevoir.etudiant_id.photo"
+      src="{{ urlPhoto + etudiantDevoir.etudiant_id.photo }}"
+      class="item-image"
+    />
+    <img
+      *ngIf="!etudiantDevoir.etudiant_id.photo"
+      src="assets/images/etudiant-default.png"
+      class="item-image"
+    />
+    <div style="width: 10px"></div>
+    <p>
+      <strong
+        >{{ etudiantDevoir.etudiant_id.nom }}
+        {{ etudiantDevoir.etudiant_id.prenom }}</strong
+      >
+    </p>
+  </div>
   <p><strong>Email :</strong> {{ etudiant.mail }}</p>
-  <p><strong>Date de livraison :</strong> {{ etudiantDevoir.dateLivraison | date }}</p>
-  <p *ngIf="isLate(etudiantDevoir.dateLivraison)" class="badge badge-danger">En retard</p>
-  <p *ngIf="etudiantDevoir.dateNotation"><strong>Date de notation :</strong> {{ etudiantDevoir.dateNotation | date }}</p>
-  <p *ngIf="etudiantDevoir.note"><strong>Note :</strong> {{ etudiantDevoir.note }} / 20</p>
-  <p *ngIf="etudiantDevoir.remarques_note"><strong>Remarques :</strong> {{ etudiantDevoir.remarques_note }}</p>
+  <p>
+    <strong>Date de livraison :</strong>
+    {{ etudiantDevoir.dateLivraison | date }}
+  </p>
+  <p *ngIf="isLate(etudiantDevoir.dateLivraison)" class="badge badge-danger">
+    En retard
+  </p>
+  <p *ngIf="etudiantDevoir.dateNotation">
+    <strong>Date de notation :</strong> {{ etudiantDevoir.dateNotation | date }}
+  </p>
+  <p *ngIf="etudiantDevoir.note">
+    <strong>Note :</strong> {{ etudiantDevoir.note }} / 20
+  </p>
+  <p *ngIf="etudiantDevoir.remarques_note">
+    <strong>Remarques :</strong> {{ etudiantDevoir.remarques_note }}
+  </p>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onCancel()">Fermer</button>

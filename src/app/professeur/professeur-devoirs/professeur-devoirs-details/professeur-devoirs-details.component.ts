@@ -303,6 +303,7 @@ export class ProfesseurDevoirsDetailsComponent
 
   openDetailsDialog(etudiantDevoir: any): void {
     this.matDialog.open(PopUpProfesseursDevoirsDetailsDevoirEtudiantComponent, {
+      width : '620px',
       data: {
         etudiant: etudiantDevoir.etudiant_id,
         etudiantDevoir: etudiantDevoir,

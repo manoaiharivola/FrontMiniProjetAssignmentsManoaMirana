@@ -1,11 +1,49 @@
 <h2 mat-dialog-title>Détails du devoir</h2>
 <mat-dialog-content>
-  <p><strong>Nom:</strong> {{ devoir.devoir_id.nom }}</p>
-  <p><strong>Description:</strong> {{ devoir.devoir_id.description }}</p>
-  <p><strong>Matière:</strong> {{ devoir.devoir_id.matiere_id.nom }}</p>
-  <p><strong>Professeur:</strong> {{ devoir.devoir_id.matiere_id.professeur_id.nom }}</p>
-  <p><strong>Date limite de rendu:</strong> {{ devoir.devoir_id.dateDeRendu | date }}</p>
-  <p><strong>Date de livraison:</strong> {{ devoir.dateLivraison | date }}</p>
+  <p style="margin-bottom: 20px">
+    <strong>Nom:</strong> {{ devoir.devoir_id.nom }}
+  </p>
+  <p style="margin-bottom: 20px">
+    <strong>Description:</strong> {{ devoir.devoir_id.description }}
+  </p>
+  <div class="flex-container">
+    <img
+      *ngIf="devoir.devoir_id.matiere_id.photo"
+      src="{{ urlPhoto + devoir.devoir_id.matiere_id.photo }}"
+      class="item-image"
+    />
+    <img
+      *ngIf="!devoir.devoir_id.matiere_id.photo"
+      src="assets/images/matiere-default.jpg"
+      class="item-image"
+    />
+    <div style="width: 10px"></div>
+    <p><strong>Matière : </strong>{{ devoir.devoir_id.matiere_id.nom }}</p>
+  </div>
+  <div class="flex-container">
+    <img
+      *ngIf="devoir.devoir_id.matiere_id.professeur_id.photo"
+      src="{{ urlPhoto + devoir.devoir_id.matiere_id.professeur_id.photo }}"
+      class="item-image"
+    />
+    <img
+      *ngIf="!devoir.devoir_id.matiere_id.professeur_id.photo"
+      src="assets/images/professeur-default.png"
+      class="item-image"
+    />
+    <div style="width: 10px"></div>
+    <p>
+      <strong>Professeur : </strong
+      >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
+    </p>
+  </div>
+  <p style="margin-bottom: 20px">
+    <strong>Date limite de rendu:</strong>
+    {{ devoir.devoir_id.dateDeRendu | date }}
+  </p>
+  <p style="margin-bottom: 25px">
+    <strong>Date de livraison:</strong> {{ devoir.dateLivraison | date }}
+  </p>
   <p *ngIf="estLivre(devoir)" class="badge badge-warning">
     En attente de notation
   </p>
