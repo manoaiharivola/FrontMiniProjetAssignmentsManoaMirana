@@ -4,7 +4,21 @@
       <div class="card-body">
         <h3>Détails du devoir : {{ devoir.nom }}</h3>
         <br />
-        <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
+        <div class="flex-container">
+          <div style="margin-right: 5px">
+            <img
+              *ngIf="devoir.matiere_id.photo"
+              src="{{ urlPhoto + devoir.matiere_id.photo }}"
+              class="item-image"
+            />
+            <img
+              *ngIf="!devoir.matiere_id.photo"
+              src="assets/images/matiere-default.jpg"
+              class="item-image"
+            />
+          </div>
+          <p><strong>Matière:</strong> {{ devoir.matiere_id.nom }}</p>
+        </div>
         <p><strong>Description:</strong> {{ devoir.description }}</p>
         <p>
           <strong>Date de création:</strong> {{ devoir.dateDeCreation | date }}
@@ -37,12 +51,20 @@
                 (click)="openDetailsDialog(etudiantDevoir)"
               >
                 <div class="item-container">
-                  <h5>
-                    <strong
-                      >{{ etudiantDevoir.etudiant_id.nom }}
-                      {{ etudiantDevoir.etudiant_id.prenom }}</strong
-                    >
-                  </h5>
+                  <div class="flex-container">
+                    <img
+                      src="assets/images/etudiant-default.png"
+                      class="item-image"
+                      alt="Etudiant Image"
+                    />
+                    <div style="width: 10px"></div>
+                    <h5>
+                      <strong
+                        >{{ etudiantDevoir.etudiant_id.nom }}
+                        {{ etudiantDevoir.etudiant_id.prenom }}</strong
+                      >
+                    </h5>
+                  </div>
                   <p>
                     <strong>Email : </strong
                     >{{ etudiantDevoir.etudiant_id.mail }}
@@ -97,12 +119,20 @@
                 (click)="openDetailsDialog(etudiantDevoir)"
               >
                 <div class="item-container">
-                  <h5>
-                    <strong
-                      >{{ etudiantDevoir.etudiant_id.nom }}
-                      {{ etudiantDevoir.etudiant_id.prenom }}</strong
-                    >
-                  </h5>
+                  <div class="flex-container">
+                    <img
+                      src="assets/images/etudiant-default.png"
+                      class="item-image"
+                      alt="Etudiant Image"
+                    />
+                    <div style="width: 10px"></div>
+                    <h5>
+                      <strong
+                        >{{ etudiantDevoir.etudiant_id.nom }}
+                        {{ etudiantDevoir.etudiant_id.prenom }}</strong
+                      >
+                    </h5>
+                  </div>
                   <p>
                     <strong>Email : </strong
                     >{{ etudiantDevoir.etudiant_id.mail }}

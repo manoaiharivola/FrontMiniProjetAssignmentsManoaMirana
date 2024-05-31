@@ -10,7 +10,7 @@ import { MatieresService } from '../../../shared/services/matieres.service';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatCheckbox } from '@angular/material/checkbox';
-
+import { EnvironmentConst } from '../../../data/constant/data-env.const';
 @Component({
   selector: 'app-professeur-matieres-etudiants',
   standalone: true,
@@ -36,7 +36,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 })
 export class ProfesseurMatieresEtudiantsComponent implements OnInit {
   id_matiere: any;
-
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
   constructor(
     private route: ActivatedRoute,
     private matieresService: MatieresService,

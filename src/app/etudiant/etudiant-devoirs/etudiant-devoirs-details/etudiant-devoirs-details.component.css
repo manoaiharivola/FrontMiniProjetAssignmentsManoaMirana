@@ -74,3 +74,18 @@
     display: block;
     margin-top: 20px;
 }
+.flex-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .flex-container p {
+    margin: 0;
+  }
+.item-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 5px;
+  }

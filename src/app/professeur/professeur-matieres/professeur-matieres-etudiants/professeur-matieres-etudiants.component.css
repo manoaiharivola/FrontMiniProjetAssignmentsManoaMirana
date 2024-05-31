@@ -1,0 +1,8 @@
+.flex-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .flex-container-texte {
+    margin: 0;
+  }
