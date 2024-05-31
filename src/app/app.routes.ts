@@ -19,7 +19,7 @@ import { EtudiantAuthGuard } from './shared/etudiant-auth.guard';
 import { ProfesseurEtudiantsComponent } from './professeur/professeur-etudiants/professeur-etudiants.component';
 import { ProfesseurProfesseursComponent } from './professeur/professeur-professeurs/professeur-professeurs.component';
 import { EtudiantProfesseursComponent } from './etudiant/etudiant-professeurs/etudiant-professeurs.component';
-
+import { InscriptionComponent } from './utilisateurs/inscription/inscription.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'connexion',
         component: LoginComponent,
+      },
+      {
+        path: 'inscription',
+        component: InscriptionComponent,
       },
     ],
   },

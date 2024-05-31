@@ -61,4 +61,20 @@ export class AuthService {
       user
     );
   }
+
+  public inscription(user: any): Observable<any> {
+    return this.httpRequestService.post(
+      null,
+      EnvironmentConst.API_URL + DataWsConst.WS_REGISTER,
+      user
+    );
+  }
+
+  public inscriptionProfesseur(user: any): Observable<any> {
+    return this.httpRequestService.post(
+      null,
+      EnvironmentConst.API_URL + DataWsConst.WS_PROFESSEUR_REGISTER,
+      user
+    );
+  }
 }
