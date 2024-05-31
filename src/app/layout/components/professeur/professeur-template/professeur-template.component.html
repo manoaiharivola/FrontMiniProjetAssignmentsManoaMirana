@@ -82,9 +82,14 @@
           style="margin-right: 20px"
         >
           <img
-            src="assets/images/professeur-default.png"
+            *ngIf="professeur.photo"
+            src="{{ urlPhoto + professeur.photo }}"
             class="user-image"
-            alt="Professeur Image"
+          />
+          <img
+            *ngIf="!professeur.photo"
+            src="assets/images/professeur-default.jpg"
+            class="user-image"
           />
           <div style="width: 10px"></div>
           <h5>{{ professeur.prenom }} {{ professeur.nom }}</h5>

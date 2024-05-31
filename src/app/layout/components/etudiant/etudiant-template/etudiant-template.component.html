@@ -82,9 +82,14 @@
           style="margin-right: 20px"
         >
           <img
-            src="assets/images/etudiant-default.png"
+            *ngIf="etudiant.photo"
+            src="{{ urlPhoto + etudiant.photo }}"
             class="user-image"
-            alt="Etudiant Image"
+          />
+          <img
+            *ngIf="!etudiant.photo"
+            src="assets/images/etudiant-default.jpg"
+            class="user-image"
           />
           <div style="width: 10px"></div>
           <h5>{{ etudiant.prenom }} {{ etudiant.nom }}</h5>
