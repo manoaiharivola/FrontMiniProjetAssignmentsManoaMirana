@@ -17,7 +17,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { MatieresService } from '../../../shared/services/matieres.service';
-import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-pop-up-professeurs-matieres-ajout-devoir',
@@ -45,6 +44,8 @@ export class PopUpProfesseursMatieresAjoutDevoirComponent implements OnInit {
   form: FormGroup;
   loading = false;
   errorMessage: string | null = null;
+  selectedFile: File | null = null;
+  previewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<PopUpProfesseursMatieresAjoutDevoirComponent>,
@@ -60,12 +61,31 @@ export class PopUpProfesseursMatieresAjoutDevoirComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+
+      // Preview the image
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   onSubmit(): void {
     if (this.form.valid) {
       this.loading = true;
       this.errorMessage = null;
-      const payload = this.form.getRawValue();
-      this.matieresService.addMatiere(payload).subscribe(
+      const formData = new FormData();
+      formData.append('nom', this.form.get('nom')?.value);
+      if (this.selectedFile) {
+        formData.append('matiere_image', this.selectedFile);
+      }
+
+      this.matieresService.addMatiere(formData).subscribe(
         (response) => {
           this.loading = false;
           this.snackBar.open('Nouvelle matière ajoutée !', 'Fermer', {

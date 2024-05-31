@@ -8,6 +8,15 @@
         >Le Nom est requis</mat-error
       >
     </mat-form-field>
+    <br />
+    <input type="file" (change)="onFileSelected($event)" />
+    <br />
+    <img
+      *ngIf="previewUrl"
+      [src]="previewUrl"
+      alt="Image Preview"
+      style="width: 100px; height: 100px; margin-top: 10px"
+    />
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   </mat-dialog-content>

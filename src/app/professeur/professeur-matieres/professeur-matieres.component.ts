@@ -75,7 +75,12 @@ export class ProfesseurMatieresComponent implements OnInit {
   ) {}
 
   // tableau des matieres POUR AFFICHAGE
-  displayedColumns: string[] = ['nom', 'nombreEtudiants', 'listeEtudiants'];
+  displayedColumns: string[] = [
+    'photo',
+    'nom',
+    'nombreEtudiants',
+    'listeEtudiants',
+  ];
 
   matieres: Matiere[] = [];
 
