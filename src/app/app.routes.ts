@@ -16,6 +16,7 @@ import { ProfesseurDevoirsDetailsComponent } from './professeur/professeur-devoi
 import { EtudiantDevoirsDetailsComponent } from './etudiant/etudiant-devoirs/etudiant-devoirs-details/etudiant-devoirs-details.component';
 import { EtudiantTemplateComponent } from './layout/components/etudiant/etudiant-template/etudiant-template.component';
 import { EtudiantAuthGuard } from './shared/etudiant-auth.guard';
+import { ProfesseurEtudiantsComponent } from './professeur/professeur-etudiants/professeur-etudiants.component';
 
 export const routes: Routes = [
   {
@@ -69,6 +70,10 @@ export const routes: Routes = [
       {
         path: 'devoirs/:id',
         component: ProfesseurDevoirsDetailsComponent,
+      },
+      {
+        path: 'etudiants',
+        component: ProfesseurEtudiantsComponent,
       },
     ],
   },
