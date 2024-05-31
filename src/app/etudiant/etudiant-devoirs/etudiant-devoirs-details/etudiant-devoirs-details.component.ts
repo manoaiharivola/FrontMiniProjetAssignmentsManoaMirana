@@ -27,6 +27,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { forkJoin } from 'rxjs';
 import { EtudiantDevoirsDetailsPopUpRendreDevoirComponent } from './etudiant-devoirs-details-pop-up-rendre-devoir/etudiant-devoirs-details-pop-up-rendre-devoir.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EnvironmentConst } from '../../../data/constant/data-env.const';
 @Component({
   selector: 'app-etudiant-devoirs-details',
   standalone: true,
@@ -58,7 +59,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class EtudiantDevoirsDetailsComponent implements OnInit {
   aRendre: any[] = [];
   rendus: any[] = [];
-
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
   // Pagination
   limit = 10;
 
