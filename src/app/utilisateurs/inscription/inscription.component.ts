@@ -29,6 +29,8 @@ export class InscriptionComponent implements OnInit {
   inscriptionForm: FormGroup;
   theresError: boolean = false;
   error: string = '';
+  selectedFile: File | null = null;
+  previewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private router: Router,
@@ -46,6 +48,20 @@ export class InscriptionComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+
+      // Preview the image
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   inscription() {
     const userInformations = {
@@ -67,7 +83,15 @@ export class InscriptionComponent implements OnInit {
     mail: string;
     mdp: string;
   }) {
-    this.authService.inscription(userInformations).subscribe({
+    const formData = new FormData();
+    formData.append('nom', userInformations.nom);
+    formData.append('prenom', userInformations.prenom);
+    formData.append('mail', userInformations.mail);
+    formData.append('mdp', userInformations.mdp);
+    if (this.selectedFile) {
+      formData.append('etudiant_image', this.selectedFile);
+    }
+    this.authService.inscription(formData).subscribe({
       next: (res) => {
         this.router.navigate([DataRoutingConst.ROUTE_LOGIN]);
         this.snackBarService.openSuccesSnackBar(
@@ -87,7 +111,15 @@ export class InscriptionComponent implements OnInit {
     mail: string;
     mdp: string;
   }) {
-    this.authService.inscriptionProfesseur(userInformations).subscribe({
+    const formData = new FormData();
+    formData.append('nom', userInformations.nom);
+    formData.append('prenom', userInformations.prenom);
+    formData.append('mail', userInformations.mail);
+    formData.append('mdp', userInformations.mdp);
+    if (this.selectedFile) {
+      formData.append('professeur_image', this.selectedFile);
+    }
+    this.authService.inscriptionProfesseur(formData).subscribe({
       next: (res) => {
         this.router.navigate([DataRoutingConst.ROUTE_LOGIN]);
         this.snackBarService.openSuccesSnackBar(

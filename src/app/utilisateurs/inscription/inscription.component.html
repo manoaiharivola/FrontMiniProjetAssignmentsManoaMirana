@@ -99,6 +99,16 @@
                     />
                   </div>
                   <div class="form-group">
+                    <h6>Photo de profil</h6>
+                    <input type="file" (change)="onFileSelected($event)" />
+                    <img
+                      *ngIf="previewUrl"
+                      [src]="previewUrl"
+                      alt="Image Preview"
+                      style="width: 100px; height: 100px; margin-top: 10px"
+                    />
+                  </div>
+                  <div class="form-group">
                     <h6>Vous êtes :</h6>
                     <div>
                       <input
