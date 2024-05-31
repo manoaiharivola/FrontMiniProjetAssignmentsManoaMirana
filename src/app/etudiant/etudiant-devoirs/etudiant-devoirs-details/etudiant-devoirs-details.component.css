@@ -17,6 +17,7 @@
     overflow: hidden;
     display: block;
     margin-top: 20px;
+    overflow-y: auto;
 }
 
 .example-box {

@@ -10,183 +10,172 @@
         >
           <h4>Devoirs à rendre</h4>
 
-          <cdk-virtual-scroll-viewport
-            itemSize="50"
-            class="example-viewport"
-            #aRendreScroller
+          <div
+            style="height: 600px"
+            cdkDropList
+            id="liste_a_rendre"
+            [cdkDropListData]="aRendre"
+            cdkDropListConnectedTo="liste_rendus"
+            (cdkDropListDropped)="drop($event)"
+            class="example-list"
           >
             <div
-              cdkDropList
-              id="liste_a_rendre"
-              [cdkDropListData]="aRendre"
-              cdkDropListConnectedTo="liste_rendus"
-              (cdkDropListDropped)="drop($event)"
+              class="example-box"
+              *ngFor="let devoir of aRendre"
+              cdkDrag
+              [cdkDragData]="devoir"
+              (click)="openDetailsDialog(devoir)"
             >
-              <div
-                class="example-box"
-                *cdkVirtualFor="let devoir of aRendre"
-                cdkDrag
-                [cdkDragData]="devoir"
-                (click)="openDetailsDialog(devoir)"
-              >
-                <div class="item-container">
-                  <h5>
-                    <strong>{{ devoir.devoir_id.nom }}</strong>
-                  </h5>
-                  <div class="flex-container">
-                    <img
-                      *ngIf="devoir.devoir_id.matiere_id.photo"
-                      src="{{ urlPhoto + devoir.devoir_id.matiere_id.photo }}"
-                      class="item-image"
-                    />
-                    <img
-                      *ngIf="!devoir.devoir_id.matiere_id.photo"
-                      src="assets/images/matiere-default.jpg"
-                      class="item-image"
-                    />
-                    <div style="width: 10px"></div>
-                    <p>
-                      <strong>Matière : </strong
-                      >{{ devoir.devoir_id.matiere_id.nom }}
-                    </p>
-                  </div>
-                  <div class="flex-container">
-                    <img
-                      *ngIf="devoir.devoir_id.matiere_id.professeur_id.photo"
-                      src="{{
-                        urlPhoto +
-                          devoir.devoir_id.matiere_id.professeur_id.photo
-                      }}"
-                      class="item-image"
-                    />
-                    <img
-                      *ngIf="!devoir.devoir_id.matiere_id.professeur_id.photo"
-                      src="assets/images/professeur-default.png"
-                      class="item-image"
-                    />
-                    <div style="width: 10px"></div>
-                    <p>
-                      <strong>Professeur : </strong
-                      >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
-                    </p>
-                  </div>
+              <div class="item-container">
+                <h5>
+                  <strong>{{ devoir.devoir_id.nom }}</strong>
+                </h5>
+                <div class="flex-container">
+                  <img
+                    *ngIf="devoir.devoir_id.matiere_id.photo"
+                    src="{{ urlPhoto + devoir.devoir_id.matiere_id.photo }}"
+                    class="item-image"
+                  />
+                  <img
+                    *ngIf="!devoir.devoir_id.matiere_id.photo"
+                    src="assets/images/matiere-default.jpg"
+                    class="item-image"
+                  />
+                  <div style="width: 10px"></div>
                   <p>
-                    <strong>Date limite de rendu : </strong
-                    >{{ devoir.devoir_id.dateDeRendu | date }}
+                    <strong>Matière : </strong
+                    >{{ devoir.devoir_id.matiere_id.nom }}
                   </p>
-                  <p *ngIf="isLate(devoir)" class="badge badge-danger">
-                    En retard
-                  </p>
-                  <br />
-                  <button
-                    mat-button
-                    (click)="openRendreDevoirDialog($event, devoir)"
-                    style="padding: 10px; color: white"
-                    class="btn btn-info"
-                  >
-                    Livrer
-                  </button>
                 </div>
+                <div class="flex-container">
+                  <img
+                    *ngIf="devoir.devoir_id.matiere_id.professeur_id.photo"
+                    src="{{
+                      urlPhoto + devoir.devoir_id.matiere_id.professeur_id.photo
+                    }}"
+                    class="item-image"
+                  />
+                  <img
+                    *ngIf="!devoir.devoir_id.matiere_id.professeur_id.photo"
+                    src="assets/images/professeur-default.png"
+                    class="item-image"
+                  />
+                  <div style="width: 10px"></div>
+                  <p>
+                    <strong>Professeur : </strong
+                    >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
+                  </p>
+                </div>
+                <p>
+                  <strong>Date limite de rendu : </strong
+                  >{{ devoir.devoir_id.dateDeRendu | date }}
+                </p>
+                <p *ngIf="isLate(devoir)" class="badge badge-danger">
+                  En retard
+                </p>
+                <br />
+                <button
+                  mat-button
+                  (click)="openRendreDevoirDialog($event, devoir)"
+                  style="padding: 10px; color: white"
+                  class="btn btn-info"
+                >
+                  Livrer
+                </button>
               </div>
             </div>
-          </cdk-virtual-scroll-viewport>
+          </div>
         </div>
 
         <div class="example-container" style="width: 45%; float: left">
           <h4>Devoirs rendus</h4>
 
-          <cdk-virtual-scroll-viewport
-            itemSize="50"
-            class="example-viewport"
-            #rendusScroller
+          <div
+            style="height: 600px"
+            cdkDropList
+            id="liste_rendus"
+            [cdkDropListData]="rendus"
+            cdkDropListConnectedTo="liste_a_rendre"
+            (cdkDropListDropped)="drop($event)"
+            class="example-list"
           >
             <div
-              style="min-height: 300px"
-              cdkDropList
-              id="liste_rendus"
-              [cdkDropListData]="rendus"
-              cdkDropListConnectedTo="liste_a_rendre"
-              (cdkDropListDropped)="drop($event)"
+              class="example-box"
+              *ngFor="let devoir of rendus"
+              cdkDrag
+              [cdkDragData]="devoir"
+              [cdkDragDisabled]="true"
+              (click)="openDetailsDialog(devoir)"
             >
-              <div
-                class="example-box"
-                *cdkVirtualFor="let devoir of rendus"
-                cdkDrag
-                [cdkDragData]="devoir"
-                [cdkDragDisabled]="true"
-                (click)="openDetailsDialog(devoir)"
-              >
-                <div class="item-container">
-                  <h5>
-                    <strong>{{ devoir.devoir_id.nom }}</strong>
-                  </h5>
-                  <div class="flex-container">
-                    <img
-                      *ngIf="devoir.devoir_id.matiere_id.photo"
-                      src="{{ urlPhoto + devoir.devoir_id.matiere_id.photo }}"
-                      class="item-image"
-                    />
-                    <img
-                      *ngIf="!devoir.devoir_id.matiere_id.photo"
-                      src="assets/images/matiere-default.jpg"
-                      class="item-image"
-                    />
-                    <div style="width: 10px"></div>
-                    <p>
-                      <strong>Matière : </strong
-                      >{{ devoir.devoir_id.matiere_id.nom }}
-                    </p>
-                  </div>
-                  <div class="flex-container">
-                    <img
-                      *ngIf="devoir.devoir_id.matiere_id.professeur_id.photo"
-                      src="{{
-                        urlPhoto +
-                          devoir.devoir_id.matiere_id.professeur_id.photo
-                      }}"
-                      class="item-image"
-                    />
-                    <img
-                      *ngIf="!devoir.devoir_id.matiere_id.professeur_id.photo"
-                      src="assets/images/professeur-default.png"
-                      class="item-image"
-                    />
-                    <div style="width: 10px"></div>
-                    <p>
-                      <strong>Professeur : </strong
-                      >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
-                    </p>
-                  </div>
+              <div class="item-container">
+                <h5>
+                  <strong>{{ devoir.devoir_id.nom }}</strong>
+                </h5>
+                <div class="flex-container">
+                  <img
+                    *ngIf="devoir.devoir_id.matiere_id.photo"
+                    src="{{ urlPhoto + devoir.devoir_id.matiere_id.photo }}"
+                    class="item-image"
+                  />
+                  <img
+                    *ngIf="!devoir.devoir_id.matiere_id.photo"
+                    src="assets/images/matiere-default.jpg"
+                    class="item-image"
+                  />
+                  <div style="width: 10px"></div>
                   <p>
-                    <strong>Date limite de rendu : </strong
-                    >{{ devoir.devoir_id.dateDeRendu | date }}
-                  </p>
-                  <p>
-                    <strong>Date de livraison : </strong
-                    >{{ devoir.dateLivraison | date }}
-                  </p>
-                  <div *ngIf="estNote(devoir)">
-                    <p>
-                      <strong>Date de notation : </strong
-                      >{{ devoir.dateNotation | date }}
-                    </p>
-                    <p><strong>Note : </strong>{{ devoir.note }}/20</p>
-                    <p>
-                      <strong>Remarques : </strong>{{ devoir.remarques_note }}
-                    </p>
-                    <p class="badge badge-success">Rendu</p>
-                  </div>
-                  <p *ngIf="estLivre(devoir)" class="badge badge-warning">
-                    En attente de notation
-                  </p>
-                  <br />
-                  <p *ngIf="isLate(devoir)" class="badge badge-danger">
-                    En retard
+                    <strong>Matière : </strong
+                    >{{ devoir.devoir_id.matiere_id.nom }}
                   </p>
                 </div>
+                <div class="flex-container">
+                  <img
+                    *ngIf="devoir.devoir_id.matiere_id.professeur_id.photo"
+                    src="{{
+                      urlPhoto + devoir.devoir_id.matiere_id.professeur_id.photo
+                    }}"
+                    class="item-image"
+                  />
+                  <img
+                    *ngIf="!devoir.devoir_id.matiere_id.professeur_id.photo"
+                    src="assets/images/professeur-default.png"
+                    class="item-image"
+                  />
+                  <div style="width: 10px"></div>
+                  <p>
+                    <strong>Professeur : </strong
+                    >{{ devoir.devoir_id.matiere_id.professeur_id.nom }}
+                  </p>
+                </div>
+                <p>
+                  <strong>Date limite de rendu : </strong
+                  >{{ devoir.devoir_id.dateDeRendu | date }}
+                </p>
+                <p>
+                  <strong>Date de livraison : </strong
+                  >{{ devoir.dateLivraison | date }}
+                </p>
+                <div *ngIf="estNote(devoir)">
+                  <p>
+                    <strong>Date de notation : </strong
+                    >{{ devoir.dateNotation | date }}
+                  </p>
+                  <p><strong>Note : </strong>{{ devoir.note }}/20</p>
+                  <p>
+                    <strong>Remarques : </strong>{{ devoir.remarques_note }}
+                  </p>
+                  <p class="badge badge-success">Rendu</p>
+                </div>
+                <p *ngIf="estLivre(devoir)" class="badge badge-warning">
+                  En attente de notation
+                </p>
+                <br />
+                <p *ngIf="isLate(devoir)" class="badge badge-danger">
+                  En retard
+                </p>
               </div>
             </div>
-          </cdk-virtual-scroll-viewport>
+          </div>
         </div>
       </div>
     </div>
