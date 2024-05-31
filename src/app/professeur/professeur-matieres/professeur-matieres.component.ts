@@ -16,7 +16,7 @@ import { DataRoutingConst } from '../../data/constant/data-routing.const';
 import { Router } from '@angular/router';
 import { PopUpProfesseursMatieresAjoutDevoirComponent } from './pop-up-professeurs-matieres-ajout-devoir/pop-up-professeurs-matieres-ajout-devoir.component';
 import { MatDialog } from '@angular/material/dialog';
-
+import { EnvironmentConst } from '../../data/constant/data-env.const';
 @Component({
   selector: 'app-professeur-matieres',
   standalone: true,
@@ -46,6 +46,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ProfesseurMatieresComponent implements OnInit {
   titre = 'Liste des matieres';
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
   // Pour la pagination
 
   length = 0;

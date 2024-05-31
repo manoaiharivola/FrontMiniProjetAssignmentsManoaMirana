@@ -23,9 +23,25 @@
               <td mat-cell *matCellDef="let matiere">
                 <img
                   *ngIf="matiere.photo"
-                  [src]="matiere.photo"
-                  alt="{{ matiere.nom }}"
-                  style="width: 50px; height: 50px"
+                  src="{{ urlPhoto + matiere.photo }}"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 5px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                  "
+                />
+                <img
+                  *ngIf="!matiere.photo"
+                  src="assets/images/matiere-default.jpg"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 5px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                  "
                 />
               </td>
             </ng-container>
