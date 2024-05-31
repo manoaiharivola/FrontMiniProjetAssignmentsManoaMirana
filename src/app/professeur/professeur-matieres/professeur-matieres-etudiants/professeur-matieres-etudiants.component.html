@@ -3,12 +3,39 @@
     <div class="card">
       <div class="card-body">
         <h3>Liste des étudiants</h3>
-        <br />
-        <p><strong>Nom de la matière : </strong> {{ matiere.nom }}</p>
-        <p>
-          <strong>Nombre d'étudiants inscrits : </strong>
-          {{ matiere.etudiant_inscrits.length }}
-        </p>
+        <div class="flex-container">
+          <div style="margin-right: 20px">
+            <img
+              *ngIf="matiere.photo"
+              src="{{ urlPhoto + matiere.photo }}"
+              style="
+                width: 70px;
+                height: 70px;
+                border-radius: 5px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+              "
+            />
+            <img
+              *ngIf="!matiere.photo"
+              src="assets/images/matiere-default.jpg"
+              style="
+                width: 70px;
+                height: 70px;
+                border-radius: 5px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+              "
+            />
+          </div>
+          <div class="flex-container-texte">
+            <p><strong>Nom de la matière : </strong> {{ matiere.nom }}</p>
+            <p>
+              <strong>Nombre d'étudiants inscrits : </strong>
+              {{ matiere.etudiant_inscrits.length }}
+            </p>
+          </div>
+        </div>
         <br />
         <button
           class="btn btn-primary mr-2"
