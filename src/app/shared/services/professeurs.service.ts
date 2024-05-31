@@ -18,4 +18,9 @@ export class ProfesseursService {
       this.uri + '/connected'
     );
   }
+
+  getListeProfesseurs(page: number, limit: number): Observable<any> {
+    const url = `${this.uri}?page=${page}&limit=${limit}`;
+    return this.httpRequestService.get<any>('PROFESSEUR', url);
+  }
 }
