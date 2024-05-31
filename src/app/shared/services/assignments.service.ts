@@ -6,7 +6,7 @@ import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
 import { EnvironmentConst } from '../../data/constant/data-env.const';
 // importation des données de test
-import { bdInitialAssignments } from '../data';
+//import { bdInitialAssignments } from '../data';
 
 @Injectable({
   providedIn: 'root',
@@ -92,7 +92,7 @@ export class AssignmentsService {
   }
 
   // VERSION NAIVE (on ne peut pas savoir quand l'opération des 1000 insertions est terminée)
-  peuplerBD() {
+  /*peuplerBD() {
     // on utilise les données de test générées avec mockaroo.com pour peupler la base
     // de données
     bdInitialAssignments.forEach((a) => {
@@ -120,5 +120,5 @@ export class AssignmentsService {
     });
 
     return forkJoin(appelsVersAddAssignment);
-  }
+  }*/
 }

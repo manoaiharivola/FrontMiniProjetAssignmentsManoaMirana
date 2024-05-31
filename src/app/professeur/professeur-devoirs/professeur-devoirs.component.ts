@@ -55,7 +55,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   ],
 })
 export class ProfesseurDevoirsComponent implements OnInit {
-  displayedColumns: string[] = ['nom', 'matiere', 'dateDeCreation', 'dateDeRendu', 'actions'];
+  displayedColumns: string[] = [
+    'nom',
+    'matiere',
+    'dateDeCreation',
+    'dateDeRendu',
+    'actions',
+  ];
   devoirs: Devoir[] = [];
   matieres: Matiere[] = [];
   length = 0;
@@ -90,11 +96,15 @@ export class ProfesseurDevoirsComponent implements OnInit {
   }
 
   getDevoirsFromService() {
-    const matiereId = this.matiereControl.value ? this.matiereControl.value : undefined;
-    this.devoirsService.getProfesseurDevoirs(this.pageIndex + 1, this.pageSize, matiereId).subscribe((data) => {
-      this.devoirs = data.docs;
-      this.length = data.totalDocs;
-    });
+    const matiereId = this.matiereControl.value
+      ? this.matiereControl.value
+      : undefined;
+    this.devoirsService
+      .getProfesseurDevoirs(this.pageIndex + 1, this.pageSize, matiereId)
+      .subscribe((data) => {
+        this.devoirs = data.docs;
+        this.length = data.totalDocs;
+      });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -111,12 +121,15 @@ export class ProfesseurDevoirsComponent implements OnInit {
   }
 
   showPopUpAjoutNouveauDevoir() {
-    const dialogRef = this.matDialog.open(PopUpProfesseursDevoirsAjoutDevoirComponent, {
-      panelClass: 'custom-container',
-      autoFocus: false,
-    });
+    const dialogRef = this.matDialog.open(
+      PopUpProfesseursDevoirsAjoutDevoirComponent,
+      {
+        panelClass: 'custom-container',
+        autoFocus: false,
+      }
+    );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'refresh') {
         this.getDevoirsFromService();
       }
@@ -130,7 +143,7 @@ export class ProfesseurDevoirsComponent implements OnInit {
   detailsDevoir(devoir: Devoir) {
     this.router.navigate([
       DataRoutingConst.ROUTE_PROFESSEUR_DEVOIRS,
-      devoir._id
+      devoir._id,
     ]);
   }
 
@@ -141,13 +154,16 @@ export class ProfesseurDevoirsComponent implements OnInit {
   }
 
   openModifierDialog(devoir: any): void {
-    console.log(devoir)
-    const dialogRef = this.matDialog.open(PopUpProfesseursDevoirsModifierDevoirComponent, {
-      width: '400px',
-      data: { devoir }
-    });
+    console.log(devoir);
+    const dialogRef = this.matDialog.open(
+      PopUpProfesseursDevoirsModifierDevoirComponent,
+      {
+        width: '400px',
+        data: { devoir },
+      }
+    );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.loadDevoirs();
       }
@@ -155,27 +171,34 @@ export class ProfesseurDevoirsComponent implements OnInit {
   }
 
   openSupprimerDialog(devoir: any): void {
-    const dialogRef = this.matDialog.open(PopUpProfesseursDevoirsSupprimerDevoirComponent, {
-      width: '620px',
-      height: '220px',
-      data: { devoir }
-    });
+    const dialogRef = this.matDialog.open(
+      PopUpProfesseursDevoirsSupprimerDevoirComponent,
+      {
+        width: '620px',
+        height: '220px',
+        data: { devoir },
+      }
+    );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.devoirsService.deleteDevoir(devoir._id).subscribe(
-          response => {
+          (response) => {
             console.log(response.message);
             this.loadDevoirs(); // Recharger la liste des devoirs après la suppression
             this.snackBar.open('Le devoir a bien été supprimé.', 'Fermer', {
-              duration: 3000
+              duration: 3000,
             });
           },
-          error => {
-            console.error("Erreur lors de la suppression du devoir:", error);
+          (error) => {
+            console.error('Erreur lors de la suppression du devoir:', error);
           }
         );
       }
     });
+  }
+
+  genererMilleDevoirs() {
+    this.devoirsService.ajouterMilleDevoirs();
   }
 }

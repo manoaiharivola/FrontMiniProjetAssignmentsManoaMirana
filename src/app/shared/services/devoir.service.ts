@@ -4,7 +4,7 @@ import { LoggingService } from './logging.service';
 import { HttpRequestService } from './http/http-request.service';
 import { EnvironmentConst } from '../../data/constant/data-env.const';
 import { DataWsConst } from '../../data/constant/data-ws.const';
-
+import { milleDevoirs } from '../data';
 @Injectable({
   providedIn: 'root',
 })
@@ -97,5 +97,19 @@ export class DevoirsService {
       `${this.uri}/devoir-etudiant/${id}/rendre`,
       payload
     );
+  }
+
+  ajouterMilleDevoirs() {
+    milleDevoirs.forEach((devoir) => {
+      let nouveauDevoir = {
+        nom: devoir.nom,
+        dateDeRendu: devoir.dateDeRendu,
+        description: devoir.description,
+        matiere_id: devoir.matiere_id,
+      };
+      this.ajouterDevoir(nouveauDevoir).subscribe(() => {
+        console.log('Devoir ' + nouveauDevoir.nom + ' ajouté');
+      });
+    });
   }
 }
