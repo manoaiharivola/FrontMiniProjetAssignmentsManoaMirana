@@ -7,6 +7,9 @@ import { HttpRequestService } from './http/http-request.service';
 import { EnvironmentConst } from '../../data/constant/data-env.const';
 import { DataWsConst } from '../../data/constant/data-ws.const';
 import { Etudiant } from '../models/etudiant.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LocalStorageService } from './local-storage/local-storage.service';
+import { LocalStorageConst } from '../constant/local-storage.const';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +19,9 @@ export class MatieresService {
 
   constructor(
     private logService: LoggingService,
-    private httpRequestService: HttpRequestService
+    private httpRequestService: HttpRequestService,
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
   ) {}
 
   uri = EnvironmentConst.API_URL + DataWsConst.WS_MATIERE;
@@ -67,12 +72,15 @@ export class MatieresService {
     };
   }
 */
-  addMatiere(payload: any): Observable<any> {
-    return this.httpRequestService.post<Matiere>(
-      'PROFESSEUR',
-      this.uri,
-      payload
-    );
+  addMatiere(formData: FormData): Observable<any> {
+    let authorizationToken =
+      'Bearer ' +
+      this.localStorageService.getItem(
+        LocalStorageConst.PROFESSEUR_ACCESS_TOKEN
+      );
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', `${authorizationToken}`);
+    return this.http.post<any>(this.uri, formData, { headers: headers });
   }
   /*
   updateMatiere(matiere: Matiere): Observable<any> {

@@ -48,6 +48,15 @@
     />
     <!-- endinject -->
     <link rel="shortcut icon" href="../../../../template/images/favicon.png" />
+    <style>
+      .user-image {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 5px;
+      }
+    </style>
   </head>
   <body>
     <div class="container-scroller">
@@ -72,6 +81,17 @@
           class="d-flex align-items-center ml-auto"
           style="margin-right: 20px"
         >
+          <img
+            *ngIf="etudiant.photo"
+            src="{{ urlPhoto + etudiant.photo }}"
+            class="user-image"
+          />
+          <img
+            *ngIf="!etudiant.photo"
+            src="assets/images/etudiant-default.png"
+            class="user-image"
+          />
+          <div style="width: 10px"></div>
           <h5>{{ etudiant.prenom }} {{ etudiant.nom }}</h5>
           <div style="width: 20px"></div>
           <button class="btn btn-danger ml-2" (click)="logout()">
@@ -117,8 +137,8 @@
             >
               <span
                 class="text-muted text-center text-sm-left d-block d-sm-inline-block"
-                >Copyright © 2023. M1p10-Mean. INALIARIJAONA Ony Mirana &
-                RAKOTOARIMANANA Manoa Iharivola</span
+                >Copyright © 2024. Mini Projet Angular. INALIARIJAONA Ony Mirana
+                & RAKOTOARIMANANA Manoa Iharivola</span
               >
             </div>
           </footer>

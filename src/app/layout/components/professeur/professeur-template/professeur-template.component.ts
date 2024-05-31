@@ -8,6 +8,7 @@ import { LocalStorageConst } from '../../../../shared/constant/local-storage.con
 import { SnackBarService } from '../../../../shared/services/snack-bar/snack-bar.service';
 import { DataRoutingConst } from '../../../../data/constant/data-routing.const';
 import { ProfesseursService } from '../../../../shared/services/professeurs.service';
+import { EnvironmentConst } from '../../../../data/constant/data-env.const';
 
 @Component({
   selector: 'app-professeur-template',
@@ -29,6 +30,7 @@ import { ProfesseursService } from '../../../../shared/services/professeurs.serv
 export class ProfesseurTemplateComponent implements OnInit {
   sidebarData = sidebarProfesseurData;
   professeur: any = null;
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
 
   constructor(
     private router: Router,

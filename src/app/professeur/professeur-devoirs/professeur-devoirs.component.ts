@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
 import { PopUpProfesseursDevoirsModifierDevoirComponent } from './pop-up-professeurs-devoirs-modifier-devoir/pop-up-professeurs-devoirs-modifier-devoir.component';
 import { PopUpProfesseursDevoirsSupprimerDevoirComponent } from './pop-up-professeurs-devoirs-supprimer-devoir/pop-up-professeurs-devoirs-supprimer-devoir.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-professeur-devoirs',
@@ -44,6 +45,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatSelectModule,
     MatTooltipModule,
+    MatInput
   ],
   templateUrl: './professeur-devoirs.component.html',
   styleUrls: [
@@ -55,19 +57,31 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   ],
 })
 export class ProfesseurDevoirsComponent implements OnInit {
-  displayedColumns: string[] = ['nom', 'matiere', 'dateDeCreation', 'dateDeRendu', 'actions'];
+  displayedColumns: string[] = [
+    'nom',
+    'matiere',
+    'dateDeCreation',
+    'dateDeRendu',
+    'actions',
+  ];
   devoirs: Devoir[] = [];
   matieres: Matiere[] = [];
+
+  // Pagination
   length = 0;
   pageSize = 10;
   pageIndex = 0;
-  pageSizeOptions = [5, 10, 25];
+  pageSizeOptions = [5, 10, 25, 50, 100];
+
   hidePageSize = false;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   disabled = false;
   pageEvent: PageEvent | undefined;
   matiereControl = new FormControl<string | null>(null);
+  searchControl = new FormControl('');
+  sortField = 'nom';
+  sortOrder = 'asc';
 
   constructor(
     private matDialog: MatDialog,
@@ -80,7 +94,6 @@ export class ProfesseurDevoirsComponent implements OnInit {
   ngOnInit() {
     this.getMatieresFromService();
     this.getDevoirsFromService();
-    this.loadDevoirs();
   }
 
   getMatieresFromService() {
@@ -90,11 +103,16 @@ export class ProfesseurDevoirsComponent implements OnInit {
   }
 
   getDevoirsFromService() {
-    const matiereId = this.matiereControl.value ? this.matiereControl.value : undefined;
-    this.devoirsService.getProfesseurDevoirs(this.pageIndex + 1, this.pageSize, matiereId).subscribe((data) => {
-      this.devoirs = data.docs;
-      this.length = data.totalDocs;
-    });
+    const matiereId = this.matiereControl.value ?? undefined;
+    const search = this.searchControl.value ?? '';
+    this.devoirsService
+      .getProfesseurDevoirs(this.pageIndex + 1, this.pageSize, matiereId, search, this.sortField, this.sortOrder)
+      .subscribe((data) => {
+        this.devoirs = data.docs;
+        this.length = data.totalDocs;
+        this.pageSize = data.limit;
+        this.pageIndex = data.page - 1;
+      });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -110,13 +128,27 @@ export class ProfesseurDevoirsComponent implements OnInit {
     this.getDevoirsFromService();
   }
 
-  showPopUpAjoutNouveauDevoir() {
-    const dialogRef = this.matDialog.open(PopUpProfesseursDevoirsAjoutDevoirComponent, {
-      panelClass: 'custom-container',
-      autoFocus: false,
-    });
+  onSearchChange() {
+    this.pageIndex = 0; // Reset to first page
+    this.getDevoirsFromService();
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
+  onSortChange(sortField: string) {
+    this.sortField = sortField;
+    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    this.getDevoirsFromService();
+  }
+
+  showPopUpAjoutNouveauDevoir() {
+    const dialogRef = this.matDialog.open(
+      PopUpProfesseursDevoirsAjoutDevoirComponent,
+      {
+        panelClass: 'custom-container',
+        autoFocus: false,
+      }
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'refresh') {
         this.getDevoirsFromService();
       }
@@ -130,52 +162,56 @@ export class ProfesseurDevoirsComponent implements OnInit {
   detailsDevoir(devoir: Devoir) {
     this.router.navigate([
       DataRoutingConst.ROUTE_PROFESSEUR_DEVOIRS,
-      devoir._id
+      devoir._id,
     ]);
   }
 
-  loadDevoirs() {
-    this.devoirsService.getProfesseurDevoirs(1, 10).subscribe((data) => {
-      this.devoirs = data.docs;
-    });
-  }
-
   openModifierDialog(devoir: any): void {
-    console.log(devoir)
-    const dialogRef = this.matDialog.open(PopUpProfesseursDevoirsModifierDevoirComponent, {
-      width: '400px',
-      data: { devoir }
-    });
+    console.log(devoir);
+    const dialogRef = this.matDialog.open(
+      PopUpProfesseursDevoirsModifierDevoirComponent,
+      {
+        width: '400px',
+        data: { devoir },
+      }
+    );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadDevoirs();
+        this.getDevoirsFromService();
       }
     });
   }
 
   openSupprimerDialog(devoir: any): void {
-    const dialogRef = this.matDialog.open(PopUpProfesseursDevoirsSupprimerDevoirComponent, {
-      width: '620px',
-      height: '220px',
-      data: { devoir }
-    });
+    const dialogRef = this.matDialog.open(
+      PopUpProfesseursDevoirsSupprimerDevoirComponent,
+      {
+        width: '620px',
+        height: '220px',
+        data: { devoir },
+      }
+    );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.devoirsService.deleteDevoir(devoir._id).subscribe(
-          response => {
+          (response) => {
             console.log(response.message);
-            this.loadDevoirs(); // Recharger la liste des devoirs après la suppression
+            this.getDevoirsFromService(); // Recharger la liste des devoirs après la suppression
             this.snackBar.open('Le devoir a bien été supprimé.', 'Fermer', {
-              duration: 3000
+              duration: 3000,
             });
           },
-          error => {
-            console.error("Erreur lors de la suppression du devoir:", error);
+          (error) => {
+            console.error('Erreur lors de la suppression du devoir:', error);
           }
         );
       }
     });
+  }
+
+  genererMilleDevoirs() {
+    this.devoirsService.ajouterMilleDevoirs();
   }
 }

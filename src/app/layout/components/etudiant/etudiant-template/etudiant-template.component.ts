@@ -8,7 +8,7 @@ import { LocalStorageConst } from '../../../../shared/constant/local-storage.con
 import { SnackBarService } from '../../../../shared/services/snack-bar/snack-bar.service';
 import { DataRoutingConst } from '../../../../data/constant/data-routing.const';
 import { EtudiantsService } from '../../../../shared/services/etudiants.service';
-
+import { EnvironmentConst } from '../../../../data/constant/data-env.const';
 @Component({
   selector: 'app-etudiant-template',
   standalone: true,
@@ -29,6 +29,7 @@ import { EtudiantsService } from '../../../../shared/services/etudiants.service'
 export class EtudiantTemplateComponent implements OnInit {
   sidebarData = sidebarData;
   etudiant: any = null;
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
 
   constructor(
     private router: Router,

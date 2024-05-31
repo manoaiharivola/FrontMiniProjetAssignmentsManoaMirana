@@ -27,7 +27,7 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { forkJoin } from 'rxjs';
 import { PopUpProfesseursDevoirsDetailsDevoirEtudiantComponent } from './pop-up-professeurs-devoirs-details-devoir-etudiant/pop-up-professeurs-devoirs-details-devoir-etudiant.component';
-
+import { EnvironmentConst } from '../../../data/constant/data-env.const';
 @Component({
   selector: 'app-professeur-devoirs-details',
   standalone: true,
@@ -65,6 +65,7 @@ export class ProfesseurDevoirsDetailsComponent
   notes: any[] = [];
   nonNotesIsLoading = false;
   notesIsLoading = false;
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
 
   // Pagination
   limit = 10;
@@ -302,10 +303,11 @@ export class ProfesseurDevoirsDetailsComponent
 
   openDetailsDialog(etudiantDevoir: any): void {
     this.matDialog.open(PopUpProfesseursDevoirsDetailsDevoirEtudiantComponent, {
+      width : '620px',
       data: {
         etudiant: etudiantDevoir.etudiant_id,
-        etudiantDevoir: etudiantDevoir
-      }
+        etudiantDevoir: etudiantDevoir,
+      },
     });
   }
 
@@ -318,9 +320,9 @@ export class ProfesseurDevoirsDetailsComponent
     if (event.previousContainer === event.container) {
       return;
     }
-  
+
     const draggedItem = event.item.data;
-  
+
     if (
       event.previousContainer.id === 'liste_non_notes' &&
       event.container.id === 'liste_notes'
@@ -335,46 +337,61 @@ export class ProfesseurDevoirsDetailsComponent
     }
   }
 
-  openNoterDialog(event: MouseEvent | CdkDragDrop<any[]>, devoirEtudiant: any): void {
+  openNoterDialog(
+    event: MouseEvent | CdkDragDrop<any[]>,
+    devoirEtudiant: any
+  ): void {
     if (event instanceof MouseEvent) {
       event.stopPropagation(); // Empêcher la propagation de l'événement de clic
     }
 
-    // Supprimer l'élément de nonNotes et l'ajouter à notes temporairement
-    this.nonNotes = this.nonNotes.filter(devoir => devoir._id !== devoirEtudiant._id);
-    if (!this.notes.some(devoir => devoir._id === devoirEtudiant._id)) {
-      this.getDevoirsNotesAndTemporaryItem(devoirEtudiant._id, this.notesPage, this.limit, devoirEtudiant);
+    // Remove the item from nonNotes and add it to notes temporarily
+    this.nonNotes = this.nonNotes.filter(
+      (devoir) => devoir._id !== devoirEtudiant._id
+    );
+    if (!this.notes.some((devoir) => devoir._id === devoirEtudiant._id)) {
+      this.getDevoirsNotesAndTemporaryItem(
+        devoirEtudiant._id,
+        this.notesPage,
+        this.limit,
+        devoirEtudiant
+      );
     }
 
     const currentNonNotesPage = this.nonNotesPage;
     const currentNotesPage = this.notesPage;
 
-    const dialogRef = this.matDialog.open(ProfesseurDevoirsDetailsPopUpNoterDevoirComponent, {
-      width: '400px',
-      data: { devoirEtudiant }
-    });
+    const dialogRef = this.matDialog.open(
+      ProfesseurDevoirsDetailsPopUpNoterDevoirComponent,
+      {
+        width: '400px',
+        data: { devoirEtudiant },
+      }
+    );
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        if (currentNonNotesPage > 1) {
-          // Récupérer toutes les pages de 1 à currentNonNotesPage
-          this.getAllDevoirsNonNotes(this.devoirId!, currentNonNotesPage, this.limit);
-        } else {
-          // Restaurer la page actuelle des non notés
-          this.getDevoirsNonNotes(this.devoirId!, currentNonNotesPage, this.limit);
-        }
-
-        if (currentNotesPage > 1) {
-          // Récupérer toutes les pages de 1 à currentNotesPage
-          this.getAllDevoirsNotes(this.devoirId!, currentNotesPage, this.limit);
-        } else {
-          // Restaurer la page actuelle des notés
-          this.getAllDevoirsNotes(this.devoirId!, currentNotesPage, this.limit);
-        }
+    dialogRef.afterClosed().subscribe(() => {
+      if (currentNonNotesPage > 1) {
+        // Récupérer toutes les pages de 1 à currentNonNotesPage
+        this.getAllDevoirsNonNotes(
+          this.devoirId!,
+          currentNonNotesPage,
+          this.limit
+        );
       } else {
-        // Si la notation est annulée, restaurer l'élément dans nonNotes
-        this.notes = this.notes.filter(devoir => devoir._id !== devoirEtudiant._id);
-        this.nonNotes.push(devoirEtudiant);
+        // Restaurer la page actuelle des non notés
+        this.getDevoirsNonNotes(
+          this.devoirId!,
+          currentNonNotesPage,
+          this.limit
+        );
+      }
+
+      if (currentNotesPage > 1) {
+        // Récupérer toutes les pages de 1 à currentNotesPage
+        this.getAllDevoirsNotes(this.devoirId!, currentNotesPage, this.limit);
+      } else {
+        // Restaurer la page actuelle des notés
+        this.getAllDevoirsNotes(this.devoirId!, currentNotesPage, this.limit);
       }
     });
   }
@@ -382,7 +399,9 @@ export class ProfesseurDevoirsDetailsComponent
   getAllDevoirsNonNotes(devoirId: string, pages: number, limit: number): void {
     const observables = [];
     for (let i = 1; i <= pages; i++) {
-      observables.push(this.devoirsService.getDevoirsNonNotes(devoirId, i, limit));
+      observables.push(
+        this.devoirsService.getDevoirsNonNotes(devoirId, i, limit)
+      );
     }
 
     forkJoin(observables).subscribe((responses) => {

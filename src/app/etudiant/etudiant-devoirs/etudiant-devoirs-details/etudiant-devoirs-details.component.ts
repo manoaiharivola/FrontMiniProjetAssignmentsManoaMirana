@@ -27,6 +27,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EtudiantDevoirsDetailsPopUpRendreDevoirComponent } from './etudiant-devoirs-details-pop-up-rendre-devoir/etudiant-devoirs-details-pop-up-rendre-devoir.component';
 import { EtudiantDevoirsDetailsPopUpDetailsDevoirComponent } from './etudiant-devoirs-details-pop-up-details-devoir/etudiant-devoirs-details-pop-up-details-devoir.component';
+import { EnvironmentConst } from '../../../data/constant/data-env.const';
 
 @Component({
   selector: 'app-etudiant-devoirs-details',
@@ -57,6 +58,7 @@ import { EtudiantDevoirsDetailsPopUpDetailsDevoirComponent } from './etudiant-de
   ],
 })
 export class EtudiantDevoirsDetailsComponent implements OnInit {
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
   aRendre: any[] = [];
   rendus: any[] = [];
 
@@ -83,16 +85,11 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
   rendusHasNextPage!: boolean;
   rendusHasPrevPage!: boolean;
 
-  // pour virtual scroll infini
-  @ViewChild('aRendreScroller') aRendreScroller!: CdkVirtualScrollViewport;
-  @ViewChild('rendusScroller') rendusScroller!: CdkVirtualScrollViewport;
-
   constructor(
     private route: ActivatedRoute,
     private devoirsService: DevoirsService,
     private router: Router,
     private matDialog: MatDialog,
-    private ngZone: NgZone,
     private snackBar: MatSnackBar
   ) {}
 
@@ -115,13 +112,6 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     });
   }
 
-  getDevoirsRendusAndTemporaryItem(item: any): void {
-    this.devoirsService.getDevoirsRendus().subscribe((response) => {
-      this.rendus.unshift(item);
-      this.rendus = [...this.rendus];
-    });
-  }
-
   isLate(devoir: any): boolean {
     const now = new Date();
     return now > new Date(devoir.devoir_id.dateDeRendu || '');
@@ -135,7 +125,7 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     return devoir.dateLivraison && devoir.dateNotation && devoir.note;
   }
 
-  drop(event: CdkDragDrop<any[]>) {
+  drop(event: any) {
     if (event.previousContainer === event.container) {
       return;
     }
@@ -146,6 +136,12 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
       event.previousContainer.id === 'liste_a_rendre' &&
       event.container.id === 'liste_rendus'
     ) {
+      this.aRendre = this.aRendre.filter(
+        (devoir) => devoir._id !== draggedItem._id
+      );
+      if (!this.rendus.some((devoir) => devoir._id === draggedItem._id)) {
+        this.rendus.unshift(draggedItem);
+      }
       this.openRendreDevoirDialog(event, draggedItem);
     } else if (
       event.previousContainer.id === 'liste_rendus' &&
@@ -156,22 +152,17 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
     }
   }
 
-  openRendreDevoirDialog(
-    event: MouseEvent | CdkDragDrop<any[]>,
-    devoirARendre: any
-  ): void {
+  openRendreDevoirDialog(event: MouseEvent | any, devoirARendre: any): void {
     if (event instanceof MouseEvent) {
       event.stopPropagation(); // Empêcher la propagation de l'événement de clic
     }
 
-    // Supprimer l'élément de aRendre et l'ajouter à rendus temporairement
     this.aRendre = this.aRendre.filter(
       (devoir) => devoir._id !== devoirARendre._id
     );
     if (!this.rendus.some((devoir) => devoir._id === devoirARendre._id)) {
-      this.getDevoirsRendusAndTemporaryItem(devoirARendre);
+      this.rendus.unshift(devoirARendre);
     }
-
     const dialogRef = this.matDialog.open(
       EtudiantDevoirsDetailsPopUpRendreDevoirComponent,
       {
@@ -197,8 +188,8 @@ export class EtudiantDevoirsDetailsComponent implements OnInit {
           }
         );
       } else {
-        this.getDevoirsARendre();
         this.getDevoirsRendus();
+        this.getDevoirsARendre();
       }
     });
   }

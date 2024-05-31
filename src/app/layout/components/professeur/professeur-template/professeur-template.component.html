@@ -48,6 +48,15 @@
     />
     <!-- endinject -->
     <link rel="shortcut icon" href="../../../../template/images/favicon.png" />
+    <style>
+      .user-image {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 5px;
+      }
+    </style>
   </head>
   <body>
     <div class="container-scroller">
@@ -72,6 +81,17 @@
           class="d-flex align-items-center ml-auto"
           style="margin-right: 20px"
         >
+          <img
+            *ngIf="professeur.photo"
+            src="{{ urlPhoto + professeur.photo }}"
+            class="user-image"
+          />
+          <img
+            *ngIf="!professeur.photo"
+            src="assets/images/professeur-default.png"
+            class="user-image"
+          />
+          <div style="width: 10px"></div>
           <h5>{{ professeur.prenom }} {{ professeur.nom }}</h5>
           <div style="width: 20px"></div>
           <button class="btn btn-danger ml-2" (click)="logout()">
