@@ -52,9 +52,17 @@
                   </div>
                   <div class="flex-container">
                     <img
-                      src="assets/images/professeur-default.png"
+                      *ngIf="devoir.devoir_id.matiere_id.professeur_id.photo"
+                      src="{{
+                        urlPhoto +
+                          devoir.devoir_id.matiere_id.professeur_id.photo
+                      }}"
                       class="item-image"
-                      alt="Professeur Image"
+                    />
+                    <img
+                      *ngIf="!devoir.devoir_id.matiere_id.professeur_id.photo"
+                      src="assets/images/professeur-default.jpg"
+                      class="item-image"
                     />
                     <div style="width: 10px"></div>
                     <p>
@@ -131,9 +139,17 @@
                   </div>
                   <div class="flex-container">
                     <img
-                      src="assets/images/professeur-default.png"
+                      *ngIf="devoir.devoir_id.matiere_id.professeur_id.photo"
+                      src="{{
+                        urlPhoto +
+                          devoir.devoir_id.matiere_id.professeur_id.photo
+                      }}"
                       class="item-image"
-                      alt="Professeur Image"
+                    />
+                    <img
+                      *ngIf="!devoir.devoir_id.matiere_id.professeur_id.photo"
+                      src="assets/images/matiere-default.jpg"
+                      class="item-image"
                     />
                     <div style="width: 10px"></div>
                     <p>
