@@ -124,7 +124,7 @@ export class ProfesseurMatieresComponent implements OnInit {
       PopUpProfesseursMatieresAjoutDevoirComponent,
       {
         width: '620px',
-        height: '250px',
+        minHeight: '300px',
       }
     );
 
