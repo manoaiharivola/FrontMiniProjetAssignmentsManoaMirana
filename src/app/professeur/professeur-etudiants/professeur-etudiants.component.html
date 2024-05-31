@@ -1,40 +1,52 @@
 <div class="row">
-    <div class="col-lg-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <h3>Liste des étudiants</h3>
-          <mat-paginator
-            #paginator
-            class="demo-paginator"
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [disabled]="disabled"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-            [hidePageSize]="hidePageSize"
-            [pageIndex]="pageIndex"
-            aria-label="Select page"
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h3>Liste des étudiants</h3>
+        <mat-paginator
+          #paginator
+          class="demo-paginator"
+          (page)="handlePageEvent($event)"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [showFirstLastButtons]="showFirstLastButtons"
+          [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page"
+        >
+        </mat-paginator>
+        <br />
+        <div class="row">
+          <div
+            class="card border border-primary shadow-0 mb-3"
+            style="width: 210px; margin-left: 2%"
+            *ngFor="let etudiant of etudiants"
           >
-          </mat-paginator>
-          <br />
-          <div class="row">
-            <div
-              class="card border border-primary shadow-0 mb-3"
-              style="max-width: 210px; margin-left: 2%;"
-              *ngFor="let etudiant of etudiants"
-            >
-              <div class="card-body text-primary" >
-                <h6 class="card-title">{{ etudiant.nom }} {{ etudiant.prenom }}</h6>
-                <p>{{ etudiant.mail }}</p>
-                <p class="card-text">
-                  <img [src]="etudiant.photo || 'assets/images/default-image.png'" class="img-fluid" alt="Photo de l'étudiant" style="border-radius: 10%;">
-                </p>
-              </div>
+            <div class="card-body text-primary">
+              <h6 class="card-title">
+                {{ etudiant.nom }} {{ etudiant.prenom }}
+              </h6>
+              <p>{{ etudiant.mail }}</p>
+              <p class="card-text">
+                <img
+                  *ngIf="etudiant.photo"
+                  src="{{ urlPhoto + etudiant.photo }}"
+                  class="img-fluid"
+                  style="border-radius: 10%"
+                />
+                <img
+                  *ngIf="!etudiant.photo"
+                  src="assets/images/etudiant-default.png"
+                  class="img-fluid"
+                  style="border-radius: 10%"
+                />
+              </p>
             </div>
-          </div>         
+          </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

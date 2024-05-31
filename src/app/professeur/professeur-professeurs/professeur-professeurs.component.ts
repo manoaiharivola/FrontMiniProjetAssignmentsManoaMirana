@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { EnvironmentConst } from '../../data/constant/data-env.const';
 
 @Component({
   selector: 'app-professeur-professeurs',
@@ -35,6 +36,7 @@ import { MatDialog } from '@angular/material/dialog';
   ],
 })
 export class ProfesseurProfesseursComponent implements OnInit {
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
   // Pour la pagination
   length = 0;
   pageSize = 10;
@@ -50,7 +52,9 @@ export class ProfesseurProfesseursComponent implements OnInit {
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map((str) => +str);
+      this.pageSizeOptions = setPageSizeOptionsInput
+        .split(',')
+        .map((str) => +str);
     }
   }
 
@@ -69,12 +73,14 @@ export class ProfesseurProfesseursComponent implements OnInit {
 
   getProfesseursFromService() {
     // on récupère les étudiants depuis le service
-    this.professeursService.getListeProfesseurs(this.pageIndex + 1, this.pageSize).subscribe((data) => {
-      // les données arrivent ici au bout d'un certain temps
-      console.log('Données arrivées');
-      this.professeurs = data.docs;
-      this.length = data.totalDocs;
-    });
+    this.professeursService
+      .getListeProfesseurs(this.pageIndex + 1, this.pageSize)
+      .subscribe((data) => {
+        // les données arrivent ici au bout d'un certain temps
+        console.log('Données arrivées');
+        this.professeurs = data.docs;
+        this.length = data.totalDocs;
+      });
     console.log('Requête envoyée');
   }
 
