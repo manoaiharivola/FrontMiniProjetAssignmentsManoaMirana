@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>AssignmentApp</title>
+    <title>Skydash Admin</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../../template/vendors/feather/feather.css" />
     <link
@@ -46,14 +46,36 @@
               >
                 <div class="brand-logo">
                   <img
-                    src="assets/images/logo-light.png"
+                    src="../../../assets/images/logo-light.png"
                     style="max-width: 50px"
                     alt="logo"
                   />
                 </div>
-                <h3>Bonjour !</h3>
-                <h4 class="font-weight-light">Se connecter pour continuer</h4>
-                <form class="pt-3" [formGroup]="loginForm">
+                <h3>Inscription</h3>
+                <h4 class="font-weight-light">S'inscrire pour continuer</h4>
+                <form class="pt-3" [formGroup]="inscriptionForm">
+                  <div class="form-group">
+                    <h6>Prénom(s)</h6>
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      id="prenom"
+                      placeholder="Prénom(s)"
+                      formControlName="prenom"
+                      style="color: white"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <h6>Nom</h6>
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      id="nom"
+                      placeholder="Nom"
+                      formControlName="nom"
+                      style="color: white"
+                    />
+                  </div>
                   <div class="form-group">
                     <h6>Adresse e-mail</h6>
                     <input
@@ -70,9 +92,9 @@
                     <input
                       type="password"
                       class="form-control form-control-lg"
-                      id="mdp"
+                      id="password"
                       placeholder="Mot de passe"
-                      formControlName="mdp"
+                      formControlName="password"
                       style="color: white"
                     />
                   </div>
@@ -104,15 +126,15 @@
                   <div class="mt-3">
                     <button
                       class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                      (click)="login()"
+                      (click)="inscription()"
                     >
-                      SE CONNECTER
+                      S'INSCRIRE
                     </button>
                   </div>
                   <div class="text-center mt-4 font-weight-light">
-                    Vous n'avez pas de compte ?
-                    <a href="authentication/inscription" class="text-primary"
-                      >S'inscrire</a
+                    Avez-vous déja un compte ?
+                    <a href="authentication/connexion" class="text-primary"
+                      >Se connecter</a
                     >
                   </div>
                 </form>

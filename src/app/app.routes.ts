@@ -16,6 +16,7 @@ import { ProfesseurDevoirsDetailsComponent } from './professeur/professeur-devoi
 import { EtudiantDevoirsDetailsComponent } from './etudiant/etudiant-devoirs/etudiant-devoirs-details/etudiant-devoirs-details.component';
 import { EtudiantTemplateComponent } from './layout/components/etudiant/etudiant-template/etudiant-template.component';
 import { EtudiantAuthGuard } from './shared/etudiant-auth.guard';
+import { InscriptionComponent } from './utilisateurs/inscription/inscription.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,10 @@ export const routes: Routes = [
       {
         path: 'connexion',
         component: LoginComponent,
+      },
+      {
+        path: 'inscription',
+        component: InscriptionComponent,
       },
     ],
   },
