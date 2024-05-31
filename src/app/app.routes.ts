@@ -17,6 +17,7 @@ import { EtudiantDevoirsDetailsComponent } from './etudiant/etudiant-devoirs/etu
 import { EtudiantTemplateComponent } from './layout/components/etudiant/etudiant-template/etudiant-template.component';
 import { EtudiantAuthGuard } from './shared/etudiant-auth.guard';
 import { ProfesseurEtudiantsComponent } from './professeur/professeur-etudiants/professeur-etudiants.component';
+import { ProfesseurProfesseursComponent } from './professeur/professeur-professeurs/professeur-professeurs.component';
 
 export const routes: Routes = [
   {
@@ -74,6 +75,10 @@ export const routes: Routes = [
       {
         path: 'etudiants',
         component: ProfesseurEtudiantsComponent,
+      },
+      {
+        path: 'professeurs',
+        component: ProfesseurProfesseursComponent,
       },
     ],
   },

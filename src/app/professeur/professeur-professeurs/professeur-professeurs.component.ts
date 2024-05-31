@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
-import { EtudiantsService } from '../../shared/services/etudiants.service';
+import { ProfesseursService } from '../../shared/services/professeurs.service';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -12,12 +12,12 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-professeur-etudiants',
+  selector: 'app-professeur-professeurs',
   standalone: true,
   providers: [],
-  templateUrl: './professeur-etudiants.component.html',
+  templateUrl: './professeur-professeurs.component.html',
   styleUrls: [
-    './professeur-etudiants.component.css',
+    './professeur-professeurs.component.css',
     '../../template/vendors/feather/feather.css',
     '../../template/vendors/ti-icons/css/themify-icons.css',
     '../../template/vendors/css/vendor.bundle.base.css',
@@ -34,7 +34,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatTooltipModule,
   ],
 })
-export class ProfesseurEtudiantsComponent implements OnInit {
+export class ProfesseurProfesseursComponent implements OnInit {
   // Pour la pagination
   length = 0;
   pageSize = 10;
@@ -55,24 +55,24 @@ export class ProfesseurEtudiantsComponent implements OnInit {
   }
 
   constructor(
-    private etudiantsService: EtudiantsService,
+    private professeursService: ProfesseursService,
     private router: Router,
     private matDialog: MatDialog
   ) {}
 
-  etudiants: any[] = [];
+  professeurs: any[] = [];
 
   ngOnInit() {
     console.log('ngOnInit étudiants, appelée AVANT affichage du composant');
-    this.getEtudiantsFromService();
+    this.getProfesseursFromService();
   }
 
-  getEtudiantsFromService() {
+  getProfesseursFromService() {
     // on récupère les étudiants depuis le service
-    this.etudiantsService.getListeEtudiants(this.pageIndex + 1, this.pageSize).subscribe((data) => {
+    this.professeursService.getListeProfesseurs(this.pageIndex + 1, this.pageSize).subscribe((data) => {
       // les données arrivent ici au bout d'un certain temps
       console.log('Données arrivées');
-      this.etudiants = data.docs;
+      this.professeurs = data.docs;
       this.length = data.totalDocs;
     });
     console.log('Requête envoyée');
@@ -83,6 +83,6 @@ export class ProfesseurEtudiantsComponent implements OnInit {
     this.length = e.length;
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
-    this.getEtudiantsFromService();
+    this.getProfesseursFromService();
   }
 }

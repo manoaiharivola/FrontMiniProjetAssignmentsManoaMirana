@@ -19,4 +19,10 @@ export const sidebarProfesseurData = [
     label: 'Etudiants',
     url: DataRoutingConst.ROUTE_PROFESSEUR_ETUDIANTS,
   },
+  {
+    routerLink: DataRoutingConst.ROUTE_PROFESSEUR_PROFESSEURS,
+    icon: 'mdi mdi-mdi-glasses',
+    label: 'Professeurs',
+    url: DataRoutingConst.ROUTE_PROFESSEUR_PROFESSEURS,
+  },
 ];
