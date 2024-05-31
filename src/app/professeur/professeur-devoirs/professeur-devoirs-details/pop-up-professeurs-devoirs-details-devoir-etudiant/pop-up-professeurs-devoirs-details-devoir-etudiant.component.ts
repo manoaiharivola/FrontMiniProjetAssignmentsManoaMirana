@@ -1,16 +1,25 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { EnvironmentConst } from '../../../../data/constant/data-env.const';
 
 @Component({
   selector: 'app-pop-up-professeurs-devoirs-details-devoir-etudiant',
-  templateUrl: './pop-up-professeurs-devoirs-details-devoir-etudiant.component.html',
-  styleUrls: ['./pop-up-professeurs-devoirs-details-devoir-etudiant.component.css'],
+  templateUrl:
+    './pop-up-professeurs-devoirs-details-devoir-etudiant.component.html',
+  styleUrls: [
+    './pop-up-professeurs-devoirs-details-devoir-etudiant.component.css',
+  ],
   standalone: true,
   imports: [
     CommonModule,
@@ -21,10 +30,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatDialogTitle
-  ]
+    MatDialogTitle,
+  ],
 })
 export class PopUpProfesseursDevoirsDetailsDevoirEtudiantComponent {
+  urlPhoto = EnvironmentConst.API_URL + '/api/';
   etudiant: any;
   etudiantDevoir: any;
 

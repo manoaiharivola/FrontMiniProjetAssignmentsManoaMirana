@@ -8,6 +8,20 @@
         >Le Nom est requis</mat-error
       >
     </mat-form-field>
+    <br />
+    <div class="file-input-container">
+      <button class="custom-button">Choix fichier</button>
+      <input type="file" class="file-input" (change)="onFileSelected($event)" />
+    </div>
+    <p>png/jpg/jpeg</p>
+    <br />
+    <img
+      *ngIf="previewUrl"
+      [src]="previewUrl"
+      alt="Image Preview"
+      style="width: 100px; height: 100px; margin-top: 10px"
+    />
+    <br />
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   </mat-dialog-content>

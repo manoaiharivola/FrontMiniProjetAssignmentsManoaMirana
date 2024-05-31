@@ -10,7 +10,19 @@
         >
           Ajouter une nouvelle matière
         </button>
-        <br />
+        <mat-paginator
+            #paginator
+            class="demo-paginator"
+            (page)="handlePageEvent($event)"
+            [length]="length"
+            [pageSize]="pageSize"
+            [disabled]="disabled"
+            [showFirstLastButtons]="showFirstLastButtons"
+            [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+            [hidePageSize]="hidePageSize"
+            [pageIndex]="pageIndex"
+          >
+          </mat-paginator>
         <br />
         <div class="table-responsive">
           <table
@@ -18,6 +30,35 @@
             [dataSource]="matieres"
             class="mat-elevation-z8 demo-table"
           >
+            <!-- Image Column -->
+            <ng-container matColumnDef="photo">
+              <th mat-header-cell *matHeaderCellDef>Image</th>
+              <td mat-cell *matCellDef="let matiere">
+                <img
+                  *ngIf="matiere.photo"
+                  src="{{ urlPhoto + matiere.photo }}"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 5px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                  "
+                />
+                <img
+                  *ngIf="!matiere.photo"
+                  src="assets/images/matiere-default.jpg"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 5px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                  "
+                />
+              </td>
+            </ng-container>
+
             <!-- Nom Column -->
             <ng-container matColumnDef="nom">
               <th mat-header-cell *matHeaderCellDef>Nom</th>
@@ -33,6 +74,7 @@
                 {{ matiere.etudiant_inscrits.length }}
               </td>
             </ng-container>
+
             <!-- Liste des étudiants inscrits Column -->
             <ng-container matColumnDef="listeEtudiants">
               <th mat-header-cell *matHeaderCellDef>
@@ -55,20 +97,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
-          <mat-paginator
-            #paginator
-            class="demo-paginator"
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [disabled]="disabled"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-            [hidePageSize]="hidePageSize"
-            [pageIndex]="pageIndex"
-            aria-label="Select page"
-          >
-          </mat-paginator>
+          
         </div>
       </div>
     </div>

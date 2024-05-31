@@ -3,13 +3,15 @@
     <div class="card">
       <div class="card-body">
         <h3 class="h3-devoirs-title">Liste de vos devoirs</h3>
-        <button
-          class="btn btn-primary mr-2"
-          (click)="showPopUpAjoutNouveauDevoir()"
-        >
+        <button class="btn btn-primary mr-2" (click)="showPopUpAjoutNouveauDevoir()">
           Ajouter un nouveau devoir
+        </button>       
+        <br />
+        <!--<br />
+        <button class="btn btn-primary mr-2" (click)="genererMilleDevoirs()">
+          Générer milles devoirs
         </button>
-        <br/>
+        <br />-->
         <mat-form-field appearance="fill" class="form-field-spacing">
           <mat-label>Matière</mat-label>
           <mat-select [formControl]="matiereControl" (selectionChange)="onMatiereChange()">
@@ -19,35 +21,60 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        
+        &nbsp;
+        <mat-form-field appearance="fill" class="form-field-spacing">
+          <mat-label>Recherche Devoir</mat-label>
+          <input matInput [formControl]="searchControl" (input)="onSearchChange()">
+        </mat-form-field>
+
+        <mat-paginator
+          #paginator
+          class="demo-paginator"
+          (page)="handlePageEvent($event)"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [showFirstLastButtons]="showFirstLastButtons"
+          [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page"
+        >
+        </mat-paginator>
+
+        <br />
+
         <div class="table-responsive">
-          <table
-            mat-table
-            [dataSource]="devoirs"
-            class="mat-elevation-z8 demo-table"
-          >
+          <table mat-table [dataSource]="devoirs" class="mat-elevation-z8 demo-table">
             <!-- Nom Column -->
             <ng-container matColumnDef="nom">
-              <th mat-header-cell *matHeaderCellDef>Nom</th>
+              <th mat-header-cell *matHeaderCellDef>
+                <button mat-button (click)="onSortChange('nom')">Nom</button>
+              </th>
               <td mat-cell *matCellDef="let devoir">{{ devoir.nom }}</td>
             </ng-container>
 
             <!-- Matière Column -->
             <ng-container matColumnDef="matiere">
-              <th mat-header-cell *matHeaderCellDef>Matière</th>
-              <td mat-cell *matCellDef="let devoir">{{ devoir.matiere_id.nom }}</td>
+              <th mat-header-cell *matHeaderCellDef>
+                <button mat-button (click)="onSortChange('matiere')">Matière</button>
+              </th>
+              <td mat-cell *matCellDef="let devoir">{{ devoir.matiere.nom }}</td>
             </ng-container>
 
             <!-- Date de Creation Column -->
             <ng-container matColumnDef="dateDeCreation">
-              <th mat-header-cell *matHeaderCellDef>Date de création</th>
+              <th mat-header-cell *matHeaderCellDef>
+                <button mat-button (click)="onSortChange('dateDeCreation')">Date de création</button>
+              </th>
               <td mat-cell *matCellDef="let devoir">{{ devoir.dateDeCreation | date }}</td>
             </ng-container>
-            
 
             <!-- Date de Rendu Column -->
             <ng-container matColumnDef="dateDeRendu">
-              <th mat-header-cell *matHeaderCellDef>Date limite</th>
+              <th mat-header-cell *matHeaderCellDef>
+                <button mat-button (click)="onSortChange('dateDeRendu')">Date limite</button>
+              </th>
               <td mat-cell *matCellDef="let devoir">{{ devoir.dateDeRendu | date }}</td>
             </ng-container>
 
@@ -83,22 +110,8 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
-          <mat-paginator
-            #paginator
-            class="demo-paginator"
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [disabled]="disabled"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-            [hidePageSize]="hidePageSize"
-            [pageIndex]="pageIndex"
-            aria-label="Select page"
-          >
-          </mat-paginator>
         </div>
       </div>
     </div>

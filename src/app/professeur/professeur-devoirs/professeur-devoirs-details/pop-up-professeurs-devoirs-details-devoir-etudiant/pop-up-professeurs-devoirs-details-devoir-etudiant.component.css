@@ -1,7 +1,28 @@
 .close-button {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    size: 10px;
-  }
-  
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  size: 10px;
+}
+
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.flex-container p {
+  margin: 0;
+}
+
+.flex-container h5 {
+  margin: 0;
+}
+
+.item-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 5px;
+}
