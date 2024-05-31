@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
 import { PopUpProfesseursDevoirsModifierDevoirComponent } from './pop-up-professeurs-devoirs-modifier-devoir/pop-up-professeurs-devoirs-modifier-devoir.component';
 import { PopUpProfesseursDevoirsSupprimerDevoirComponent } from './pop-up-professeurs-devoirs-supprimer-devoir/pop-up-professeurs-devoirs-supprimer-devoir.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-professeur-devoirs',
@@ -44,6 +45,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatSelectModule,
     MatTooltipModule,
+    MatInput
   ],
   templateUrl: './professeur-devoirs.component.html',
   styleUrls: [
@@ -64,16 +66,22 @@ export class ProfesseurDevoirsComponent implements OnInit {
   ];
   devoirs: Devoir[] = [];
   matieres: Matiere[] = [];
+
+  // Pagination
   length = 0;
   pageSize = 10;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25, 50, 100];
+
   hidePageSize = false;
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   disabled = false;
   pageEvent: PageEvent | undefined;
   matiereControl = new FormControl<string | null>(null);
+  searchControl = new FormControl('');
+  sortField = 'nom';
+  sortOrder = 'asc';
 
   constructor(
     private matDialog: MatDialog,
@@ -86,7 +94,6 @@ export class ProfesseurDevoirsComponent implements OnInit {
   ngOnInit() {
     this.getMatieresFromService();
     this.getDevoirsFromService();
-    this.loadDevoirs();
   }
 
   getMatieresFromService() {
@@ -96,14 +103,15 @@ export class ProfesseurDevoirsComponent implements OnInit {
   }
 
   getDevoirsFromService() {
-    const matiereId = this.matiereControl.value
-      ? this.matiereControl.value
-      : undefined;
+    const matiereId = this.matiereControl.value ?? undefined;
+    const search = this.searchControl.value ?? '';
     this.devoirsService
-      .getProfesseurDevoirs(this.pageIndex + 1, this.pageSize, matiereId)
+      .getProfesseurDevoirs(this.pageIndex + 1, this.pageSize, matiereId, search, this.sortField, this.sortOrder)
       .subscribe((data) => {
         this.devoirs = data.docs;
         this.length = data.totalDocs;
+        this.pageSize = data.limit;
+        this.pageIndex = data.page - 1;
       });
   }
 
@@ -117,6 +125,17 @@ export class ProfesseurDevoirsComponent implements OnInit {
 
   onMatiereChange() {
     this.pageIndex = 0; // Reset to first page
+    this.getDevoirsFromService();
+  }
+
+  onSearchChange() {
+    this.pageIndex = 0; // Reset to first page
+    this.getDevoirsFromService();
+  }
+
+  onSortChange(sortField: string) {
+    this.sortField = sortField;
+    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     this.getDevoirsFromService();
   }
 
@@ -147,12 +166,6 @@ export class ProfesseurDevoirsComponent implements OnInit {
     ]);
   }
 
-  loadDevoirs() {
-    this.devoirsService.getProfesseurDevoirs(1, 10).subscribe((data) => {
-      this.devoirs = data.docs;
-    });
-  }
-
   openModifierDialog(devoir: any): void {
     console.log(devoir);
     const dialogRef = this.matDialog.open(
@@ -165,7 +178,7 @@ export class ProfesseurDevoirsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadDevoirs();
+        this.getDevoirsFromService();
       }
     });
   }
@@ -185,7 +198,7 @@ export class ProfesseurDevoirsComponent implements OnInit {
         this.devoirsService.deleteDevoir(devoir._id).subscribe(
           (response) => {
             console.log(response.message);
-            this.loadDevoirs(); // Recharger la liste des devoirs après la suppression
+            this.getDevoirsFromService(); // Recharger la liste des devoirs après la suppression
             this.snackBar.open('Le devoir a bien été supprimé.', 'Fermer', {
               duration: 3000,
             });

@@ -5,6 +5,7 @@ import { HttpRequestService } from './http/http-request.service';
 import { EnvironmentConst } from '../../data/constant/data-env.const';
 import { DataWsConst } from '../../data/constant/data-ws.const';
 import { milleDevoirs } from '../data';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -20,11 +21,20 @@ export class DevoirsService {
   getProfesseurDevoirs(
     page: number,
     limit: number,
-    matiereId?: string
+    matiereId?: string,
+    search?: string,
+    sortField?: string,
+    sortOrder?: string
   ): Observable<any> {
     let url = `${this.uri}/professeur?page=${page}&limit=${limit}`;
     if (matiereId) {
       url += `&matiere_id=${matiereId}`;
+    }
+    if (search) {
+      url += `&search=${search}`;
+    }
+    if (sortField && sortOrder) {
+      url += `&sortField=${sortField}&sortOrder=${sortOrder}`;
     }
     return this.httpRequestService.get<any>('PROFESSEUR', url);
   }
